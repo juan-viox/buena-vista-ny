@@ -239,9 +239,10 @@
     "storefrontPhoto": "storefront-hells-kitchen.png"
   },
   "pipeline": {
-    "phase": 8,
+    "phase": 10,
     "startedAt": "2026-07-29",
-    "checkpointMode": "autonomous — decisions documented for Juan's review"
+    "checkpointMode": "autonomous — decisions documented for Juan's review",
+    "completedAt": "2026-07-29"
   },
   "reputation": {
     "google": "4.7 (~1,481 reviews)",
@@ -257,5 +258,12 @@
     "agentId": "agent_9001kyr4x889fzsrxn1a42vw64hx",
     "kbId": "a7WaYVUgRIRpZ5BE0BIq",
     "phone": "deferred (Twilio 401)"
+  },
+  "deploy": {
+    "prod": "https://buena-vista-ny.vercel.app",
+    "github": "https://github.com/juan-viox/buena-vista-ny",
+    "vercelProject": "vio-x-bergsify/buena-vista-ny",
+    "autoDeploy": true,
+    "customDomain": "pending — client owns buenavistany.com DNS"
   }
 }
