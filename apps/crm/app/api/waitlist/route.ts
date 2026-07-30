@@ -6,12 +6,14 @@
 //       when we have a phone. Returns { ok, row, smsSent }.
 //   GET → current rows (newest first, no-store) for the board.
 //
-// TODO(auth): same-origin CRM dashboard only today — add a
-// session/role gate before exposing beyond the UI.
+// Auth: POST is owner/gm-gated via requireManagerForMutation
+// (demo → 403 { readOnly:true }); GET stays open to any session
+// the middleware admits (demo included) — read-only board data.
 // ============================================================
 
 import { TENANT_SLUG, str, toPartySize } from '@/lib/reservations';
 import { sendWorkflowSms } from '@/lib/sms-workflows';
+import { requireManagerForMutation } from '../auth/_lib';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -96,6 +98,10 @@ export async function GET(): Promise<Response> {
 // ---------- POST — add a walk-in ----------
 
 export async function POST(req: Request): Promise<Response> {
+  // ---- owner/gm gate; demo sessions read-only ----
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
+
   const contentType = (req.headers.get('content-type') ?? '').toLowerCase();
   if (!contentType.includes('application/json')) {
     return json({ ok: false, error: 'Expected an application/json body.' }, 415);

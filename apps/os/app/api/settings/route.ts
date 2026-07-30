@@ -6,9 +6,11 @@
 //         keys:[{key,envVar,envConfigured}] }   — hints only, never values.
 //   PUT { provider, entries: { key: value, … } }
 //     → save each non-empty value encrypted; { ok, saved:[…], errors:{…} }
-//     Demo-bypass sessions (viox-demo=1) → 403 { ok:false, readOnly:true }.
+//     Writes are owner/gm-gated (requireManagerForMutation): demo
+//     sessions → 403 { readOnly:true }; with AUTH_REQUIRED=1 any
+//     non-owner/gm role → 403.
 //   DELETE { provider, key } → remove one saved row (env fallback,
-//     if any, takes over); same demo-session 403.
+//     if any, takes over); same owner/gm + demo gate.
 //   Writes without SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY /
 //     INTEGRATION_SETTINGS_KEY → 503 { ok:false, reason:'not configured' }.
 //
@@ -28,7 +30,14 @@ import {
   listIntegrationSettings,
   setIntegrationSetting,
 } from '@viox/integrations';
-import { ACCESS_COOKIE, DEMO_COOKIE, authTarget, fetchGotrueUser, json } from '../auth/_lib';
+import {
+  ACCESS_COOKIE,
+  DEMO_COOKIE,
+  authTarget,
+  fetchGotrueUser,
+  json,
+  requireManagerForMutation,
+} from '../auth/_lib';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -98,9 +107,8 @@ export async function GET(req: Request): Promise<Response> {
 // ---------- PUT — save entries ----------
 
 export async function PUT(req: Request): Promise<Response> {
-  if (isDemoSession(req)) {
-    return json({ ok: false, readOnly: true, error: 'Demo sessions are read-only.' }, 403);
-  }
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
   if (!isSettingsStoreConfigured() || !isSettingsCryptoConfigured()) {
     return json(
       {
@@ -157,9 +165,8 @@ export async function PUT(req: Request): Promise<Response> {
 // ---------- DELETE — remove one saved row ----------
 
 export async function DELETE(req: Request): Promise<Response> {
-  if (isDemoSession(req)) {
-    return json({ ok: false, readOnly: true, error: 'Demo sessions are read-only.' }, 403);
-  }
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
   if (!isSettingsStoreConfigured()) {
     return json(
       {

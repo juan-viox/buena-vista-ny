@@ -10,11 +10,12 @@
 // cheapest authenticated endpoint. Secrets are never echoed —
 // only status text. 10s timeout per call; the route never throws
 // (failures come back as { ok:false, detail }).
-// Demo-bypass sessions (viox-demo=1) are read-only → 403.
+// Owner/gm-gated like the settings vault writes: demo sessions
+// → 403 { readOnly:true }; AUTH_REQUIRED=1 + non-owner/gm → 403.
 // ============================================================
 
 import { getIntegrationSetting } from '@viox/integrations';
-import { DEMO_COOKIE, json } from '../auth/_lib';
+import { json, requireManagerForMutation } from '../auth/_lib';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -30,14 +31,6 @@ interface TestOutcome {
 }
 
 // ---------- plumbing ----------
-
-function isDemoSession(req: Request): boolean {
-  const header = req.headers.get('cookie') ?? '';
-  return header.split(';').some((part) => {
-    const [k, ...rest] = part.trim().split('=');
-    return k === DEMO_COOKIE && rest.join('=') === '1';
-  });
-}
 
 interface FetchOutcome {
   status: number;
@@ -257,9 +250,8 @@ const TESTS: Record<TestProvider, () => Promise<TestOutcome>> = {
 // ---------- POST ----------
 
 export async function POST(req: Request): Promise<Response> {
-  if (isDemoSession(req)) {
-    return json({ ok: false, readOnly: true, error: 'Demo sessions are read-only.' }, 403);
-  }
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
 
   let raw: unknown;
   try {

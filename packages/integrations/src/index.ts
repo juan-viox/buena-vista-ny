@@ -36,6 +36,32 @@ export {
 } from './twilio-whatsapp';
 export type { SendWhatsAppInput, SendWhatsAppResult } from './twilio-whatsapp';
 
+// Team management (server-only — GoTrue admin API + public.users
+// roster via the service role; never import into client code)
+export {
+  TEAM_ROLES,
+  isTeamRole,
+  isValidEmail,
+  listTeam,
+  inviteUser,
+  updateRole,
+  deactivateUser,
+  reactivateUser,
+  callerRole,
+  callerRoleFromCookieHeader,
+  canManageTeam,
+} from './team';
+export type {
+  TeamRole,
+  TeamStatus,
+  TeamMember,
+  TeamResult,
+  InviteUserInput,
+  InviteUserOutcome,
+  UpdateRoleInput,
+  CallerRole,
+} from './team';
+
 // Integration settings vault (encrypted per-tenant credentials)
 export {
   DEFAULT_TENANT_SLUG,

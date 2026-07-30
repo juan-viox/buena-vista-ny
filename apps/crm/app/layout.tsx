@@ -58,6 +58,7 @@ const NAV: SidebarNavGroup[] = [
     label: 'System',
     items: [
       { label: 'Integrations', href: '/integrations', icon: <PlugIcon /> },
+      { label: 'Team', href: '/team', icon: <TeamIcon /> },
       { label: 'Settings', href: '/settings', icon: <CogIcon /> },
     ],
   },
@@ -267,6 +268,16 @@ function PlugIcon() {
       <path d="M9 3.5V8M15 3.5V8" />
       <path d="M6.5 8h11v3.5a5.5 5.5 0 0 1-11 0V8Z" />
       <path d="M12 17v3.5" />
+    </svg>
+  );
+}
+
+function TeamIcon() {
+  return (
+    <svg {...iconProps()}>
+      <circle cx="9" cy="8.5" r="3" />
+      <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+      <path d="M15.5 5.9a3 3 0 0 1 0 5.2M17 13.9a5.5 5.5 0 0 1 3.5 5.1" />
     </svg>
   );
 }

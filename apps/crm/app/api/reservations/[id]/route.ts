@@ -5,14 +5,15 @@
 // as lib/reservations.ts), then fires the matching guest SMS
 // through the shared workflow sender and reports smsSent.
 //
-// TODO(auth): this route is only called same-origin by the CRM
-// dashboard today. Add a real session/role gate before exposing
-// it beyond the UI (it mutates guest-facing state + sends SMS).
+// Auth: owner/gm-gated via requireManagerForMutation (it mutates
+// guest-facing state + sends SMS/email). Demo sessions → 403
+// { readOnly:true }; AUTH_REQUIRED=1 + non-owner/gm → 403.
 // ============================================================
 
 import { TENANT_SLUG, str, toPartySize } from '@/lib/reservations';
 import { sendWorkflowSms, type SmsEvent } from '@/lib/sms-workflows';
 import { sendWorkflowEmail } from '@/lib/email-workflows';
+import { requireManagerForMutation } from '../../auth/_lib';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -79,6 +80,10 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ): Promise<Response> {
+  // ---- owner/gm gate; demo sessions read-only ----
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
+
   const { id } = await params;
 
   // ---- reject non-JSON bodies outright ----

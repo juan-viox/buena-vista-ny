@@ -34,6 +34,14 @@ export { LocationFilter, type LocationFilterProps, type LocationOption } from '.
 // auth
 export { AuthPanel, UserChip, type AuthPanelProps, type UserChipProps } from './AuthPanel'; // 'use client'
 
+// team
+export {
+  TeamManager,
+  type TeamManagerProps,
+  type TeamMemberView,
+  type TeamMemberStatus,
+} from './TeamManager'; // 'use client'
+
 // copilot
 export { CopilotPanel, type CopilotPanelProps } from './CopilotPanel'; // 'use client'
 export { ModelPicker, getSelectedModel, type ModelPickerProps } from './ModelPicker'; // 'use client'

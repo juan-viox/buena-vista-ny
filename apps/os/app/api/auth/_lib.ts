@@ -12,6 +12,8 @@
 // apps behave exactly as today (flag-off safety).
 // ============================================================
 
+import { callerRole, canManageTeam } from '@viox/integrations';
+
 export const ACCESS_COOKIE = 'sb-access';
 export const REFRESH_COOKIE = 'sb-refresh';
 export const DEMO_COOKIE = 'viox-demo';
@@ -77,6 +79,42 @@ export function gotrueError(body: unknown, fallback: string): string {
     }
   }
   return fallback;
+}
+
+/** Read one cookie off a request (no framework helpers — plain header parse). */
+export function readRequestCookie(req: Request, name: string): string | null {
+  const header = req.headers.get('cookie');
+  if (!header) return null;
+  for (const part of header.split(';')) {
+    const [k, ...rest] = part.trim().split('=');
+    if (k === name) return decodeURIComponent(rest.join('=') || '');
+  }
+  return null;
+}
+
+/**
+ * Owner/GM gate for every dashboard mutation (identical in OS + CRM):
+ *   • demo-bypass sessions (viox-demo=1) → 403 { readOnly:true } — read-only
+ *     everywhere, flag on or off.
+ *   • with the auth gate on (AUTH_REQUIRED=1) the session must resolve to
+ *     owner|gm via @viox/integrations callerRole, else 403.
+ *   • FLAG-OFF SAFETY: without AUTH_REQUIRED there are no sessions to
+ *     check, so real (non-demo) callers pass — today's behavior.
+ * Returns null when the caller may proceed, else the 403 Response.
+ */
+export async function requireManagerForMutation(req: Request): Promise<Response | null> {
+  if (readRequestCookie(req, DEMO_COOKIE) === '1') {
+    return json({ ok: false, readOnly: true, error: 'Demo sessions are read-only.' }, 403);
+  }
+  if (process.env.AUTH_REQUIRED !== '1') return null;
+  const role = await callerRole(req);
+  if (role === 'demo') {
+    return json({ ok: false, readOnly: true, error: 'Demo sessions are read-only.' }, 403);
+  }
+  if (!canManageTeam(role)) {
+    return json({ ok: false, error: 'Only owners and GMs can do this.' }, 403);
+  }
+  return null;
 }
 
 /** GET /auth/v1/user — returns the user object when the token is valid, else null. */

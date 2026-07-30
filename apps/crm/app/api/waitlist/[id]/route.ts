@@ -5,12 +5,13 @@
 //   left        → status 'left'
 // Returns { ok, row, smsSent }.
 //
-// TODO(auth): same-origin CRM dashboard only today — add a
-// session/role gate before exposing beyond the UI.
+// Auth: owner/gm-gated via requireManagerForMutation (demo →
+// 403 { readOnly:true }; AUTH_REQUIRED=1 + non-owner/gm → 403).
 // ============================================================
 
 import { TENANT_SLUG } from '@/lib/reservations';
 import { sendWorkflowSms } from '@/lib/sms-workflows';
+import { requireManagerForMutation } from '../../auth/_lib';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -61,6 +62,10 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ): Promise<Response> {
+  // ---- owner/gm gate; demo sessions read-only ----
+  const denied = await requireManagerForMutation(req);
+  if (denied) return denied;
+
   const { id } = await params;
 
   const contentType = (req.headers.get('content-type') ?? '').toLowerCase();
