@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buena Vista — Cinematic Website Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E3A5F;
+    --tile:#2E5A8F;
+    --sky:#A8C4E5;
+    --gold:#C9995C;
+    --amber:#D4A437;
+    --cream:#F7F2E9;
+    --ink:#101826;
+    --cream-deep:#EFE7D8;
+    --rule:rgba(30,58,95,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Raleway',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:#fff;}
+
+  .serif{font-family:'Libre Baskerville',serif;}
+  h1,h2,h3,h4{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* ---------- progress bar ---------- */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--amber));z-index:99;}
+
+  /* ---------- tile texture ---------- */
+  .tile-bg{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 6 L33 23 L50 28 L33 33 L28 50 L23 33 L6 28 L23 23 Z' fill='none' stroke='%23A8C4E5' stroke-width='1'/%3E%3Ccircle cx='28' cy='28' r='3.5' fill='none' stroke='%23C9995C' stroke-width='1'/%3E%3C/svg%3E");
+    background-size:56px 56px;
+  }
+
+  /* ---------- cover ---------- */
+  .cover{
+    position:relative;
+    background:linear-gradient(160deg,#16304f 0%,var(--navy) 55%,#24466f 100%);
+    color:var(--cream);
+    padding:110px 24px 96px;
+    overflow:hidden;
+  }
+  .cover .tile-layer{position:absolute;inset:0;opacity:.10;}
+  .cover-inner{position:relative;max-width:920px;margin:0 auto;text-align:center;}
+  .cover .kicker{
+    font-size:12px;letter-spacing:.42em;text-transform:uppercase;font-weight:600;
+    color:var(--gold);margin-bottom:34px;
+  }
+  .cover h1{
+    color:var(--cream);
+    font-size:clamp(34px,5.4vw,62px);
+    line-height:1.18;
+    letter-spacing:.08em;
+    margin-bottom:10px;
+  }
+  .cover h1 .gold{color:var(--gold);}
+  .cover .tagline{
+    font-family:'Libre Baskerville',serif;font-style:italic;text-transform:none;letter-spacing:.02em;
+    color:var(--sky);font-size:clamp(17px,2.2vw,22px);margin-top:22px;
+  }
+  .cover .meta{
+    margin-top:44px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:rgba(247,242,233,.85);
+  }
+  .cover .meta span{padding:9px 18px;border:1px solid rgba(201,153,92,.45);border-radius:999px;}
+  .diamond-row{display:flex;align-items:center;justify-content:center;gap:14px;margin:30px 0 0;}
+  .diamond-row .line{height:1px;width:84px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .diamond-row .line.r{background:linear-gradient(90deg,var(--gold),transparent);}
+  .diamond{width:9px;height:9px;background:var(--gold);transform:rotate(45deg);}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px;}
+  section.block{padding:88px 0 26px;}
+  .sec-head{margin-bottom:44px;}
+  .sec-num{
+    display:inline-flex;align-items:center;gap:14px;
+    font-size:12px;letter-spacing:.4em;text-transform:uppercase;font-weight:700;color:var(--gold);
+    margin-bottom:16px;
+  }
+  .sec-num::after{content:"";height:1px;width:64px;background:var(--gold);display:inline-block;}
+  .sec-head h2{font-size:clamp(24px,3.4vw,36px);line-height:1.25;}
+  .sec-head .sub{margin-top:14px;max-width:760px;color:#3c4657;font-size:16.5px;}
+  .lead{font-size:clamp(18px,2.1vw,21px);line-height:1.85;color:#28324a;max-width:860px;}
+  .lead .serif{font-style:italic;}
+  p+p{margin-top:18px;}
+  strong{font-weight:700;color:var(--navy);}
+  .goldtxt{color:var(--gold);font-weight:700;}
+
+  /* ---------- stat band ---------- */
+  .stats{
+    margin-top:52px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  }
+  .stat{padding:30px 22px;text-align:center;border-right:1px solid var(--rule);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:'Libre Baskerville',serif;font-size:34px;color:var(--navy);line-height:1;}
+  .stat .n em{font-style:normal;color:var(--gold);}
+  .stat .l{margin-top:10px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:#5a6474;}
+
+  /* ---------- pull quote ---------- */
+  .pull{
+    margin:56px auto 0;max-width:820px;text-align:center;padding:0 12px;
+  }
+  .pull q{
+    font-family:'Libre Baskerville',serif;font-style:italic;font-size:clamp(20px,2.6vw,27px);
+    color:var(--navy);line-height:1.6;quotes:"\201C" "\201D";
+  }
+  .pull .attr{margin-top:14px;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;font-weight:600;color:var(--gold);}
+
+  /* ---------- before / after ---------- */
+  .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .ba-col{border-radius:14px;overflow:hidden;box-shadow:0 18px 44px -22px rgba(16,24,38,.25);}
+  .ba-col .head{padding:22px 28px;font-family:'Libre Baskerville',serif;text-transform:uppercase;letter-spacing:.12em;font-size:15px;}
+  .ba-before .head{background:#3a4356;color:#d8dce4;}
+  .ba-after .head{background:var(--navy);color:var(--gold);}
+  .ba-col ul{list-style:none;padding:10px 0 18px;background:#fff;}
+  .ba-before ul{background:#f3f1ec;}
+  .ba-col li{padding:15px 28px;display:flex;gap:14px;align-items:flex-start;font-size:15.5px;line-height:1.6;border-bottom:1px solid rgba(16,24,38,.06);}
+  .ba-col li:last-child{border-bottom:none;}
+  .mark{flex:0 0 auto;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:3px;}
+  .mark.x{background:rgba(58,67,86,.14);color:#3a4356;}
+  .mark.c{background:rgba(201,153,92,.18);color:var(--gold);}
+  .ba-before li{color:#4a5261;}
+
+  /* ---------- tables ---------- */
+  .table-scroll{overflow-x:auto;border-radius:14px;box-shadow:0 18px 44px -24px rgba(16,24,38,.3);}
+  table{width:100%;border-collapse:collapse;background:#fff;min-width:720px;}
+  thead th{
+    background:var(--navy);color:var(--cream);text-align:left;
+    font-family:'Raleway',sans-serif;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+    padding:18px 22px;
+  }
+  thead th:first-child{color:var(--gold);}
+  tbody td{padding:18px 22px;font-size:15px;line-height:1.65;border-bottom:1px solid rgba(16,24,38,.07);vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:#faf7f1;}
+  td.sec-name{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight:700;font-size:14.5px;letter-spacing:.04em;white-space:nowrap;}
+  td.mod{white-space:nowrap;}
+  .chip{
+    display:inline-block;background:rgba(46,90,143,.1);color:var(--tile);
+    border:1px solid rgba(46,90,143,.25);border-radius:999px;
+    font-size:12px;font-weight:600;letter-spacing:.06em;padding:4px 12px;font-family:'Raleway',sans-serif;
+  }
+  .chip.gold{background:rgba(201,153,92,.12);color:#a5762f;border-color:rgba(201,153,92,.4);}
+
+  /* ---------- palette ---------- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:18px;}
+  .sw{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 12px 30px -16px rgba(16,24,38,.3);}
+  .sw .color{height:96px;position:relative;}
+  .sw .color::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent);}
+  .sw .info{padding:12px 14px 14px;}
+  .sw .nm{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);}
+  .sw .hex{font-size:12.5px;color:#66707f;margin-top:2px;letter-spacing:.05em;}
+  .sw .use{font-size:11.5px;color:#8a93a1;margin-top:6px;line-height:1.45;}
+
+  /* ---------- typography spec ---------- */
+  .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:40px;}
+  .type-card{background:#fff;border-radius:14px;padding:36px 34px;box-shadow:0 18px 44px -24px rgba(16,24,38,.3);border-top:3px solid var(--gold);}
+  .type-card .role{font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:700;color:var(--gold);margin-bottom:16px;}
+  .type-card .sample-display{font-family:'Libre Baskerville',serif;font-size:clamp(26px,3.4vw,38px);color:var(--navy);text-transform:uppercase;letter-spacing:.1em;line-height:1.3;}
+  .type-card .sample-body{font-size:17px;color:#333d4e;line-height:1.8;}
+  .type-card .spec{margin-top:20px;font-size:13px;color:#66707f;line-height:1.8;border-top:1px solid var(--rule);padding-top:16px;}
+  .mood-band{
+    margin-top:44px;background:var(--navy);border-radius:16px;padding:52px 48px;color:var(--cream);
+    position:relative;overflow:hidden;
+  }
+  .mood-band .tile-layer{position:absolute;inset:0;opacity:.08;}
+  .mood-band h3{color:var(--gold);font-size:15px;letter-spacing:.3em;margin-bottom:20px;}
+  .mood-band p{position:relative;font-size:clamp(16.5px,2vw,19px);line-height:1.9;color:#e9e2d2;max-width:840px;}
+  .mood-band .em{font-family:'Libre Baskerville',serif;font-style:italic;color:var(--sky);}
+
+  /* ---------- hero concept ---------- */
+  .film{
+    background:#101826;border-radius:16px;overflow:hidden;box-shadow:0 26px 60px -26px rgba(16,24,38,.55);
+  }
+  .film .strip{display:flex;gap:6px;padding:14px;background:#0a1220;}
+  .film .frame{flex:1;height:10px;border-radius:3px;background:linear-gradient(90deg,#1E3A5F,#2E5A8F);opacity:.5;}
+  .film .frame.hot{background:linear-gradient(90deg,var(--gold),var(--amber));opacity:1;}
+  .film .body{padding:46px 48px 50px;color:#d9d2c1;}
+  .film h3{color:var(--gold);font-size:17px;letter-spacing:.24em;margin-bottom:22px;}
+  .film p{font-size:16.5px;line-height:1.9;max-width:860px;color:#cfd6e2;}
+  .film .beats{margin-top:34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;}
+  .beat{background:rgba(247,242,233,.05);border:1px solid rgba(168,196,229,.18);border-radius:12px;padding:22px 20px;}
+  .beat .t{font-family:'Libre Baskerville',serif;color:var(--sky);font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;}
+  .beat .t b{color:var(--gold);}
+  .beat p{font-size:14px;color:#aeb8c8;line-height:1.7;}
+
+  /* ---------- voice agent ---------- */
+  .voice-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:start;}
+  .voice-card{background:#fff;border-radius:14px;padding:38px 36px;box-shadow:0 18px 44px -24px rgba(16,24,38,.3);}
+  .voice-card h3{font-size:15px;letter-spacing:.22em;margin-bottom:18px;}
+  .voice-card ul{list-style:none;}
+  .voice-card li{padding:12px 0;border-bottom:1px solid rgba(16,24,38,.07);display:flex;gap:14px;font-size:15.5px;line-height:1.65;}
+  .voice-card li:last-child{border-bottom:none;}
+  .voice-card .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:10px;}
+  .convo{background:var(--navy);border-radius:14px;padding:34px 32px;color:var(--cream);position:relative;overflow:hidden;}
+  .convo .tile-layer{position:absolute;inset:0;opacity:.07;}
+  .convo h3{color:var(--gold);font-size:13px;letter-spacing:.26em;margin-bottom:22px;position:relative;}
+  .bubble{position:relative;border-radius:12px;padding:15px 18px;font-size:14.5px;line-height:1.65;margin-bottom:14px;max-width:92%;}
+  .bubble.guest{background:rgba(168,196,229,.15);border:1px solid rgba(168,196,229,.25);color:#dfe8f4;}
+  .bubble.host{background:rgba(201,153,92,.16);border:1px solid rgba(201,153,92,.4);color:#f3e9d7;margin-left:8%;}
+  .bubble .who{display:block;font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;margin-bottom:6px;}
+  .bubble.guest .who{color:var(--sky);}
+  .bubble.host .who{color:var(--gold);}
+
+  /* ---------- tech ---------- */
+  .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;}
+  .tech{background:#fff;border-radius:14px;padding:32px 30px;box-shadow:0 16px 40px -24px rgba(16,24,38,.32);border-left:3px solid var(--gold);}
+  .tech h3{font-size:13.5px;letter-spacing:.2em;margin-bottom:14px;}
+  .tech p{font-size:15px;color:#3c4657;line-height:1.75;}
+  .tech code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:rgba(46,90,143,.08);color:var(--tile);padding:2px 7px;border-radius:5px;}
+
+  /* ---------- CTA / footer ---------- */
+  .cta{
+    margin-top:96px;background:linear-gradient(150deg,#16304f,var(--navy) 60%,#274a75);
+    color:var(--cream);text-align:center;padding:88px 24px 80px;position:relative;overflow:hidden;
+  }
+  .cta .tile-layer{position:absolute;inset:0;opacity:.09;}
+  .cta-inner{position:relative;max-width:760px;margin:0 auto;}
+  .cta h2{color:var(--cream);font-size:clamp(24px,3.4vw,36px);line-height:1.3;}
+  .cta h2 .gold{color:var(--gold);}
+  .cta p{margin-top:20px;color:#cdd6e4;font-size:17px;line-height:1.85;}
+  .footer{
+    background:#12253d;color:#93a0b4;text-align:center;padding:34px 24px;
+    font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  }
+  .footer .gold{color:var(--gold);}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+  @media print{
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+    #progress{display:none;}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .ba-grid,.type-grid,.voice-grid{grid-template-columns:1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--rule);}
+    .stat:last-child{border-bottom:none;}
+    section.block{padding:66px 0 20px;}
+    .film .body,.mood-band{padding:36px 26px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ============ COVER ============ -->
+<header class="cover">
+  <div class="tile-layer tile-bg"></div>
+  <div class="cover-inner">
+    <div class="kicker">Cinematic Website Proposal &nbsp;·&nbsp; Prepared for Christian Nuñez</div>
+    <h1>Buena Vista<br><span class="gold">Restaurant &amp; Bar</span></h1>
+    <div class="diamond-row"><span class="line"></span><span class="diamond"></span><span class="line r"></span></div>
+    <p class="tagline">Where Spain Meets Latin America — now with a website that finally tastes like the food.</p>
+    <div class="meta">
+      <span>Hell's Kitchen · 536 9th Ave</span>
+      <span>East Village · 88 2nd Ave</span>
+      <span>VioX AI · July 29, 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 1. EXECUTIVE SUMMARY ============ -->
+<section class="block" id="summary">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 01</div>
+      <h2>Executive Summary</h2>
+    </div>
+
+    <div class="lead reveal">
+      <p>Buena Vista has earned a reputation most Manhattan restaurants would trade their liquor license for — a <strong>4.7-star Google rating across 1,481 reviews</strong>, press in amNewYork and Crain's, a flagship paella a TripAdvisor guest called <em class="serif">"the very best paella I have ever tasted,"</em> and a third location (Murray Hill) targeted for August 2026. The kitchen performs at a $$$ level.</p>
+      <p>The website does not. <strong>buenavistany.com is a stock Popmenu template</strong> — indistinguishable from thousands of other Popmenu restaurant sites. It opens on storefront exterior footage instead of the paella that built the brand, buries menus and reservations under a lazy "Load More Content" feed, dresses an azulejo navy-and-gold brand in dark gray with off-brand green buttons, and tells none of the story: no Christian Nuñez founder narrative, no el Bulli-trained chef Rene Hernandez, no "Spain Meets Latin America" manifesto. Brand equity is further split across three separate domains.</p>
+      <p>Our competitive analysis of 20 NYC and national benchmarks found a wide-open lane: <strong>every Spanish and Latin competitor runs warm red/festive or template palettes — no one owns a navy azulejo identity.</strong> Pairing a dark-cinematic system (the COTE / Death &amp; Co tier, design scores 9/10) with Buena Vista's existing tile brand creates a category-of-one look: an <em class="serif">Iberian jewel-box</em>, not another tapas-party template. With La Pulperia's closures vacating the 9th Avenue corridor and no bilingual EN/ES site anywhere in the category, the timing is now — before Murray Hill opens.</p>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="n">4.7<em>★</em></div><div class="l">Google · 1,481 reviews</div></div>
+      <div class="stat"><div class="n">$$$</div><div class="l">Positioning the site must signal</div></div>
+      <div class="stat"><div class="n">2<em>+1</em></div><div class="l">Locations · Murray Hill Aug 2026</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">NYC competitors owning navy azulejo</div></div>
+    </div>
+
+    <div class="pull reveal">
+      <q>Cohesion, confidence… enough restraint to keep the whole experience elevated.</q>
+      <div class="attr">amNewYork on Buena Vista East Village — the standard the website must now meet</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. BEFORE / AFTER ============ -->
+<section class="block" id="before-after">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 02</div>
+      <h2>Before &amp; After</h2>
+      <p class="sub">What guests meet today on the Popmenu template, versus the cinematic experience we will build.</p>
+    </div>
+
+    <div class="ba-grid reveal">
+      <div class="ba-col ba-before">
+        <div class="head">Today — Popmenu Template</div>
+        <ul>
+          <li><span class="mark x">✕</span>Storefront exterior video hero — the flagship paella never appears above the fold</li>
+          <li><span class="mark x">✕</span>Lazy "Load More Content" feed buries menus, locations, and reservations</li>
+          <li><span class="mark x">✕</span>Dark gray background + green #0A7D57 buttons fight the azulejo navy/gold brand — no tile motif anywhere</li>
+          <li><span class="mark x">✕</span>Default template typography treated as an afterthought, not a luxury type system</li>
+          <li><span class="mark x">✕</span>Zero storytelling — no founder page, no chef bio, no "Spain Meets Latin America" narrative</li>
+          <li><span class="mark x">✕</span>Two locations flattened into one generic page; no distinct hours, maps, or tap-to-call</li>
+          <li><span class="mark x">✕</span>Brand equity split across 3 domains, diluting SEO authority and confusing journeys</li>
+          <li><span class="mark x">✕</span>No private events funnel, brunch page, press wall, or bilingual content</li>
+        </ul>
+      </div>
+      <div class="ba-col ba-after">
+        <div class="head">Proposed — Cinematic Buena Vista</div>
+        <ul>
+          <li><span class="mark c">✓</span>Scroll-driven cinematic paella hero — flame, saffron steam, and candlelight graded to the brand</li>
+          <li><span class="mark c">✓</span>One continuous scroll narrative — every section reveals with intent, nothing hidden behind "Load More"</li>
+          <li><span class="mark c">✓</span>Azulejo navy, tile blue, and gold as the design system — the logo's tiles become the site's soul</li>
+          <li><span class="mark c">✓</span>Libre Baskerville display (uppercase, letterspaced) + Raleway body — the brand fonts, finally typeset with intent</li>
+          <li><span class="mark c">✓</span>Founder and chef story told cinematically — Christian Nuñez's second-generation journey, el Bulli pedigree in the kitchen</li>
+          <li><span class="mark c">✓</span>Hell's Kitchen vs East Village as a sticky-stack duo — distinct hours, phones, maps, and reserve buttons</li>
+          <li><span class="mark c">✓</span>One consolidated domain with per-location Schema.org markup and 301s from satellites</li>
+          <li><span class="mark c">✓</span>Private events theater, testimonials, reservations CTA, and a bilingual AI voice host on the phones</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SITE SECTIONS & MODULES ============ -->
+<section class="block" id="modules">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 03</div>
+      <h2>Proposed Site &amp; Cinematic Modules</h2>
+      <p class="sub">Eleven sections, each powered by a purpose-built cinematic module from our 30-module library. Motion is always in service of appetite — never decoration for its own sake.</p>
+    </div>
+
+    <div class="table-scroll reveal">
+      <table>
+        <thead>
+          <tr><th>Site Section</th><th>Cinematic Module</th><th>The Experience</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sec-name">01 · Hero</td>
+            <td class="mod"><span class="chip gold">hero-scroll-video</span></td>
+            <td>Canvas frame engine scrubs a cinematic paella film in sync with scroll — the guest "directs" the shot. Persistent gold Reserve CTA and a Hell's Kitchen ↔ East Village switcher.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">02 · Manifesto</td>
+            <td class="mod"><span class="chip gold">text-mask-reveal</span></td>
+            <td>A full-viewport <strong>"SABOR"</strong> fills with rich food imagery as the guest scrolls — the word literally fills with flavor. "Spain Meets Latin America" manifesto follows.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">03 · Flavor Ticker</td>
+            <td class="mod"><span class="chip gold">kinetic-marquee</span></td>
+            <td>An ambient marquee of dishes and ingredients — Paella Buenavista · Ceviche Limeño · Saffron · Leche de Tigre · Bomba Rice — drifting like an open-kitchen aroma.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">04 · Our Story</td>
+            <td class="mod"><span class="chip gold">split-scroll</span></td>
+            <td>Split-scroll panels pair Christian Nuñez's second-generation story and the el Bulli-trained kitchen with portraits and dining-room imagery — the Tatiana-style narrative treatment no local competitor has.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">05 · Menu Highlights</td>
+            <td class="mod"><span class="chip gold">accordion-slider</span></td>
+            <td>Signature dishes expand on hover — Paella Buenavista ($59 for two), Ceviche Limeño ($21), Salmon Barceloneta, Chilean Sea Bass — with links into full HTML menus (lunch, dinner, brunch, pre-fixe, drinks, wine, zero-proof, kids).</td>
+          </tr>
+          <tr>
+            <td class="sec-name">06 · Two Locations</td>
+            <td class="mod"><span class="chip gold">sticky-stack</span></td>
+            <td>Hell's Kitchen and East Village stack and pin as full cards — distinct hours (East Village runs to 2am Fri–Sat), phones with tap-to-call, maps, and per-location Reserve buttons.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">07 · Gallery</td>
+            <td class="mod"><span class="chip">magnetic-grid</span> <span class="chip">image-trail</span></td>
+            <td>A magnetic photo grid of plates, pours, and the room; cursor movement leaves a trail of dish imagery — the Instagram feed reimagined as an experience.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">08 · Private Events</td>
+            <td class="mod"><span class="chip gold">curtain-reveal</span></td>
+            <td>A theater-curtain reveal befitting the Broadway corridor opens onto the private dining offer and inquiry form — a revenue funnel, not a contact page.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">09 · Voices</td>
+            <td class="mod"><span class="chip gold">kinetic-marquee</span></td>
+            <td>Review pull-quotes in slow kinetic motion — "the very best paella I have ever tasted," "phenomenal drinks," "nearly indecent" sea bass (amNY) — social proof as ambient typography.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">10 · Reserve</td>
+            <td class="mod"><span class="chip gold">mesh-gradient</span></td>
+            <td>A living navy-to-gold mesh gradient breathes behind the final reservation CTA — location picker, party size, and deep links into the booking platform.</td>
+          </tr>
+          <tr>
+            <td class="sec-name">11 · Footer</td>
+            <td class="mod"><span class="chip">brand footer</span></td>
+            <td>Navy footer with azulejo dividers: both locations' NAP + hours, newsletter capture, socials (Instagram, Facebook, TikTok, YouTube), and reserve links.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. VISUAL DIRECTION ============ -->
+<section class="block" id="visual">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 04</div>
+      <h2>Visual Direction</h2>
+      <p class="sub">The azulejo tile logo already holds the entire design system — we extend it across every pixel.</p>
+    </div>
+
+    <div class="swatches reveal">
+      <div class="sw"><div class="color" style="background:#1E3A5F"></div><div class="info"><div class="nm">Azulejo Navy</div><div class="hex">#1E3A5F</div><div class="use">Primary ground — hero, menus, footer</div></div></div>
+      <div class="sw"><div class="color" style="background:#2E5A8F"></div><div class="info"><div class="nm">Tile Blue</div><div class="hex">#2E5A8F</div><div class="use">Hovers, actives, map pins</div></div></div>
+      <div class="sw"><div class="color" style="background:#A8C4E5"></div><div class="info"><div class="nm">Sky</div><div class="hex">#A8C4E5</div><div class="use">Tile patterns &amp; flourishes only</div></div></div>
+      <div class="sw"><div class="color" style="background:#C9995C"></div><div class="info"><div class="nm">Gold</div><div class="hex">#C9995C</div><div class="use">The only CTA color — retires the green</div></div></div>
+      <div class="sw"><div class="color" style="background:#D4A437"></div><div class="info"><div class="nm">Amber</div><div class="hex">#D4A437</div><div class="use">Gradient warmth, candlelight accents</div></div></div>
+      <div class="sw"><div class="color" style="background:#F7F2E9; border-bottom:1px solid rgba(16,24,38,.08)"></div><div class="info"><div class="nm">Cream</div><div class="hex">#F7F2E9</div><div class="use">Editorial light sections — story, events</div></div></div>
+      <div class="sw"><div class="color" style="background:#101826"></div><div class="info"><div class="nm">Ink</div><div class="hex">#101826</div><div class="use">Deep grounds &amp; body text on cream</div></div></div>
+    </div>
+
+    <div class="type-grid reveal">
+      <div class="type-card">
+        <div class="role">Display · Libre Baskerville</div>
+        <div class="sample-display">Spain Meets<br>Latin America</div>
+        <div class="spec">
+          Uppercase, letterspaced (+6–10%), weights 400/700.<br>
+          Hero 56–96px · Section heads 28–40px · Oldstyle numerals for menu prices so pages feel typeset, not templated.
+        </div>
+      </div>
+      <div class="type-card">
+        <div class="role">Body · Raleway</div>
+        <div class="sample-body">Bomba rice toasted to socarrat, saffron broth poured tableside, candlelight on azulejo tile. Warm, legible, modern — the quiet voice beneath the serif's theater.</div>
+        <div class="spec">
+          15–17px body at 1.7–1.8 line-height · weights 300–700.<br>
+          Letterspaced uppercase 12–13px for CTAs, labels, and eyebrow text.
+        </div>
+      </div>
+    </div>
+
+    <div class="mood-band reveal">
+      <div class="tile-layer tile-bg"></div>
+      <h3>Mood</h3>
+      <p style="position:relative">
+        <span class="em">Spanish elegance × Latin soul.</span> A candlelit, editorial world: deep navy rooms warmed by gold — flame, saffron, brass, and sherry tones glowing against blue tile. Photography graded dark and warm so #1E3A5F and #C9995C live inside every frame. Cream sections breathe between navy acts like linen between courses. Tile patterns whisper at 6–10% opacity as section dividers; full-strength azulejo appears only in the logo and ornament. The reference tier is COTE and Death &amp; Co — but in a palette no one in the category has claimed: <span class="em">the Iberian jewel-box.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. HERO ANIMATION CONCEPT ============ -->
+<section class="block" id="hero-concept">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 05</div>
+      <h2>Hero Animation Concept</h2>
+      <p class="sub">"La Paella" — a scroll-driven film. The single most important upgrade: replacing storefront footage with the dish that built the reputation.</p>
+    </div>
+
+    <div class="film reveal">
+      <div class="strip">
+        <div class="frame"></div><div class="frame"></div><div class="frame hot"></div><div class="frame hot"></div><div class="frame hot"></div><div class="frame"></div><div class="frame"></div><div class="frame"></div>
+      </div>
+      <div class="body">
+        <h3>How It Works</h3>
+        <p>We generate a cinematic AI food film — slow dolly across the paella pan mid-flame, saffron steam curling in shallow depth of field, a broth pour catching candlelight, glassware and the dining room resolving in the final beat — graded dark and warm over the navy base. The film is extracted into a frame sequence and rendered through a <strong>canvas frame engine</strong>: as the guest scrolls, frames scrub in perfect sync. The guest controls the camera. Scroll slowly and the steam hangs; scroll on and the flame leaps. Type and CTAs float above on a 0.45–0.65 navy overlay for flawless readability.</p>
+        <div class="beats">
+          <div class="beat"><div class="t"><b>Beat 1</b> · The Flame</div><p>Overhead dolly across the paella pan, socarrat sizzling, chorizo and saffron rice in macro.</p></div>
+          <div class="beat"><div class="t"><b>Beat 2</b> · The Steam</div><p>Saffron steam rises in slow motion; "Spain Meets Latin America" sets in Libre Baskerville.</p></div>
+          <div class="beat"><div class="t"><b>Beat 3</b> · The Pour</div><p>Broth pour and a sangria catchlight; the gold Reserve CTA and location switcher arrive.</p></div>
+          <div class="beat"><div class="t"><b>Beat 4</b> · The Room</div><p>Candlelit dining room resolves; the site's first cream section slides up and the story begins.</p></div>
+        </div>
+        <p style="margin-top:30px;font-size:14px;color:#93a0b4;">Engineered responsibly: 150vh hero (no dead scroll), frame 1 preloaded for instant paint, mobile-optimized frame counts, and a graded still with slow Ken Burns for <code style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:rgba(168,196,229,.12);padding:2px 7px;border-radius:5px;color:#A8C4E5;">prefers-reduced-motion</code> and slow connections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. AI VOICE AGENT ============ -->
+<section class="block" id="voice">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 06</div>
+      <h2>AI Voice Agent — The Bilingual Host</h2>
+      <p class="sub">Two phone lines, one impeccable host. An ElevenLabs conversational agent answers (212) 388-5040 and (929) 220-0547 in English or Spanish — instantly, on every ring, during the Friday 7pm rush and at 1am after close.</p>
+    </div>
+
+    <div class="voice-grid reveal">
+      <div class="voice-card">
+        <h3>What the Host Handles</h3>
+        <ul>
+          <li><span class="dot"></span><strong>Bilingual EN/ES from "hello."</strong> Detects the caller's language and switches seamlessly — matching the brand story no competitor's phone (or website) honors.</li>
+          <li><span class="dot"></span><strong>Both locations, one brain.</strong> Knows Hell's Kitchen vs East Village hours (including East Village's 2am Fri–Sat close), addresses, cross-streets, and subway directions.</li>
+          <li><span class="dot"></span><strong>Reservations guidance.</strong> Walks callers through booking, captures party size/date/time for large groups and private events, and routes special occasions to the team.</li>
+          <li><span class="dot"></span><strong>Menu fluency.</strong> Answers questions on paella varieties, Ceviche Limeño, brunch, pre-fixe, zero-proof, and kids menus — plus dietary questions with graceful "let me have the kitchen confirm" guardrails.</li>
+          <li><span class="dot"></span><strong>Smart escalation.</strong> Transfers to staff during service hours when a human is needed; takes structured messages after hours. Never invents policy, never overpromises.</li>
+        </ul>
+      </div>
+      <div class="convo">
+        <div class="tile-layer tile-bg"></div>
+        <h3>A Thirty-Second Call</h3>
+        <div class="bubble guest"><span class="who">Caller</span>Hola, ¿tienen mesa para cuatro esta noche como a las ocho?</div>
+        <div class="bubble host"><span class="who">Buena Vista Host</span>¡Claro que sí! ¿Prefieren Hell's Kitchen en la 9na Avenida o East Village en la Segunda? Esta noche tenemos disponibilidad en ambos — y si vienen por la paella, les recomiendo pedirla al reservar, se prepara al momento.</div>
+        <div class="bubble guest"><span class="who">Caller</span>East Village. And can we see the zero-proof menu?</div>
+        <div class="bubble host"><span class="who">Buena Vista Host</span>Wonderful — four guests, 8pm at 88 2nd Avenue. And yes: our zero-proof cocktails are on the drinks menu; I'll note one for the table. You'll receive a confirmation text shortly. ¡Los esperamos!</div>
+      </div>
+    </div>
+
+    <p class="reveal" style="margin-top:26px;font-size:15px;color:#5a6474;">Stack: ElevenLabs Conversational AI (natural, warm voice tuned to the brand) + Twilio telephony on both existing numbers, with full knowledge base (menus, hours, policies), guardrails, call logging, and a monthly transcript review to refine answers.</p>
+  </div>
+</section>
+
+<!-- ============ 7. TECHNICAL APPROACH ============ -->
+<section class="block" id="tech">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">Section 07</div>
+      <h2>Technical Approach</h2>
+      <p class="sub">Cinematic on the surface, ruthless engineering underneath.</p>
+    </div>
+
+    <div class="tech-grid reveal">
+      <div class="tech">
+        <h3>Single-File Architecture</h3>
+        <p>The entire site ships as one meticulously crafted HTML file with inline CSS/JS — no page-builder bloat, no plugin debt, no Popmenu lock-in. Fast to load, trivial to maintain, impossible to break with a bad plugin update.</p>
+      </div>
+      <div class="tech">
+        <h3>GSAP Motion Engine</h3>
+        <p>All animation runs on <code>GSAP + ScrollTrigger</code> — the industry standard behind award-winning sites. Scroll-scrubbed hero frames, pinned location stacks, staggered reveals, and full <code>prefers-reduced-motion</code> fallbacks.</p>
+      </div>
+      <div class="tech">
+        <h3>Vercel Hosting + GitHub</h3>
+        <p>Deployed on Vercel's global edge network with the custom domain, automatic SSL, and instant cache invalidation. The GitHub repo auto-deploys on every push — menu price changes go live in under a minute, with full version history and one-click rollback.</p>
+      </div>
+      <div class="tech">
+        <h3>Two-Location SEO Schema</h3>
+        <p>Structured data done properly: <code>Restaurant</code> Schema.org markup for each location — distinct NAP, geo, hours (East Village's 2am weekends included), menus, price range, and aggregate ratings — plus Open Graph and Twitter Cards. Satellite domains 301-redirect into buenavistany.com to consolidate authority; the architecture is ready for the Murray Hill location page the day it's announced.</p>
+      </div>
+      <div class="tech">
+        <h3>Performance Budget</h3>
+        <p>Frame sequences compressed and lazy-loaded, frame 1 preloaded for instant hero paint, fonts subset and preconnected, images served responsive. Target: sub-2.5s LCP on 4G — cinematic never means slow.</p>
+      </div>
+      <div class="tech">
+        <h3>Owned, Not Rented</h3>
+        <p>Buena Vista owns the repo, the domain, the analytics, and every asset we produce — photography prompts, video frames, voice-agent configuration. No monthly template ransom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="tile-layer tile-bg"></div>
+  <div class="cta-inner reveal">
+    <div class="sec-num" style="justify-content:center;color:var(--gold);">Next Step</div>
+    <h2>The kitchen already earned the reputation.<br><span class="gold">Let's give it the stage.</span></h2>
+    <p>On approval, VioX AI delivers the full cinematic build — competitive positioning, hero film, eleven-section site, bilingual voice host, and deployment — production-ready ahead of the Murray Hill opening.</p>
+    <div class="diamond-row" style="margin-top:36px;"><span class="line"></span><span class="diamond"></span><span class="line r"></span></div>
+  </div>
+</section>
+
+<footer class="footer">
+  Prepared by <span class="gold">VioX AI</span> — 2026-07-29
+</footer>
+
+<script>
+(function(){
+  // scroll progress
+  var bar=document.getElementById('progress');
+  function prog(){
+    var h=document.documentElement;
+    var sc=h.scrollTop||document.body.scrollTop;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(sc/max*100):0)+'%';
+  }
+  window.addEventListener('scroll',prog,{passive:true});
+  prog();
+
+  // reveal on scroll
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=document.querySelectorAll('.reveal');
+  if(reduced||!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('in');});
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>
+
+</body>
+</html>

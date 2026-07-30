@@ -1,0 +1,11 @@
+{
+  "agent_id": "agent_9001kyr4x889fzsrxn1a42vw64hx",
+  "name": "Buena Vista Concierge",
+  "knowledge_base_id": "a7WaYVUgRIRpZ5BE0BIq",
+  "llm": "gpt-4o-mini",
+  "tts": {"model": "eleven_turbo_v2", "voice_id": "21m00Tcm4TlvDq8ikWAM"},
+  "languages": ["en", "es (preset)"],
+  "widget": {"bg": "#F7F2E9", "text": "#1E3A5F", "btn": "#1E3A5F", "accent": "#C9995C", "action_text": "Buena Vista Concierge"},
+  "phone": "DEFERRED — Twilio auth token in Projects/.env returned 401 (rotated?); no number imported. Needs Juan's fresh token + number choice.",
+  "created": "2026-07-29"
+}

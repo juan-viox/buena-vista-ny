@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+hero-a.jpg
+hero-b.png
+generate-section-images.sh

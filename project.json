@@ -1,0 +1,261 @@
+{
+  "client": {
+    "name": "Buena Vista Restaurant & Bar",
+    "slug": "buena-vista-ny",
+    "sourceUrl": "https://www.buenavistany.com",
+    "instagramUrl": "https://www.instagram.com/buenavistany/",
+    "facebookUrl": "https://www.facebook.com/Buenavistany",
+    "tiktokUrl": "https://www.tiktok.com/@buenavistany",
+    "youtubeUrl": "https://www.youtube.com/channel/UCIXB1gE87vepH_aNQFW_2Wg",
+    "businessType": "restaurant",
+    "founder": "Christian Nuñez",
+    "founded": 2018,
+    "location": "New York City",
+    "region": "Manhattan (Hell's Kitchen + East Village)",
+    "tagline": "Spain Meets Latin America",
+    "subTagline": "An Elevated Dining & Cocktail Destination In New York City, Where Spanish Elegance Meets Latin American Soul",
+    "priceRange": "$$$",
+    "cuisine": "Modern Latin / Spanish fine dining"
+  },
+  "locations": [
+    {
+      "name": "Hell's Kitchen",
+      "address": "536 9th Avenue, New York, NY 10018",
+      "phone": "(212) 388-5040",
+      "lat": 40.756869,
+      "lng": -73.993561,
+      "hours": {
+        "Sun-Thu": "11:00 AM - 11:00 PM",
+        "Fri-Sat": "11:00 AM - 12:00 AM"
+      },
+      "note": "Original location, between 39th & 40th"
+    },
+    {
+      "name": "East Village",
+      "address": "88 2nd Avenue, New York, NY 10003",
+      "phone": "(929) 220-0547",
+      "lat": 40.726814,
+      "lng": -73.988636,
+      "hours": {
+        "Sun-Thu": "11:00 AM - 11:00 PM",
+        "Fri-Sat": "11:00 AM - 2:00 AM"
+      },
+      "note": "Late-night Fri/Sat until 2 AM"
+    }
+  ],
+  "brand": {
+    "colors": {
+      "primary": {
+        "name": "Azulejo Navy",
+        "hex": "#1E3A5F",
+        "role": "dark base, headings"
+      },
+      "secondary": {
+        "name": "Tile Blue",
+        "hex": "#2E5A8F",
+        "role": "emblem mid blue"
+      },
+      "accent1": {
+        "name": "Sky Azulejo",
+        "hex": "#A8C4E5",
+        "role": "emblem light blue"
+      },
+      "accent2": {
+        "name": "Saffron Gold",
+        "hex": "#C9995C",
+        "role": "CTA, tile gold accents"
+      },
+      "accent3": {
+        "name": "Paella Amber",
+        "hex": "#D4A437",
+        "role": "current site CTA gold"
+      },
+      "accent4": {
+        "name": "Verde Buena",
+        "hex": "#0A7D57",
+        "role": "current site button green (menus)"
+      },
+      "dark": {
+        "name": "Midnight Ink",
+        "hex": "#101826",
+        "role": "hero overlays, footer"
+      },
+      "light": {
+        "name": "Manchego Cream",
+        "hex": "#F7F2E9",
+        "role": "light backgrounds"
+      }
+    },
+    "typography": {
+      "display": {
+        "family": "Libre Baskerville",
+        "weights": [
+          400,
+          700
+        ],
+        "note": "current site headings, uppercase"
+      },
+      "body": {
+        "family": "Raleway",
+        "weights": [
+          300,
+          400,
+          500,
+          600
+        ],
+        "note": "current site body"
+      },
+      "planned": "May upgrade pairing in Phase 1 (e.g., Cormorant Garamond / Jost) while honoring serif+sans DNA",
+      "final": "Cormorant Garamond (display) + Jost (body)"
+    },
+    "logo": {
+      "file": "logo-original.png",
+      "rawUrl": "https://popmenucloud.com/hangvemx/8f894426-73be-4de7-a295-264ab4eec02e.png",
+      "description": "Spanish azulejo tile emblem (blues #1E3A5F/#2E5A8F/#A8C4E5 + gold #C9995C) left of condensed serif BUENAVISTA wordmark, subline RESTAURANT & BAR • MODERN LATIN CUISINE. White knockout version used over dark video hero.",
+      "rule": "NEVER create a new logo — recreate existing as inline SVG (tile with brand-color fills, wordmark currentColor)"
+    }
+  },
+  "content": {
+    "story": {
+      "heading": "Where Passion and Flavor Come to Live",
+      "quote": "At Buena Vista, we aim to deliver first-class hospitality and a memorable dining experience. From start to finish, expect exceptional service, delicious food, exotic cocktails, and a carefully curated wine list.",
+      "quoteAttribution": "Christian Nuñez, Owner"
+    },
+    "positioning": "Step into Buena Vista Restaurant & Bar, where bold Spanish-Latin American flavors meet refined New York City dining. From expertly crafted cocktails to shareable plates inspired by Spain and South America, every visit is a vibrant culinary journey designed for connection, celebration, and unforgettable nights out.",
+    "menus": [
+      "Lunch",
+      "Dinner",
+      "Brunch",
+      "Drinks",
+      "Wine",
+      "Liquor",
+      "Specials",
+      "Pre Fixe",
+      "Kids",
+      "Zero Proof"
+    ],
+    "menuSections": [
+      "Snacks & Starters",
+      "Raw Bar & Ceviches",
+      "To Share & Sides",
+      "Salads & Sandwiches",
+      "Pasta & Rice",
+      "Mains & Sides",
+      "Dessert",
+      "Brunch Items",
+      "BV Cocktails",
+      "Wine by Bottle",
+      "Exclusive List",
+      "After Dinner Drinks",
+      "Zero Proof",
+      "Kids Menu"
+    ],
+    "signatureDishes": [
+      {
+        "name": "Paella Buenavista",
+        "price": 59,
+        "desc": "Saffron bomba rice, langoustines, mussels, calamari — flagship"
+      },
+      {
+        "name": "Paella Negra",
+        "price": 59,
+        "desc": "Squid-ink paella"
+      },
+      {
+        "name": "Ceviche Limeño",
+        "price": 21,
+        "desc": "Mahi Mahi, leche de tigre, red onion, choclo, maiz cancha, plantain chips (GF)"
+      },
+      {
+        "name": "Pulpo a la Parrilla",
+        "price": 28,
+        "desc": "Grilled Spanish octopus, smoked paprika potato purée"
+      },
+      {
+        "name": "Salmon Barceloneta",
+        "price": 36,
+        "desc": "Oven roasted salmon, malanga mash, spinach, lemongrass salsa (GF, NF)"
+      },
+      {
+        "name": "Chilean Sea Bass Mediterráneo",
+        "price": 42,
+        "desc": "Per 2026 audit"
+      },
+      {
+        "name": "Ossobuco de Cerdo Ibérico",
+        "price": 39,
+        "desc": "Per 2026 audit"
+      },
+      {
+        "name": "Green Avocado Salad",
+        "price": 12,
+        "desc": "Market greens, goat cheese, avocado, cherry tomatoes, passion fruit dressing"
+      }
+    ],
+    "services": [
+      "Dine-in",
+      "Online ordering / delivery",
+      "Reservations (OpenTable)",
+      "Private events",
+      "Brunch",
+      "Late-night bar (EV til 2AM Fri/Sat)",
+      "VIP list / sign-up"
+    ],
+    "pages": [
+      "Home",
+      "Locations + Menus (Hell's Kitchen, East Village)",
+      "Order Online",
+      "Private Events",
+      "Our Story",
+      "Reservations",
+      "Gallery",
+      "Press",
+      "Blog",
+      "Contact",
+      "Careers",
+      "Become a VIP"
+    ]
+  },
+  "currentSite": {
+    "platform": "Popmenu template",
+    "hero": "Storefront video loop with centered serif headline",
+    "fonts": "Libre Baskerville (headings, uppercase) + Raleway (body)",
+    "colors": "Dark #333 bg, white text, gold ORDER NOW button, green #0A7D57 menu buttons",
+    "weaknesses": "Template feel, lazy-load 'Load More Content' UX, generic sections, no cinematic storytelling, slow hydration, SEO pages redirect oddly"
+  },
+  "sections": [],
+  "hero": {
+    "concept": "Fuego y Azafrán — seafood paella over open flame, slow push-in, steam and sparks",
+    "imageVariantChosen": "hero-a.png",
+    "rejected": "hero-b.png (AI text artifacts: wrong brand on chef jacket)",
+    "video": "hero-video.mp4",
+    "engine": "Fal Seedance 2.0 pro image-to-video (WaveSpeed key invalid — flagged)",
+    "frameCount": 121,
+    "fps": 24,
+    "frameRes": "1920x1080"
+  },
+  "assets": {
+    "logoOriginal": "logo-original.png",
+    "storefrontPhoto": "storefront-hells-kitchen.png"
+  },
+  "pipeline": {
+    "phase": 8,
+    "startedAt": "2026-07-29",
+    "checkpointMode": "autonomous — decisions documented for Juan's review"
+  },
+  "reputation": {
+    "google": "4.7 (~1,481 reviews)",
+    "opentable": "4.5 (527)",
+    "tripadvisor": "4.4 (91)",
+    "yelp": "493 reviews / 688 photos"
+  },
+  "marketFindings": {
+    "laPulperiaClosed": "All NYC locations closed 2026 — HK upscale-Latin lane vacant",
+    "naiTapasClosed": "84 2nd Ave (next door to EV location) closed"
+  },
+  "voiceAgent": {
+    "agentId": "agent_9001kyr4x889fzsrxn1a42vw64hx",
+    "kbId": "a7WaYVUgRIRpZ5BE0BIq",
+    "phone": "deferred (Twilio 401)"
+  }
+}

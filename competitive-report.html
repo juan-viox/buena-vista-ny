@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buena Vista — NYC Market Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E3A5F;
+    --tile:#2E5A8F;
+    --sky:#A8C4E5;
+    --gold:#C9995C;
+    --amber:#D4A437;
+    --cream:#F7F2E9;
+    --ink:#101826;
+    --ink-2:#16203A;
+    --ink-3:#1B2747;
+    --line:rgba(168,196,229,.14);
+    --display:'Libre Baskerville',Georgia,serif;
+    --body:'Raleway',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--cream);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--gold);color:var(--ink)}
+
+  /* ---------- azulejo pattern ---------- */
+  .azulejo{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%232E5A8F' stroke-width='1'%3E%3Cpath d='M48 8 C60 24 72 36 88 48 C72 60 60 72 48 88 C36 72 24 60 8 48 C24 36 36 24 48 8 Z'/%3E%3Ccircle cx='48' cy='48' r='10'/%3E%3C/g%3E%3Cg fill='%23C9995C'%3E%3Ccircle cx='48' cy='48' r='2.5'/%3E%3C/g%3E%3Cg stroke='%23A8C4E5' stroke-width='.8' fill='none'%3E%3Cpath d='M0 0 L16 16 M96 0 L80 16 M0 96 L16 80 M96 96 L80 80'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:96px 96px;
+    opacity:.07;
+  }
+  .tile-divider{display:flex;justify-content:center;align-items:center;gap:14px;padding:8px 0}
+  .tile-divider i{width:10px;height:10px;transform:rotate(45deg);display:block}
+  .tile-divider i:nth-child(1){background:var(--tile)}
+  .tile-divider i:nth-child(2){background:var(--gold)}
+  .tile-divider i:nth-child(3){background:var(--sky)}
+  .tile-divider i:nth-child(4){background:var(--gold)}
+  .tile-divider i:nth-child(5){background:var(--tile)}
+  .tile-divider .rule{height:1px;width:min(120px,18vw);background:linear-gradient(90deg,transparent,var(--line));display:block}
+  .tile-divider .rule:last-child{background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+  section{padding:clamp(56px,8vw,110px) 0;position:relative}
+
+  /* ---------- sticky nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(16,24,38,.88);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px);display:flex;align-items:center;gap:24px;height:58px}
+  .nav-brand{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--cream);white-space:nowrap}
+  .nav-brand b{color:var(--gold);font-weight:700}
+  .nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{
+    color:var(--sky);text-decoration:none;font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.12em;padding:8px 12px;border-radius:99px;
+    white-space:nowrap;transition:color .2s,background .2s;
+  }
+  .nav-links a:hover{color:var(--gold);background:rgba(201,153,92,.08)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1100px 520px at 78% -10%, rgba(46,90,143,.38), transparent 60%),
+      radial-gradient(900px 480px at 8% 110%, rgba(201,153,92,.14), transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--ink-2) 55%, var(--ink) 100%);
+    padding:clamp(72px,10vw,130px) 0 clamp(56px,7vw,90px);
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:26px;
+  }
+  .eyebrow::before,.eyebrow::after{content:"";width:26px;height:1px;background:var(--gold);opacity:.6}
+  h1{
+    font-family:var(--display);font-weight:700;text-transform:uppercase;
+    font-size:clamp(38px,6.4vw,84px);line-height:1.04;letter-spacing:.02em;
+  }
+  h1 .thin{display:block;font-weight:400;font-style:italic;text-transform:none;
+    font-size:clamp(19px,2.4vw,30px);letter-spacing:.04em;color:var(--sky);margin-top:18px}
+  .hero-sub{max-width:720px;margin-top:26px;color:rgba(247,242,233,.82);font-size:clamp(15px,1.4vw,18px);font-weight:400}
+  .hero-sub b{color:var(--gold);font-weight:600}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+    margin-top:clamp(40px,5vw,64px);
+  }
+  .stat{background:rgba(16,24,38,.72);padding:26px 22px;position:relative}
+  .stat::after{content:"";position:absolute;left:22px;bottom:18px;width:26px;height:2px;background:var(--gold)}
+  .stat .n{font-family:var(--display);font-size:clamp(34px,3.6vw,52px);font-weight:700;color:var(--cream);line-height:1}
+  .stat .n span{color:var(--gold)}
+  .stat .l{margin-top:10px;margin-bottom:16px;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--sky)}
+
+  /* ---------- section headers ---------- */
+  .sec-head{margin-bottom:clamp(32px,4vw,52px)}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+  .kicker::after{content:"";flex:0 0 40px;height:1px;background:var(--gold);opacity:.5}
+  h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(24px,3.4vw,42px);font-weight:700;letter-spacing:.03em;line-height:1.15}
+  .sec-sub{margin-top:14px;max-width:760px;color:rgba(247,242,233,.72);font-size:15px}
+
+  /* ---------- category groups ---------- */
+  .cat{margin-bottom:clamp(44px,5vw,64px)}
+  .cat:last-child{margin-bottom:0}
+  .cat-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .cat-head h3{font-family:var(--display);text-transform:uppercase;font-size:clamp(17px,2vw,22px);letter-spacing:.06em;font-weight:700}
+  .cat-badge{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:99px;border:1px solid}
+  .cb-gold{color:var(--gold);border-color:rgba(201,153,92,.5);background:rgba(201,153,92,.08)}
+  .cb-sky{color:var(--sky);border-color:rgba(168,196,229,.5);background:rgba(168,196,229,.07)}
+  .cb-tile{color:#7FA8DA;border-color:rgba(46,90,143,.8);background:rgba(46,90,143,.18)}
+  .cb-amber{color:var(--amber);border-color:rgba(212,164,55,.5);background:rgba(212,164,55,.08)}
+  .cat-note{font-size:13px;color:rgba(247,242,233,.55);font-style:italic;font-family:var(--display)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+
+  /* ---------- competitor cards ---------- */
+  .card{
+    background:linear-gradient(160deg,var(--ink-2) 0%,var(--ink) 100%);
+    border:1px solid var(--line);
+    padding:24px 24px 22px;
+    position:relative;
+    display:flex;flex-direction:column;gap:12px;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--tile),var(--gold));
+    opacity:0;transition:opacity .25s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(201,153,92,.45);box-shadow:0 18px 44px rgba(0,0,0,.45)}
+  .card:hover::before{opacity:1}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .card h4{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:.02em;line-height:1.25;text-transform:uppercase}
+  .price{
+    flex:0 0 auto;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;
+    color:var(--gold);border:1px solid rgba(201,153,92,.45);padding:4px 10px;border-radius:3px;white-space:nowrap;
+  }
+  .loc{font-size:12.5px;color:var(--sky);font-weight:600;letter-spacing:.03em;display:flex;gap:8px;align-items:baseline}
+  .loc::before{content:"◆";font-size:8px;color:var(--gold)}
+  .desc{font-size:13.5px;color:rgba(247,242,233,.68);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .standout{
+    font-size:13px;color:var(--cream);
+    background:rgba(46,90,143,.16);border-left:2px solid var(--gold);
+    padding:10px 14px;line-height:1.5;
+  }
+  .standout b{color:var(--gold);font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.16em;display:block;margin-bottom:3px}
+  .card-meta{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:6px}
+  .score-row{display:flex;align-items:center;gap:12px}
+  .score-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--sky);flex:0 0 auto}
+  .score-bar{flex:1;height:6px;background:rgba(168,196,229,.12);border-radius:99px;overflow:hidden}
+  .score-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--tile),var(--gold));transition:width 1s cubic-bezier(.22,.8,.3,1)}
+  .score-num{font-family:var(--display);font-weight:700;font-size:14px;color:var(--gold);flex:0 0 auto}
+  .ig{font-size:12px;color:rgba(247,242,233,.6);display:flex;align-items:center;gap:8px}
+  .ig svg{flex:0 0 auto;opacity:.8}
+  .ig b{color:var(--cream);font-weight:600}
+
+  /* ---------- market gaps ---------- */
+  .gaps-sec{background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .gaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .gap{
+    background:rgba(30,58,95,.22);border:1px solid var(--line);border-left:3px solid var(--gold);
+    padding:22px 24px;transition:background .25s ease,transform .25s ease;
+  }
+  .gap:hover{background:rgba(30,58,95,.38);transform:translateX(4px)}
+  .gap h4{font-family:var(--display);text-transform:uppercase;font-size:14.5px;letter-spacing:.05em;color:var(--gold);margin-bottom:8px}
+  .gap p{font-size:13.5px;color:rgba(247,242,233,.75)}
+
+  /* ---------- opportunities ---------- */
+  .opps{display:flex;flex-direction:column;gap:16px}
+  .opp{
+    display:grid;grid-template-columns:110px 1fr;gap:0;
+    background:linear-gradient(120deg,var(--ink-2),var(--ink) 70%);
+    border:1px solid var(--line);overflow:hidden;position:relative;
+    transition:border-color .25s ease,box-shadow .25s ease;
+  }
+  .opp:hover{border-color:rgba(201,153,92,.5);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .opp-num{
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-size:44px;font-weight:700;color:var(--gold);
+    background:rgba(30,58,95,.35);border-right:1px solid var(--line);position:relative;
+  }
+  .opp-num::after{content:"";position:absolute;bottom:14px;width:22px;height:2px;background:var(--tile)}
+  .opp-body{padding:24px 28px}
+  .opp-body h4{font-family:var(--display);text-transform:uppercase;font-size:17px;letter-spacing:.04em;margin-bottom:8px}
+  .opp-body h4 span{color:var(--gold)}
+  .opp-body p{font-size:14px;color:rgba(247,242,233,.75);max-width:900px}
+  .opp-tag{display:inline-block;margin-top:12px;font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);border:1px solid rgba(168,196,229,.35);padding:4px 10px;border-radius:99px}
+
+  /* ---------- design trends ---------- */
+  .trends-sec{background:linear-gradient(180deg,var(--ink-2) 0%,var(--ink) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .trends{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .trend{
+    border:1px solid var(--line);background:rgba(16,24,38,.55);padding:24px;
+    position:relative;transition:border-color .25s ease;
+  }
+  .trend:hover{border-color:rgba(168,196,229,.4)}
+  .trend .t-num{font-family:var(--display);font-size:13px;color:var(--tile);font-weight:700;letter-spacing:.2em;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .trend .t-num::after{content:"";flex:1;height:1px;background:var(--line)}
+  .trend h4{font-family:var(--display);text-transform:uppercase;font-size:15px;letter-spacing:.04em;margin-bottom:8px;color:var(--cream)}
+  .trend p{font-size:13.5px;color:rgba(247,242,233,.7)}
+  .trend p b{color:var(--gold);font-weight:600}
+  .trend.open-lane{border-color:rgba(201,153,92,.55);background:rgba(201,153,92,.06)}
+  .trend.open-lane h4{color:var(--gold)}
+
+  /* ---------- pricing ---------- */
+  .tiers{display:flex;flex-direction:column;gap:14px;margin-bottom:34px}
+  .tier{
+    display:grid;grid-template-columns:150px 1fr;gap:0;
+    border:1px solid var(--line);background:rgba(22,32,58,.5);
+  }
+  .tier-label{
+    padding:20px;border-right:1px solid var(--line);
+    display:flex;flex-direction:column;justify-content:center;gap:4px;
+    background:rgba(30,58,95,.28);
+  }
+  .tier-label .sym{font-family:var(--display);font-weight:700;font-size:20px;color:var(--gold);letter-spacing:.1em}
+  .tier-label .nm{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--sky)}
+  .tier-chips{padding:16px 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chip{
+    font-size:12px;font-weight:600;color:rgba(247,242,233,.85);
+    border:1px solid var(--line);background:rgba(16,24,38,.6);
+    padding:6px 13px;border-radius:99px;letter-spacing:.02em;
+  }
+  .chip.span-note{border-style:dashed;color:var(--sky)}
+  .chip.bv{
+    background:linear-gradient(90deg,var(--gold),var(--amber));color:var(--ink);
+    font-weight:700;border-color:var(--gold);text-transform:uppercase;letter-spacing:.08em;
+    box-shadow:0 0 24px rgba(201,153,92,.35);
+  }
+  .anchors{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:30px}
+  .anchor{background:rgba(16,24,38,.75);padding:20px 22px}
+  .anchor .a-price{font-family:var(--display);font-size:26px;font-weight:700;color:var(--gold)}
+  .anchor .a-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--cream);margin-top:6px}
+  .anchor .a-note{font-size:12px;color:rgba(247,242,233,.55);margin-top:4px}
+  .takeaway{
+    border:1px solid rgba(201,153,92,.45);background:rgba(201,153,92,.07);
+    padding:26px 30px;position:relative;
+  }
+  .takeaway::before{content:"◆";position:absolute;top:-11px;left:28px;color:var(--gold);background:var(--ink);padding:0 10px;font-size:13px}
+  .takeaway h4{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:15px;color:var(--gold);margin-bottom:10px}
+  .takeaway p{font-size:14.5px;color:rgba(247,242,233,.85);max-width:960px}
+  .takeaway p b{color:var(--gold)}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    background:linear-gradient(180deg,var(--ink) 0%,var(--navy) 160%);
+    padding:56px 0 48px;position:relative;overflow:hidden;
+  }
+  .foot-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;position:relative;z-index:2}
+  .foot-brand{font-family:var(--display);text-transform:uppercase;letter-spacing:.2em;font-size:14px}
+  .foot-brand b{color:var(--gold)}
+  .foot-meta{font-size:12.5px;color:rgba(247,242,233,.6);letter-spacing:.06em}
+  .foot-meta b{color:var(--gold);font-weight:600}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .score-fill{transition:none}
+    html{scroll-behavior:auto}
+  }
+
+  @media (max-width:640px){
+    .opp{grid-template-columns:1fr}
+    .opp-num{padding:16px;border-right:none;border-bottom:1px solid var(--line);font-size:30px;justify-content:flex-start;padding-left:24px}
+    .opp-num::after{display:none}
+    .tier{grid-template-columns:1fr}
+    .tier-label{border-right:none;border-bottom:1px solid var(--line);flex-direction:row;align-items:baseline;gap:14px}
+    .nav-brand{font-size:11px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><b>Buena Vista</b> · Market Analysis</div>
+    <div class="nav-links">
+      <a href="#competitors">Competitors</a>
+      <a href="#gaps">Market Gaps</a>
+      <a href="#opportunities">Opportunities</a>
+      <a href="#trends">Design Trends</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="azulejo"></div>
+  <div class="wrap">
+    <div class="eyebrow">Competitive Intelligence · New York City</div>
+    <h1>Buena Vista<span class="thin">NYC Market Analysis — Spain Meets Latin America</span></h1>
+    <p class="hero-sub">How <b>Buena Vista Restaurant &amp; Bar</b> stacks up against the twenty restaurants, bars, and supper clubs competing for the same premium Manhattan evening — and the lanes nobody else in the city occupies.</p>
+    <div class="stats">
+      <div class="stat reveal"><div class="n"><span data-count="20">0</span></div><div class="l">Competitors Analyzed</div></div>
+      <div class="stat reveal"><div class="n"><span data-count="4">0</span></div><div class="l">Competitive Categories</div></div>
+      <div class="stat reveal"><div class="n"><span data-count="2">0</span><span style="font-size:.45em">+1</span></div><div class="l">NYC Locations (Murray Hill Coming)</div></div>
+      <div class="stat reveal"><div class="n">7<span>.0</span></div><div class="l">Avg. Competitor Design Score</div></div>
+      <div class="stat reveal"><div class="n">4<span>.7★</span></div><div class="l">Google · 1,481 Reviews</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="tile-divider"><span class="rule"></span><i></i><i></i><i></i><i></i><i></i><span class="rule"></span></div>
+
+<!-- ============ COMPETITOR GRID ============ -->
+<section id="competitors">
+  <div class="azulejo" style="opacity:.03"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">The Field</div>
+      <h2>Twenty Competitors, Four Fronts</h2>
+      <p class="sec-sub">Buena Vista competes on four fronts at once: the Spanish &amp; Latin tables of Manhattan, the national Latin fine-dining benchmarks, the experience-driven night out, and the luxury lifestyle rooms that define the premium NYC evening.</p>
+    </div>
+
+    <!-- Direct Local -->
+    <div class="cat">
+      <div class="cat-head reveal">
+        <span class="cat-badge cb-gold">01 · Direct Local</span>
+        <h3>Spanish &amp; Latin — Manhattan</h3>
+        <span class="cat-note">7 competitors fighting for the same cuisine, same diner</span>
+      </div>
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Boqueria</h4><span class="price">$$$</span></div>
+          <div class="loc">W 40th St (Bryant Park) + Soho, Flatiron, UES, Hudson Yards</div>
+          <p class="desc">NYC's dominant Spanish tapas group — a Barcelona-style chain with a location three blocks from Buena Vista's Hell's Kitchen doorstep and a consistent brand across 8+ locations.</p>
+          <div class="standout"><b>Standout</b>Multi-location brand consistency with strong group-dining and paella-for-the-table programs marketed directly on-site.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~55K</b>&nbsp;@boquerianyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Socarrat Paella Bar</h4><span class="price">$$$</span></div>
+          <div class="loc">Chelsea · Nolita · Midtown East</div>
+          <p class="desc">The city's best-known paella specialist, built around communal paella counters and the prized socarrat crust — the most direct head-to-head threat to Buena Vista's flagship paella.</p>
+          <div class="standout"><b>Standout</b>Single-dish authority: owns &ldquo;paella NYC&rdquo; in search and reputation, with paella-first menu architecture.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="6"></div></div><span class="score-num">6/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~25K</b>&nbsp;@socarratnyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Casa Mono</h4><span class="price">$$$$</span></div>
+          <div class="loc">52 Irving Pl, Gramercy</div>
+          <p class="desc">Michelin-starred Spanish restaurant holding a star since 2009, with a deep Spanish cellar — the prestige benchmark for Spanish food in Manhattan.</p>
+          <div class="standout"><b>Standout</b>Longest-running Michelin star for Spanish cuisine in NYC, plus a 600+ bottle all-Spanish wine program.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="5"></div></div><span class="score-num">5/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~20K</b>&nbsp;@casamononyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Llama San</h4><span class="price">$$$$</span></div>
+          <div class="loc">359 6th Ave, West Village</div>
+          <p class="desc">Erik Ramirez's upscale Japanese-Peruvian (Nikkei) tasting-plate restaurant — the critical darling of NYC's modern Latin scene and the bar for elevated Peruvian-rooted cuisine.</p>
+          <div class="standout"><b>Standout</b>Nikkei fusion positioning with tasting-menu-caliber plating that earns national press without a Michelin star.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~35K</b>&nbsp;@llamasannyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Tumi Peruvian</h4><span class="price">$$</span></div>
+          <div class="loc">689 9th Ave, Hell's Kitchen</div>
+          <p class="desc">Neighborhood Peruvian four blocks up 9th Avenue, serving ceviche and lomo saltado with modern twists — the closest same-corridor Latin competitor still standing after La Pulperia's closures.</p>
+          <div class="standout"><b>Standout</b>Direct 9th Ave proximity and aggressive local SEO targeting &ldquo;Peruvian food near me&rdquo; in Hell's Kitchen.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="3"></div></div><span class="score-num">3/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~3K</b>&nbsp;(estimate)</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Mercado Little Spain</h4><span class="price">$$–$$$$</span></div>
+          <div class="loc">10 Hudson Yards — 10 min from BV Hell's Kitchen</div>
+          <p class="desc">José Andrés' 35,000 sq ft Spanish food hall with sit-down restaurants, bars, and retail — capturing the Hudson Yards tourist and corporate wallet that would otherwise walk up 9th Avenue.</p>
+          <div class="standout"><b>Standout</b>Destination-scale programming: watch parties, Rioja tastings, sangría hour — the site sells events, not just menus.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="8"></div></div><span class="score-num">8/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~120K</b>&nbsp;@littlespain</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Mission Ceviche</h4><span class="price">$$$</span></div>
+          <div class="loc">Union Square + Upper East Side</div>
+          <p class="desc">Chef Jose Luis Chavez's modern Peruvian mini-group, Michelin Guide-listed, with seasonal ceviche menus — a two-location growth story similar to Buena Vista's own.</p>
+          <div class="standout"><b>Standout</b>Packaged experiences: a $75 six-course tasting with pisco pairings sold as a bookable product page on the website.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~35K</b>&nbsp;@missionceviche</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Aspirational National -->
+    <div class="cat">
+      <div class="cat-head reveal">
+        <span class="cat-badge cb-sky">02 · Aspirational National</span>
+        <h3>Latin Fine-Dining Benchmarks</h3>
+        <span class="cat-note">5 brands defining what elevated Latin dining looks like in America</span>
+      </div>
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Cosme</h4><span class="price">$$$$</span></div>
+          <div class="loc">35 E 21st St, Flatiron, NYC</div>
+          <p class="desc">Enrique Olvera and Daniela Soto-Innes' modern Mexican flagship — a perennial World's 50 Best restaurant and the reference point for luxury Latin dining in America.</p>
+          <div class="standout"><b>Standout</b>Editorial, art-gallery-minimal web and brand presence that positions food as culture, not menu items.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="9"></div></div><span class="score-num">9/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~200K</b>&nbsp;@cosmenyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Jaleo by José Andrés</h4><span class="price">$$$–$$$$</span></div>
+          <div class="loc">Washington DC · Las Vegas · Orlando · Dubai</div>
+          <p class="desc">The national standard-bearer for Spanish tapas and paella in America — wood-fired paellas and 20+ years of brand equity from the most famous Spanish chef in the world.</p>
+          <div class="standout"><b>Standout</b>Celebrity-chef halo integrated into every page — storytelling, video, cookbook, and philanthropy woven into the brand.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="8"></div></div><span class="score-num">8/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~80K</b>&nbsp;@jaleo · José Andrés ~1M+</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Californios</h4><span class="price">$$$$</span></div>
+          <div class="loc">SoMa, San Francisco</div>
+          <p class="desc">Val Cantu's Mexican tasting-menu restaurant — in 2026 the world's first three-Michelin-star Mexican restaurant. Proof Latin cuisine commands the absolute top of fine dining.</p>
+          <div class="standout"><b>Standout</b>Ultra-restrained luxury web design — dark palette, huge negative space, Tock-first booking — matching a $300+ tasting format.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="8"></div></div><span class="score-num">8/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~70K</b>&nbsp;@californiossf</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Topolobampo</h4><span class="price">$$$$</span></div>
+          <div class="loc">River North, Chicago</div>
+          <p class="desc">Rick Bayless' Michelin-starred modern Mexican institution — a 35-year masterclass in keeping a Latin fine-dining brand current with themed regional tasting experiences.</p>
+          <div class="standout"><b>Standout</b>Experience commerce: themed seasonal tasting menus and beverage journeys sold as ticketed events on Tock.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~60K</b>&nbsp;· Rick Bayless ~500K</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Damian</h4><span class="price">$$$$</span></div>
+          <div class="loc">Arts District, Los Angeles</div>
+          <p class="desc">Enrique Olvera's LA restaurant exploring Mexico-meets-California in a converted warehouse — the West Coast blueprint for cross-cultural Latin positioning, directly analogous to &ldquo;Spain Meets Latin America.&rdquo;</p>
+          <div class="standout"><b>Standout</b>Architecture and interior design treated as brand content; the space itself is the marketing asset.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="8"></div></div><span class="score-num">8/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~80K</b>&nbsp;@damian_losangeles</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="cat">
+      <div class="cat-head reveal">
+        <span class="cat-badge cb-tile">03 · Experience</span>
+        <h3>Competing for the Same Night Out</h3>
+        <span class="cat-note">4 venues intercepting the pre-theater, date-night, and celebration dollar</span>
+      </div>
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Dear Irving on Hudson</h4><span class="price">$$$</span></div>
+          <div class="loc">40th/41st floors, Aliz Hotel, Times Square</div>
+          <p class="desc">Multi-level rooftop cocktail lounge with 360° skyline views and Gatsby-styled interiors, open till 2am weekends — competing for the same pre/post-theater and date-night dollars.</p>
+          <div class="standout"><b>Standout</b>Instagrammable themed interiors plus skyline terraces — sells the view and the vibe, with strong private-event funnels.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~30K</b>&nbsp;@dearirving</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Gallaghers Steakhouse</h4><span class="price">$$$$</span></div>
+          <div class="loc">228 W 52nd St, Theater District</div>
+          <p class="desc">A 1927 theater-district institution with a street-facing glass dry-aging meat locker and hickory-coal broiler — the default &ldquo;big night before the show&rdquo; choice near Hell's Kitchen.</p>
+          <div class="standout"><b>Standout</b>The glass meat locker window — food theater visible from the sidewalk, plus deep Broadway heritage storytelling.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="6"></div></div><span class="score-num">6/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~35K</b>&nbsp;@gallaghersnyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Sushi by Bou — Times Sq</h4><span class="price">$$$</span></div>
+          <div class="loc">Sanctuary Hotel basement speakeasy, W 47th St</div>
+          <p class="desc">A 9-seat, 60-minute timed speakeasy omakase hidden in a Times Square hotel — capturing the experience-seeking special-occasion diner with a theatrical, reservation-driven format.</p>
+          <div class="standout"><b>Standout</b>Timed-ticket omakase model: scarcity, speakeasy entrance, and prepaid bookings turn dinner into an event.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~60K</b>&nbsp;@sushibybou</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Death &amp; Co East Village</h4><span class="price">$$$</span></div>
+          <div class="loc">433 E 6th St — blocks from BV East Village</div>
+          <p class="desc">One of the most influential cocktail bars in the world, with James Beard-winning books and a national brand — the gold standard for cocktail-led night-out branding.</p>
+          <div class="standout"><b>Standout</b>Brand-as-media empire: books, merch, membership, and a website with editorial-grade dark design.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="9"></div></div><span class="score-num">9/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~280K</b>&nbsp;@deathandcompany</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Luxury Lifestyle -->
+    <div class="cat">
+      <div class="cat-head reveal">
+        <span class="cat-badge cb-amber">04 · Luxury Lifestyle</span>
+        <h3>The Premium NYC Evening</h3>
+        <span class="cat-note">4 rooms defining what the aspirational Manhattan crowd expects</span>
+      </div>
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Bemelmans Bar</h4><span class="price">$$$$</span></div>
+          <div class="loc">The Carlyle, Upper East Side</div>
+          <p class="desc">NYC's definitive luxury hotel bar — Ludwig Bemelmans murals, live piano nightly, white-jacket service, celebrity clientele. The old-money glamour benchmark.</p>
+          <div class="standout"><b>Standout</b>Live piano + art-historic interiors create a no-reservations queue culture; the room itself is a century-old brand.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="8"></div></div><span class="score-num">8/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~130K</b>&nbsp;@thecarlylehotel</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>The Django</h4><span class="price">$$$</span></div>
+          <div class="loc">Cellar of the Roxy Hotel, Tribeca</div>
+          <p class="desc">Paris-boîte-styled subterranean jazz club and supper club with vaulted brick ceilings and nightly live sets — the model for dinner-plus-live-music as a single luxury ticket.</p>
+          <div class="standout"><b>Standout</b>Nightly live jazz calendar with table-service dining — event-driven bookings via ticketing plus its own jazz festival.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="7"></div></div><span class="score-num">7/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~40K</b>&nbsp;@thedjangonyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>54 Below</h4><span class="price">$$$</span></div>
+          <div class="loc">W 54th St — 2 blocks from BV Hell's Kitchen</div>
+          <p class="desc">Broadway's official supper club: 16 shows a week featuring Broadway stars with full dinner service — directly intercepting the theatergoing diner in Buena Vista's own neighborhood.</p>
+          <div class="standout"><b>Standout</b>Show-plus-supper ticketing engine — every night is programmed content with a cover charge and dinner attached.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="6"></div></div><span class="score-num">6/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~100K</b>&nbsp;@54belownyc</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top"><h4>Superbueno</h4><span class="price">$$</span></div>
+          <div class="loc">13 1st Ave — 5 min from BV East Village</div>
+          <p class="desc">Ignacio &ldquo;Nacho&rdquo; Jimenez's Mexican-American cocktail bar, #12 on World's 50 Best Bars 2025 — the hottest Latin nightlife ticket in the East Village.</p>
+          <div class="standout"><b>Standout</b>Award-list flywheel: 50 Best rankings drive international pilgrimage traffic to a neighborhood bar with accessible prices.</div>
+          <div class="card-meta">
+            <div class="score-row"><span class="score-label">Design</span><div class="score-bar"><div class="score-fill" data-score="6"></div></div><span class="score-num">6/10</span></div>
+            <div class="ig"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9995C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#C9995C" stroke="none"/></svg><b>~45K</b>&nbsp;@superbueno_nyc</div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ MARKET GAPS ============ -->
+<section id="gaps" class="gaps-sec">
+  <div class="azulejo" style="opacity:.04"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">White Space</div>
+      <h2>Seven Market Gaps Nobody Owns</h2>
+      <p class="sec-sub">Across all twenty competitors, the same holes repeat — and every one of them maps to something Buena Vista already does or already is.</p>
+    </div>
+    <div class="gaps">
+      <div class="gap reveal"><h4>9th Ave Corridor Vacated</h4><p>The corridor lost its upscale pan-Latin anchor when all La Pulperia locations closed — Buena Vista can inherit that positioning and its Restaurant Row traffic.</p></div>
+      <div class="gap reveal"><h4>Nobody Bridges Spain + Latin America</h4><p>No Manhattan competitor combines Spanish AND Latin American fine dining under one narrative; the category splits cleanly into tapas houses vs. Peruvian/Mexican concepts.</p></div>
+      <div class="gap reveal"><h4>Breadth Is Unmerchandised</h4><p>Local Spanish competitors (Socarrat, Casa Mono, Boqueria) skip what Buena Vista already serves: brunch, kids menu, zero-proof, and pre-fixe are unmerchandised category-wide.</p></div>
+      <div class="gap reveal"><h4>Theater Dayparts Have No Latin Brand</h4><p>Pre- and post-theater dining is dominated by steakhouses and Italian; Latin cuisine has zero branded presence in Broadway dining guides' prime slots.</p></div>
+      <div class="gap reveal"><h4>EV Late-Night Upscale Latin Is Unclaimed</h4><p>Nai closed at 84 2nd Ave — leaving Buena Vista's 2am weekend license as the only elevated Latin late-night room on the strip.</p></div>
+      <div class="gap reveal"><h4>No Modern Group-Dining Funnel</h4><p>No local Latin competitor sells private dining, group paella packages, or events through a modern funnel — Hudson Yards corporate demand defaults to Boqueria and Mercado Little Spain.</p></div>
+      <div class="gap reveal"><h4>No Bilingual Web Experience</h4><p>Bilingual English/Spanish web experiences are absent across every direct competitor, despite a Spanish-speaking core audience and tourism base.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="tile-divider"><span class="rule"></span><i></i><i></i><i></i><i></i><i></i><span class="rule"></span></div>
+
+<!-- ============ NICHE OPPORTUNITIES ============ -->
+<section id="opportunities">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">The Play</div>
+      <h2>Five Niche Opportunities</h2>
+      <p class="sec-sub">Ranked moves that convert the market gaps into positioning Buena Vista can own — each one unclaimed by every competitor analyzed.</p>
+    </div>
+    <div class="opps">
+
+      <div class="opp reveal">
+        <div class="opp-num">01</div>
+        <div class="opp-body">
+          <h4>The <span>Paella Clock</span> — Pre-Theater Prix Fixe</h4>
+          <p>Paella takes 30–40 minutes, so sell a timed seating with a curtain-time guarantee: order by 5:45, out by 7:20. No upscale Spanish or Latin restaurant near Restaurant Row owns pre-theater dining — and La Pulperia's closure vacated the corridor.</p>
+          <span class="opp-tag">Hell's Kitchen · Daypart Capture</span>
+        </div>
+      </div>
+
+      <div class="opp reveal">
+        <div class="opp-num">02</div>
+        <div class="opp-body">
+          <h4>Late-Night <span>Latin Supper Club</span> — East Village</h4>
+          <p>Buena Vista's Fri–Sat 2am license at 88 2nd Ave plus live Latin jazz/flamenco nights fills the void left by Nai — the flamenco-tapas spot that closed literally next door at 84 2nd Ave. Nobody else in the East Village pairs upscale Latin food with live-music late nights.</p>
+          <span class="opp-tag">East Village · Nightlife Revenue</span>
+        </div>
+      </div>
+
+      <div class="opp reveal">
+        <div class="opp-num">03</div>
+        <div class="opp-body">
+          <h4>Own the <span>Spain Meets Latin America</span> Narrative</h4>
+          <p>Cross-continental pairing experiences — Rioja × pisco flights, jamón × ceviche tastings, a Barcelona-to-Lima tasting menu. Every competitor is either Spanish OR Peruvian/Mexican; none bridges both. This is Buena Vista's founding premise, still unclaimed.</p>
+          <span class="opp-tag">Brand · Category of One</span>
+        </div>
+      </div>
+
+      <div class="opp reveal">
+        <div class="opp-num">04</div>
+        <div class="opp-body">
+          <h4>A Named <span>Zero-Proof Latin Program</span></h4>
+          <p>Buena Vista already has a zero-proof menu, but no local Latin competitor merchandises one online. A named, photographed NA program marketed to the Broadway matinee and corporate-lunch crowd captures the fast-growing sober-curious premium diner.</p>
+          <span class="opp-tag">Beverage · Sober-Curious Market</span>
+        </div>
+      </div>
+
+      <div class="opp reveal">
+        <div class="opp-num">05</div>
+        <div class="opp-body">
+          <h4>Bookable <span>Experience Commerce</span></h4>
+          <p>Chef's-table paella masterclasses, private mezzanine supper-club nights, and tasting-menu tickets sold Tock/SevenRooms-style. Topolobampo, Mission Ceviche, and 54 Below all monetize experiences online — no Hell's Kitchen Latin restaurant does.</p>
+          <span class="opp-tag">Revenue · Prepaid Bookings</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ DESIGN TRENDS ============ -->
+<section id="trends" class="trends-sec">
+  <div class="azulejo" style="opacity:.035"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">What Winners Do</div>
+      <h2>Design Trends at the Top Tier</h2>
+      <p class="sec-sub">The patterns separating Cosme, Death &amp; Co, and COTE from the Popmenu-template pack Buena Vista currently sits in.</p>
+    </div>
+    <div class="trends">
+      <div class="trend reveal">
+        <div class="t-num">No. 01</div>
+        <h4>Cinematic Video Heroes</h4>
+        <p>Full-bleed food-in-motion and room ambiance (<b>Cosme, Death &amp; Co, Damian</b>) — while local Latin competitors run static Popmenu/BentoBox templates with lazy &ldquo;Load More&rdquo; feeds like Buena Vista's current site.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 02</div>
+        <h4>Editorial Typography Systems</h4>
+        <p>High-contrast display serifs paired with restrained sans, dark luxury palettes with metallic gold accents (<b>Californios, Death &amp; Co</b>) — instantly signaling $$$$ before a menu is read.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 03</div>
+        <h4>Experience Commerce On-Site</h4>
+        <p>Tock/SevenRooms ticketed tastings, masterclasses, and prepaid event pages (<b>Topolobampo, Sushi by Bou, 54 Below</b>) rather than a lone OpenTable link.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 04</div>
+        <h4>Brand-as-Media Layers</h4>
+        <p>Recipe and cocktail archives, merch shops, books, newsletters, and Spotify playlists (<b>Death &amp; Co, Jaleo</b>) that keep the site visited between reservations.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 05</div>
+        <h4>Story-First Pages</h4>
+        <p>Founder and chef heritage films, sourcing stories, and space/architecture photo essays (<b>Damian, Cosme</b>) instead of menu-first template navigation.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 06</div>
+        <h4>Programming Calendars</h4>
+        <p>Live-music schedules, watch parties, and seasonal festivals with RSVP funnels as retention engines (<b>Mercado Little Spain, The Django</b>) — no local Latin restaurant publishes one.</p>
+      </div>
+      <div class="trend reveal">
+        <div class="t-num">No. 07</div>
+        <h4>Private Events as a Revenue Page</h4>
+        <p>Integrated lead-gen with dedicated funnels, floor plans, and instant inquiry forms (<b>Boqueria, Gallaghers</b>) — a revenue page, not a contact page.</p>
+      </div>
+      <div class="trend open-lane reveal">
+        <div class="t-num" style="color:var(--gold)">Open Lane</div>
+        <h4>Nobody Local Does This</h4>
+        <p>Bilingual EN/ES toggles, first-party paella content (guides, timers, provenance), and zero-proof menu merchandising — <b>all open lanes for Buena Vista</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tile-divider"><span class="rule"></span><i></i><i></i><i></i><i></i><i></i><span class="rule"></span></div>
+
+<!-- ============ PRICING LANDSCAPE ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">The Money Map</div>
+      <h2>Pricing Landscape</h2>
+      <p class="sec-sub">Where the twenty competitors sit — and the value wedge Buena Vista holds at $$$ with a $$$$-caliber flagship.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier reveal">
+        <div class="tier-label"><span class="sym">$$</span><span class="nm">Accessible</span></div>
+        <div class="tier-chips">
+          <span class="chip">Tumi Peruvian</span>
+          <span class="chip">Superbueno</span>
+        </div>
+      </div>
+      <div class="tier reveal">
+        <div class="tier-label"><span class="sym">$$$</span><span class="nm">Premium</span></div>
+        <div class="tier-chips">
+          <span class="chip bv">◆ Buena Vista</span>
+          <span class="chip">Boqueria</span>
+          <span class="chip">Socarrat Paella Bar</span>
+          <span class="chip">Mission Ceviche</span>
+          <span class="chip">Dear Irving on Hudson</span>
+          <span class="chip">Sushi by Bou</span>
+          <span class="chip">Death &amp; Co</span>
+          <span class="chip">The Django</span>
+          <span class="chip">54 Below</span>
+        </div>
+      </div>
+      <div class="tier reveal">
+        <div class="tier-label"><span class="sym">$$$$</span><span class="nm">Luxury</span></div>
+        <div class="tier-chips">
+          <span class="chip">Casa Mono</span>
+          <span class="chip">Llama San</span>
+          <span class="chip">Cosme</span>
+          <span class="chip">Californios</span>
+          <span class="chip">Topolobampo</span>
+          <span class="chip">Damian</span>
+          <span class="chip">Gallaghers Steakhouse</span>
+          <span class="chip">Bemelmans Bar</span>
+        </div>
+      </div>
+      <div class="tier reveal">
+        <div class="tier-label"><span class="sym">$$↔$$$$</span><span class="nm">Spans Tiers</span></div>
+        <div class="tier-chips">
+          <span class="chip span-note">Mercado Little Spain ($$–$$$$)</span>
+          <span class="chip span-note">Jaleo by José Andrés ($$$–$$$$)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="anchors reveal">
+      <div class="anchor"><div class="a-price">$21</div><div class="a-name">Ceviche Limeño</div><div class="a-note">Most-mentioned starter across reviews</div></div>
+      <div class="anchor"><div class="a-price">$59</div><div class="a-name">Paella Buenavista · For Two</div><div class="a-note">&ldquo;The very best paella I have ever tasted&rdquo; — TripAdvisor</div></div>
+      <div class="anchor"><div class="a-price">$42</div><div class="a-name">Chilean Sea Bass</div><div class="a-note">&ldquo;Nearly indecent&rdquo; — amNewYork</div></div>
+      <div class="anchor"><div class="a-price">$49</div><div class="a-name">Bottomless Brunch · For Two</div><div class="a-note">3 courses + 90 min mimosas &amp; sangria</div></div>
+    </div>
+
+    <div class="takeaway reveal">
+      <h4>The Value Wedge</h4>
+      <p>Buena Vista sits in the crowded <b>$$$ premium tier</b> but serves a flagship experience the <b>$$$$ luxury tier</b> charges nearly double for — a paella for two at $59 against Casa Mono and Cosme check averages. Paired with a category-of-one <b>navy-and-gold azulejo identity</b> no NYC Latin or Spanish competitor occupies (Jaleo and Boqueria both run warm red/festive palettes), the brand can look $$$$ while pricing $$$ — the strongest conversion position in the set.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="azulejo" style="opacity:.05"></div>
+  <div class="wrap foot-inner">
+    <div>
+      <div class="foot-brand">Buena Vista <b>· NYC Market Analysis</b></div>
+      <div class="foot-meta" style="margin-top:6px">buenavistany.com · Hell's Kitchen + East Village · Modern Latin Cuisine</div>
+    </div>
+    <div class="foot-meta">Prepared by <b>VioX AI</b> — 2026-07-29</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal on scroll + score bar fill
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('.score-fill').forEach(function(f){
+        f.style.width = (parseFloat(f.dataset.score) * 10) + '%';
+      });
+      io.unobserve(e.target);
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+
+  document.querySelectorAll('.reveal').forEach(function(el){
+    if(reduced){
+      el.classList.add('in');
+      el.querySelectorAll('.score-fill').forEach(function(f){
+        f.style.width = (parseFloat(f.dataset.score) * 10) + '%';
+      });
+    } else {
+      io.observe(el);
+    }
+  });
+
+  // Count-up hero stats
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var target = parseInt(el.dataset.count, 10);
+    if(reduced){ el.textContent = target; return; }
+    var start = null, dur = 1100;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if(p < 1) requestAnimationFrame(step);
+    }
+    var so = new IntersectionObserver(function(en){
+      if(en[0].isIntersecting){ requestAnimationFrame(step); so.disconnect(); }
+    }, {threshold:.4});
+    so.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

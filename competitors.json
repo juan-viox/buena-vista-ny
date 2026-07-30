@@ -1,0 +1,245 @@
+{
+  "generatedAt": "2026-07-29",
+  "client": {
+    "name": "Buena Vista Restaurant & Bar",
+    "url": "https://buenavistany.com",
+    "positioning": "Modern Latin Cuisine — Spain Meets Latin America",
+    "locations": ["Hell's Kitchen (536 9th Ave)", "East Village (88 2nd Ave)"]
+  },
+  "categories": {
+    "directLocal": [
+      {
+        "name": "Boqueria",
+        "url": "https://www.boqueriarestaurant.com",
+        "location": "W 40th St (Bryant Park / edge of Theater District) + Soho, Flatiron, UES, Hudson Yards",
+        "description": "NYC's dominant Spanish tapas group, a Barcelona-style tapas bar chain with a location three blocks from Buena Vista's Hell's Kitchen doorstep. Strong group/private-dining machine and consistent brand across 8+ locations.",
+        "standoutFeature": "Multi-location brand consistency with strong group-dining and paella-for-the-table programs marketed directly on-site",
+        "priceRange": "$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~55K (estimate, @boquerianyc)"
+      },
+      {
+        "name": "Socarrat Paella Bar",
+        "url": "https://socarratnyc.com",
+        "location": "Chelsea (259 W 19th St), Nolita (284 Mulberry St), Midtown East (953 2nd Ave)",
+        "description": "The city's best-known paella specialist with three Manhattan locations, built around communal paella counters and the prized socarrat crust. The most direct head-to-head threat to Buena Vista's flagship paella.",
+        "standoutFeature": "Single-dish authority: owns 'paella NYC' in search and reputation, with paella-first menu architecture",
+        "priceRange": "$$$",
+        "designQualityScore": 6,
+        "instagramFollowing": "~25K (estimate, @socarratnyc)"
+      },
+      {
+        "name": "Casa Mono",
+        "url": "https://www.casamononyc.com",
+        "location": "52 Irving Pl, Gramercy",
+        "description": "Michelin-starred Spanish restaurant from the Batali-era group (now Bar Jamón adjacent), holding a star since 2009 with a deep Spanish wine list. The prestige benchmark for Spanish food in Manhattan.",
+        "standoutFeature": "Longest-running Michelin star for Spanish cuisine in NYC plus a 600+ bottle all-Spanish wine program",
+        "priceRange": "$$$$",
+        "designQualityScore": 5,
+        "instagramFollowing": "~20K (estimate, @casamononyc)"
+      },
+      {
+        "name": "Llama San",
+        "url": "https://www.llamasannyc.com",
+        "location": "359 6th Ave, West Village",
+        "description": "Erik Ramirez's upscale Japanese-Peruvian (Nikkei) tasting-plate restaurant, the critical darling of NYC's modern Latin scene. Sets the bar for what elevated Peruvian-rooted cuisine looks and prices like in Manhattan.",
+        "standoutFeature": "Nikkei fusion positioning with tasting-menu-caliber plating that earns national press without a Michelin star",
+        "priceRange": "$$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~35K (estimate, @llamasannyc)"
+      },
+      {
+        "name": "Tumi Peruvian Restaurant NYC",
+        "url": "https://tuminycrestaurant.com",
+        "location": "689 9th Ave, Hell's Kitchen",
+        "description": "Neighborhood Peruvian restaurant four blocks up 9th Avenue from Buena Vista, serving ceviche and lomo saltado with modern twists. The closest same-corridor Latin competitor still standing after La Pulperia's closures.",
+        "standoutFeature": "Direct 9th Ave proximity and aggressive local-SEO site targeting 'Peruvian food near me' in Hell's Kitchen",
+        "priceRange": "$$",
+        "designQualityScore": 3,
+        "instagramFollowing": "~3K (estimate)"
+      },
+      {
+        "name": "Mercado Little Spain",
+        "url": "https://www.littlespain.com",
+        "location": "10 Hudson Yards (10 min walk from Buena Vista Hell's Kitchen)",
+        "description": "José Andrés' 35,000 sq ft Spanish food hall with sit-down restaurants (La Barra, Leña), bars, and retail. Captures the Hudson Yards tourist and corporate wallet that would otherwise walk up 9th Avenue.",
+        "standoutFeature": "Destination-scale programming: World Cup watch parties, Rioja tasting series, sangría hour — the site sells events, not just menus",
+        "priceRange": "$$-$$$$",
+        "designQualityScore": 8,
+        "instagramFollowing": "~120K (estimate, @littlespain)"
+      },
+      {
+        "name": "Mission Ceviche",
+        "url": "https://www.missionceviche.com",
+        "location": "Union Square (7 E 17th St) + Upper East Side (1400 2nd Ave)",
+        "description": "Chef Jose Luis Chavez's modern Peruvian mini-group, Michelin Guide-listed, known for seasonal ceviche menus and a $75 six-course 'Originals' tasting menu with pisco pairings. Two-location growth story similar to Buena Vista's.",
+        "standoutFeature": "Packaged experiences: tasting menu with pisco/wine pairings sold as a bookable product page on the website",
+        "priceRange": "$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~35K (estimate, @missionceviche)"
+      }
+    ],
+    "aspirationalNational": [
+      {
+        "name": "Cosme",
+        "url": "https://www.cosmenyc.com",
+        "location": "35 E 21st St, Flatiron, NYC",
+        "description": "Enrique Olvera and Daniela Soto-Innes' modern Mexican flagship, a perennial World's 50 Best restaurant and the reference point for luxury Latin dining in America. Corn husk meringue is one of the most photographed desserts in the country.",
+        "standoutFeature": "Editorial, art-gallery-minimal web and brand presence that positions food as culture, not menu items",
+        "priceRange": "$$$$",
+        "designQualityScore": 9,
+        "instagramFollowing": "~200K (estimate, @cosmenyc)"
+      },
+      {
+        "name": "Jaleo by José Andrés",
+        "url": "https://www.jaleo.com",
+        "location": "Washington DC (flagship), Las Vegas, Disney Springs Orlando, Dubai (Chicago closed Jan 2026)",
+        "description": "The national standard-bearer for Spanish tapas and paella in America, from the most famous Spanish chef in the world. Wood-fired paellas and 20+ years of brand equity.",
+        "standoutFeature": "Celebrity-chef halo integrated into every page — storytelling, video, cookbook and philanthropy woven into the restaurant brand",
+        "priceRange": "$$$-$$$$",
+        "designQualityScore": 8,
+        "instagramFollowing": "~80K (estimate, @jaleo; José Andrés personal ~1M+)"
+      },
+      {
+        "name": "Californios",
+        "url": "https://www.californiossf.com",
+        "location": "355 11th St, SoMa, San Francisco",
+        "description": "Val Cantu's Mexican tasting-menu restaurant that in 2026 became the world's first three-Michelin-star Mexican restaurant. Proof that Latin cuisine commands the absolute top of fine dining.",
+        "standoutFeature": "Ultra-restrained luxury web design (dark palette, huge negative space, Tock-first booking) matching a $300+ tasting format",
+        "priceRange": "$$$$",
+        "designQualityScore": 8,
+        "instagramFollowing": "~70K (estimate, @californiossf)"
+      },
+      {
+        "name": "Topolobampo",
+        "url": "https://topolochicago.com",
+        "location": "445 N Clark St, River North, Chicago",
+        "description": "Rick Bayless' Michelin-starred modern Mexican institution, running themed regional tasting experiences (e.g., 'Exploring Tequila Country') sold through Tock. A 35-year masterclass in keeping a Latin fine-dining brand current.",
+        "standoutFeature": "Experience commerce: themed seasonal tasting menus and beverage journeys sold as ticketed events on Tock",
+        "priceRange": "$$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~60K (estimate, @topolobampochicago; Rick Bayless ~500K)"
+      },
+      {
+        "name": "Damian",
+        "url": "https://www.damiandtla.com",
+        "location": "2132 E 7th Pl, Arts District, Los Angeles",
+        "description": "Enrique Olvera's LA restaurant exploring Mexico-meets-California in a converted warehouse — the West Coast blueprint for cross-cultural Latin positioning, directly analogous to 'Spain Meets Latin America'.",
+        "standoutFeature": "Architecture and interior design treated as brand content; the space itself is the marketing asset",
+        "priceRange": "$$$$",
+        "designQualityScore": 8,
+        "instagramFollowing": "~80K (estimate, @damian_losangeles)"
+      }
+    ],
+    "experience": [
+      {
+        "name": "Dear Irving on Hudson",
+        "url": "https://www.dearirving.com",
+        "location": "310 W 40th St, 40th/41st floors, Aliz Hotel Times Square",
+        "description": "Multi-level rooftop cocktail lounge with 360° skyline views and Gatsby-styled interiors, open till 2am weekends. Competes for the same pre/post-theater and date-night dollars as a Buena Vista dinner.",
+        "standoutFeature": "Instagrammable themed interiors plus skyline terraces — sells the view and the vibe, with strong private-event funnels",
+        "priceRange": "$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~30K (estimate, @dearirving)"
+      },
+      {
+        "name": "Gallaghers Steakhouse",
+        "url": "https://www.gallaghersnysteakhouse.com",
+        "location": "228 W 52nd St, Theater District",
+        "description": "A 1927 theater-district institution with a street-facing glass dry-aging meat locker and hickory-coal broiler. The default 'big night before the show' choice competing directly for Broadway diners near Hell's Kitchen.",
+        "standoutFeature": "The glass meat locker window — food theater visible from the sidewalk, plus deep Broadway heritage storytelling",
+        "priceRange": "$$$$",
+        "designQualityScore": 6,
+        "instagramFollowing": "~35K (estimate, @gallaghersnyc)"
+      },
+      {
+        "name": "Sushi by Bou — Times Square",
+        "url": "https://www.sushibybou.com",
+        "location": "132 W 47th St, inside Sanctuary Hotel (basement speakeasy)",
+        "description": "A 9-seat, timed (60-minute) speakeasy omakase hidden in a Times Square hotel. Captures the experience-seeking special-occasion diner with a theatrical, reservation-driven format.",
+        "standoutFeature": "Timed-ticket omakase model: scarcity, speakeasy entrance, and prepaid bookings turn dinner into an event",
+        "priceRange": "$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~60K (estimate, @sushibybou)"
+      },
+      {
+        "name": "Death & Co East Village",
+        "url": "https://www.deathandcompany.com",
+        "location": "433 E 6th St, East Village",
+        "description": "One of the most influential cocktail bars in the world, blocks from Buena Vista's East Village location, with James Beard-winning books and a national brand (Denver, LA). The gold standard for cocktail-led night-out branding.",
+        "standoutFeature": "Brand-as-media empire: books, merch, membership (Death & Co Market), and a website with editorial-grade dark design",
+        "priceRange": "$$$",
+        "designQualityScore": 9,
+        "instagramFollowing": "~280K (estimate, @deathandcompany)"
+      }
+    ],
+    "luxuryLifestyle": [
+      {
+        "name": "Bemelmans Bar (The Carlyle)",
+        "url": "https://www.rosewoodhotels.com/en/the-carlyle-new-york/dining/bemelmans-bar",
+        "location": "35 E 76th St, The Carlyle, Upper East Side",
+        "description": "NYC's definitive luxury hotel bar — Ludwig Bemelmans murals, live piano nightly, white-jacket service, celebrity clientele. Defines the old-money glamour aesthetic the premium Manhattan demographic aspires to.",
+        "standoutFeature": "Live piano + art-historic interiors create a no-reservations queue culture; the room itself is a century-old brand",
+        "priceRange": "$$$$",
+        "designQualityScore": 8,
+        "instagramFollowing": "~130K (estimate, @thecarlylehotel)"
+      },
+      {
+        "name": "The Django",
+        "url": "https://www.thedjangonyc.com",
+        "location": "2 Sixth Ave (cellar of the Roxy Hotel), Tribeca",
+        "description": "Paris-boîte-styled subterranean jazz club and supper club with vaulted brick ceilings, two cocktail bars, and nightly live sets. The model for dinner-plus-live-music as a single luxury ticket.",
+        "standoutFeature": "Nightly live jazz calendar with table-service dining — event-driven bookings via ticketing plus a festival (Downtown NYC JazzFest)",
+        "priceRange": "$$$",
+        "designQualityScore": 7,
+        "instagramFollowing": "~40K (estimate, @thedjangonyc)"
+      },
+      {
+        "name": "54 Below",
+        "url": "https://54below.org",
+        "location": "254 W 54th St, Theater District (2 blocks from Buena Vista Hell's Kitchen)",
+        "description": "Broadway's official supper club: 16 shows a week featuring Broadway stars, with full dinner service by Executive Chef Lynn Bound. Directly intercepts the theatergoing diner walking Buena Vista's own neighborhood.",
+        "standoutFeature": "Show-plus-supper ticketing engine — every night is programmed content with a cover charge and dinner attached",
+        "priceRange": "$$$",
+        "designQualityScore": 6,
+        "instagramFollowing": "~100K (estimate, @54belownyc)"
+      },
+      {
+        "name": "Superbueno",
+        "url": "https://www.superbueno.nyc",
+        "location": "13 1st Ave, East Village (5 min from Buena Vista East Village)",
+        "description": "Ignacio 'Nacho' Jimenez's Mexican-American cocktail bar, ranked #12 on World's 50 Best Bars 2025 and top-10 in North America's 50 Best 2026. The hottest Latin nightlife ticket in the East Village.",
+        "standoutFeature": "Award-list flywheel: 50 Best rankings drive international pilgrimage traffic to a neighborhood bar with accessible prices",
+        "priceRange": "$$",
+        "designQualityScore": 6,
+        "instagramFollowing": "~45K (estimate, @superbueno_nyc)"
+      }
+    ]
+  },
+  "nicheOpportunities": [
+    "Theater-district pre-show paella prix fixe with a curtain-time guarantee: paella takes 30-40 minutes, so sell a timed 'Paella Clock' seating (order by 5:45, out by 7:20) — no upscale Spanish or Latin restaurant near Restaurant Row owns pre-theater dining, and La Pulperia's closure vacated the corridor",
+    "Late-night Latin supper club in the East Village: Buena Vista's Fri-Sat 2am license at 88 2nd Ave + live Latin jazz/flamenco nights fills the void left by Nai (the flamenco-tapas spot that closed at 84 2nd Ave, literally next door) — nobody else in the EV pairs upscale Latin food with live-music late nights",
+    "Own the 'Spain Meets Latin America' hybrid narrative with cross-continental pairing experiences (Rioja x pisco flights, jamón x ceviche tastings, a Barcelona-to-Lima tasting menu) — every competitor is either Spanish OR Peruvian/Mexican; none bridges both, which is Buena Vista's founding premise",
+    "Zero-proof Latin cocktail program marketed to the Broadway matinee and corporate-lunch crowd: Buena Vista already has a zero-proof menu but no local Latin competitor merchandises one online — a named, photographed NA program captures the fast-growing sober-curious premium diner",
+    "Bookable experience commerce like the national tier: chef's-table paella masterclasses, private mezzanine supper-club nights, and tasting-menu tickets sold Tock/SevenRooms-style — Topolobampo, Mission Ceviche, and 54 Below monetize experiences online while no Hell's Kitchen Latin restaurant does"
+  ],
+  "marketGaps": [
+    "The 9th Avenue corridor lost its upscale pan-Latin anchor when all La Pulperia locations closed — Buena Vista can inherit that positioning and its Restaurant Row traffic",
+    "No Manhattan competitor combines Spanish AND Latin American fine dining under one narrative; the category splits cleanly into tapas houses vs. Peruvian/Mexican concepts",
+    "Local Spanish competitors (Socarrat, Casa Mono, Boqueria) skip the breadth Buena Vista already serves: brunch, kids menu, zero-proof, and pre-fixe are unmerchandised category-wide",
+    "Pre-theater and post-theater dayparts are dominated by steakhouses and Italian; Latin cuisine has zero branded presence in Broadway dining guides' prime slots",
+    "East Village late-night upscale Latin is unclaimed: Nai closed at 84 2nd Ave, leaving Buena Vista's 2am weekend license as the only elevated Latin late-night room on the strip",
+    "No local Latin competitor sells private dining, group paella packages, or events through a modern funnel — group demand from Hudson Yards corporates flows to Boqueria and Mercado Little Spain by default",
+    "Bilingual English/Spanish web experiences are absent across every direct competitor despite a Spanish-speaking core audience and tourism base"
+  ],
+  "designTrends": [
+    "Cinematic full-bleed video heroes with food-in-motion and room ambiance (Cosme, Death & Co, Damian) — local Latin competitors use static Popmenu/BentoBox templates with lazy 'Load More' feeds like Buena Vista's current site",
+    "Editorial typography systems: a custom or high-contrast display serif paired with a restrained sans, dark luxury palettes with metallic/gold accents (Californios, Death & Co) — instantly signals $$$$ before a menu is read",
+    "Experience commerce built into the site: Tock/SevenRooms ticketed tasting menus, masterclasses, and event pages with prepaid booking (Topolobampo, Sushi by Bou, 54 Below) rather than a lone OpenTable link",
+    "Brand-as-media layers: recipe/cocktail archives, merch shops, books, newsletters, and Spotify playlists (Death & Co, Jaleo/José Andrés) that keep the site visited between reservations",
+    "Story-first pages: founder/chef heritage films, sourcing stories, and space/architecture photo essays (Damian, Cosme) instead of menu-first template navigation",
+    "Programming calendars as retention engines: live-music schedules, watch parties, seasonal festivals with RSVP funnels (Mercado Little Spain, The Django) — no local Latin restaurant publishes a programmed events calendar",
+    "Integrated private-events lead-gen with dedicated funnels, floor plans, and instant inquiry forms (Boqueria, Gallaghers) — a revenue page, not a contact page",
+    "Nobody local does bilingual EN/ES toggles, first-party paella content (guides, timers, provenance), or zero-proof menu merchandising — all open lanes for Buena Vista"
+  ]
+}

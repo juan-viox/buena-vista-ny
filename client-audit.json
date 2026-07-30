@@ -1,0 +1,137 @@
+{
+  "client": "Buena Vista Restaurant & Bar",
+  "domain": "buenavistany.com",
+  "auditDate": "2026-07-29",
+  "siteStatus": {
+    "platform": "Popmenu template (live)",
+    "primaryDomain": "buenavistany.com",
+    "secondaryDomains": [
+      "buenavistahellskitchen.com (separate WordPress-style site carrying the SEO blog)",
+      "buenavistahellskitchen-offers.com (promo/offers microsite)"
+    ],
+    "observedTitleFormat": "Home - Buena Vista Restaurant & Bar | Modern Latin Cuisine & Cocktails in NYC",
+    "uxWeaknesses": [
+      "Generic Popmenu template look — indistinguishable from thousands of Popmenu restaurant sites; nothing signals $$$ fine dining",
+      "Storefront video hero (exterior footage) instead of cinematic food/paella imagery — wastes the flagship dish",
+      "Lazy 'Load More Content' infinite-feed UX buries menus, locations, and reservations below untiered content blocks",
+      "Dark gray background + green #0A7D57 buttons fight the actual brand palette (azulejo navy/blue/gold/cream) — no tile motif anywhere",
+      "Libre Baskerville + Raleway is a default template pairing, not a considered luxury type system",
+      "Brand equity split across 3 domains (main, hellskitchen blog site, offers site) — confusing journeys and diluted authority",
+      "Zero storytelling: no founder page for Christian Nuñez, no chef bio (el Bulli-trained Rene Hernandez), no 'Spain Meets Latin America' narrative section",
+      "No dedicated bottomless-brunch, private events, or press pages on the main domain"
+    ]
+  },
+  "reviews": {
+    "yelp": {
+      "reviewCount": 493,
+      "photoCount": 688,
+      "rating": null,
+      "note": "Yelp blocks direct fetch; star rating not exposed in search snippets. Listing active and updated July 2026."
+    },
+    "google": {
+      "rating": 4.7,
+      "reviewCount": 1481,
+      "source": "Restaurant Guru aggregation of Google reviews"
+    },
+    "openTable": {
+      "rating": 4.5,
+      "reviewCount": 527,
+      "quotes": ["fantastic meal", "unique cocktails", "amazing food", "cozy, rustic atmosphere with modern touches"]
+    },
+    "tripAdvisor": {
+      "rating": 4.4,
+      "reviewCount": 91,
+      "notableReview": "'Good food, but it comes with a warning' — the warning was 'go before it gets famous and difficult to get a table'; reviewer called it 'the very best paella I have ever tasted'"
+    },
+    "other": {
+      "facebook": "4.7 (13 reviews)",
+      "foursquare": "7/10 (9 reviews)",
+      "restaurantGuruAggregate": "4.9 (2,563 reviews)"
+    },
+    "mostPraised": [
+      "Paella (flagship — 'the very best paella I have ever tasted')",
+      "Ceviche Limeño (mahi + Peruvian corn, repeatedly called out)",
+      "Grilled octopus / Pulpo a la Parrilla",
+      "Ossobuco ('outstanding ossobucco')",
+      "Pernil ('moist, flavorful pernil', pernil montaditos)",
+      "Red sangria and craft cocktails ('phenomenal drinks')",
+      "Oysters with 'phenomenal sauces'",
+      "Tuna tiradito, duck magret, Chilean sea bass",
+      "Attentive, friendly service; beautiful plating"
+    ],
+    "commonComplaints": [
+      "Occasional kitchen inconsistency (one TripAdvisor visit: 'paella lacked flavor although it had lots of seafood', 'not so grilled octopus')",
+      "Small, noisy dining room at Hell's Kitchen",
+      "30+ minute waits without a reservation on busy nights"
+    ]
+  },
+  "instagram": {
+    "handle": "@buenavistany",
+    "followers": 9207,
+    "following": 6574,
+    "posts": 30,
+    "bio": "Where Spain meets Latin America — Hell's Kitchen + East Village, Murray Hill 'coming soon'",
+    "assessment": "Small following for a 3-location NYC group; only 30 posts visible (feed likely recently purged/rebranded); heavy follow-back ratio (6.5K following) suggests growth hacking, not content-led growth. Content opportunity: paella pulls, tile-branded reels, brunch scenes."
+  },
+  "press": [
+    {
+      "outlet": "amNewYork",
+      "piece": "'At Buena Vista, Latin flavor gets its East Village moment' — glowing feature; sea bass 'nearly indecent'; experience has 'cohesion, confidence… enough restraint to keep the whole experience elevated'"
+    },
+    {
+      "outlet": "Crain's New York Business",
+      "piece": "Two business stories: East Village opening + third Manhattan location (Murray Hill, targeted Aug 2026); profiles owner Christian Nuñez (Brooklyn-born, Penn State finance, took over father's Midtown spot and made it Café Nuñez, opened Buena Vista 2018)"
+    },
+    {
+      "outlet": "Hoodline",
+      "piece": "'Hell's Kitchen hotspot Buena Vista bets big on tricky East Village corner' (Mar 2026)"
+    },
+    {
+      "outlet": "What Now NY",
+      "piece": "Second-location announcement"
+    },
+    {
+      "outlet": "pulsd",
+      "piece": "$49 3-course bottomless brunch for two promo (an $80 value) — 90 min unlimited mimosas + sangria"
+    }
+  ],
+  "pressGaps": "No Eater, Infatuation, or Time Out editorial coverage found — local business press only. The Nuñez family story + el Bulli-trained chef Rene Hernandez is unexploited PR ammunition.",
+  "brandPerception": {
+    "occasions": ["date night", "special occasions / celebrations", "group dinners and brunch parties", "weekend bottomless brunch crowd", "pre-theater/Midtown convenience (Hell's Kitchen)", "'must try when visiting NYC' tourist pull"],
+    "atmosphere": "Cozy-rustic exposed brick with modern touches; vibrant, lively (sometimes noisy); upscale but approachable $$$",
+    "identity": "Perceived as elevated Latin American with Spanish backbone — customers echo 'Spain meets Latin America' framing without prompting; craft cocktails and sangria are core to the draw, not an afterthought"
+  },
+  "signatureDishes": [
+    { "name": "Paella Buenavista (for two)", "price": "$59", "notes": "Flagship. Seafood medley, Spanish chorizo, chicken, bomba rice, Mediterranean stock" },
+    { "name": "Paella Negra (for two)", "price": "$59", "notes": "Squid ink, assorted seafood, fava beans, piquillo, aioli" },
+    { "name": "Ceviche Limeño", "price": "$21", "notes": "Mahi mahi, leche de tigre, choclo, maiz cancha, plantain chips — most-mentioned starter" },
+    { "name": "Pulpo a la Parrilla", "price": "$28", "notes": "Galician octopus, roasted potatoes, chimichurri, Jerez vinaigrette" },
+    { "name": "Salmon Barceloneta", "price": "$36", "notes": "Malanga mash + lemongrass sauce (listed $27 in older materials — current menu $36)" },
+    { "name": "Chilean Sea Bass Mediterráneo", "price": "$42", "notes": "Pumpkin purée, grilled asparagus — amNY called it 'nearly indecent'" },
+    { "name": "Ossobuco de Cerdo Ibérico", "price": "$39", "notes": "Iberian pork, scalloped potatoes, apple-radish jus — 'outstanding' in reviews" },
+    { "name": "Montadito de Pernil", "price": "$16", "notes": "Gallego toast, pulled pork, aioli, sweet plantain — cult favorite small plate" },
+    { "name": "Salmon Tataki", "price": "$22", "notes": "Avocado mousse, artichoke leche de tigre, pistachio" },
+    { "name": "Red Sangria", "price": null, "notes": "Most-praised drink; anchor of bottomless brunch" },
+    { "name": "BV Craft Cocktails", "price": null, "notes": "'Phenomenal drinks' / 'unique cocktails' recur across OpenTable + Yelp" },
+    { "name": "Bottomless Latin Brunch", "price": "$49 for two (promo; ~$40/pp list)", "notes": "3 courses + 90 min unlimited mimosas/sangria, Sat-Sun; empanadas a top pick" }
+  ],
+  "whatsMissing": [
+    "Founder/chef storytelling — Christian Nuñez's second-generation restaurant story and el Bulli-trained chef Rene Hernandez appear in press but nowhere on the site",
+    "No loyalty program or VIP/regulars club (competitors on Toast/SevenRooms run these)",
+    "No prominent gift cards flow",
+    "No events calendar or private-dining/large-party booking page despite group-celebration positioning",
+    "No dedicated brunch landing page on main domain — the $49 bottomless deal lives on pulsd and a separate offers microsite",
+    "No press page consolidating amNY/Crain's coverage for social proof",
+    "No Murray Hill 'coming soon' hype page to capture the third-location moment (Aug 2026 target)",
+    "No email/SMS capture or wine-club/tasting-event funnel",
+    "No Spanish-language content despite the brand story",
+    "Fragmented web presence across 3 domains vs competitors' single strong domain"
+  ],
+  "seoAssessment": {
+    "titlesMeta": "Popmenu auto-generated patterns ('Home - Buena Vista Restaurant & Bar | ...') — generic prefixes, no location keywords in homepage title, no schema-rich menu markup evident",
+    "blog": "Active but on the WRONG domain — keyword-stuffed posts ('Top Latin American Restaurant NYC for Dinner', 'Looking for Latin Brunch in New York?') live on buenavistahellskitchen.com, splitting authority away from buenavistany.com; some posts duplicated across both domains",
+    "localSEO": "Strong review signals (Google 4.7) carry the local pack; two-location + third-coming structure needs individual location pages with distinct NAP + hours (Fri-Sat East Village open till 2am vs HK midnight)",
+    "backlinks": "Real press links exist (amNY, Crain's, Hoodline) but point inconsistently across the three domains",
+    "verdict": "Foundation is reviews-strong but architecture-weak: consolidate to buenavistany.com, 301 the satellites, ship location + brunch + story pages with proper schema"
+  }
+}
