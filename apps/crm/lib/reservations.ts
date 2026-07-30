@@ -21,6 +21,8 @@
 //     on whatsapp_messages (tenant_slug, wa_from, created_at desc);
 // ============================================================
 
+import { sendWorkflowSms } from './sms-workflows';
+
 export const TENANT_SLUG = 'buena-vista';
 
 // ---------- input coercion helpers (shared by voice + whatsapp) ----------
@@ -92,6 +94,8 @@ export interface CaptureReservationResult {
   id?: string;
   message: string;
   reason?: 'not_configured' | 'error';
+  /** True when the post-capture "request received" SMS went out. */
+  smsSent: boolean;
 }
 
 /**
@@ -106,7 +110,7 @@ export async function captureReservation(input: ReservationInput): Promise<Captu
   // ---- storage not configured: never fail a live call ----
   const supabase = supabaseTarget();
   if (!supabase) {
-    return { ok: true, stored: false, reason: 'not_configured', message: 'storage not configured' };
+    return { ok: true, stored: false, reason: 'not_configured', message: 'storage not configured', smsSent: false };
   }
 
   try {
@@ -169,20 +173,46 @@ export async function captureReservation(input: ReservationInput): Promise<Captu
     });
     if (!insertRes.ok) {
       console.error('[reservations] insert failed', insertRes.status, await insertRes.text());
-      return { ok: false, stored: false, reason: 'error', message: 'Could not store the reservation request.' };
+      return { ok: false, stored: false, reason: 'error', message: 'Could not store the reservation request.', smsSent: false };
     }
     const inserted = (await insertRes.json()) as Array<{ id?: string | number }>;
     const rowId = Array.isArray(inserted) ? inserted[0]?.id : undefined;
+    const id = rowId !== undefined && rowId !== null ? String(rowId) : undefined;
+
+    // (c) Post-capture "request received" SMS — awaited so the caller
+    // can report smsSent, but failure-safe: a texting problem must
+    // never fail a capture that already stored.
+    let smsSent = false;
+    if (input.phone) {
+      try {
+        const sms = await sendWorkflowSms('request_received', {
+          to: input.phone,
+          refId: id,
+          guestName: input.guestName,
+          partySize: input.partySize,
+          date: input.requestedDate,
+          time: input.requestedTime,
+          location: input.location,
+        });
+        smsSent = sms.ok;
+        if (!sms.ok && sms.error) {
+          console.error('[reservations] request_received sms failed', sms.error);
+        }
+      } catch (smsErr) {
+        console.error('[reservations] request_received sms error', smsErr);
+      }
+    }
 
     return {
       ok: true,
       stored: true,
-      id: rowId !== undefined && rowId !== null ? String(rowId) : undefined,
+      id,
       message: 'Reservation request captured — the team will confirm shortly.',
+      smsSent,
     };
   } catch (err) {
     console.error('[reservations] error', err);
-    return { ok: false, stored: false, reason: 'error', message: 'Internal error storing the reservation request.' };
+    return { ok: false, stored: false, reason: 'error', message: 'Internal error storing the reservation request.', smsSent: false };
   }
 }
 

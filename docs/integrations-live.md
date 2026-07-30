@@ -114,3 +114,63 @@ curl -s https://buena-vista-crm.vercel.app/api/whatsapp/inbound        # {"ok":t
 curl -s https://buena-vista-crm.vercel.app/api/voice/reservation       # {"ok":true,"configured":…}
 curl -s "https://buena-vista-os.vercel.app/api/slack/digest?agent=mise&secret=…"  # preview even without Slack env
 ```
+
+---
+
+## SMS lifecycle — guest texting (Twilio SMS)
+
+Outbound guest SMS is live across the reservation and waitlist flows. Rendering,
+sending, and logging all live in `apps/crm/lib/sms-workflows.ts`
+(`renderSms` → `sendSms` via `@viox/integrations` → best-effort `sms_log` insert).
+Every send is failure-safe: an SMS problem never breaks a capture flow or an
+API route — callers just report `smsSent: false`.
+
+### Sender
+
+- **From number:** `+1 (929) 410-5502` (`TWILIO_SMS_FROM`) — pinned so guests
+  always see the same number.
+- **Messaging Service:** `TWILIO_MESSAGING_SERVICE_SID` (`MG…`) is passed on
+  every send *alongside* `From`, so each message rides the registered **A2P 10DLC
+  campaign** attached to the Messaging Service while keeping the pinned sender.
+  Both env vars are already set on the CRM Vercel project.
+- First-touch events (`request_received`, `waitlist_joined`) append
+  "Reply STOP to opt out." — Twilio handles STOP/START suppression at the
+  Messaging Service level.
+
+### Events
+
+| Event | Fired by | Trigger | Copy gist |
+|---|---|---|---|
+| `request_received` | `captureReservation` (voice + WhatsApp concierge) | Reservation request stored with a phone on file | "¡Gracias! We received your request — the team will confirm shortly." + opt-out |
+| `reservation_confirmed` | `PATCH /api/reservations/[id]` `action: confirm` | Host confirms in the CRM inbox | "¡Confirmado! Your table is set…" |
+| `reservation_updated` | `PATCH /api/reservations/[id]` `action: modify` | Host edits date/time/party/location (post-update values render) | "¡Listo! Your reservation is updated…" |
+| `reservation_declined` | `PATCH /api/reservations/[id]` `action: decline` | Host declines the request | "Lo sentimos… call us and we'll find a time." |
+| `waitlist_joined` | `POST /api/waitlist` | Walk-in added at the host stand with a phone | "You're on the waitlist — current wait about N min." + opt-out |
+| `table_ready` | `PATCH /api/waitlist/[id]` `action: table_ready` | Host taps "Table ready" (row → `notified`) | "Your table is ready! See the host within 10 minutes." |
+| `order_update` | `POST /api/sms/send` (ops/manual) | Free-form update with `ctx.custom` | "Hola — update from Buena Vista: …" |
+
+Notes:
+- SMS fires **only when a phone is on file**; UI notes distinguish
+  "SMS sent ✓" / "Saved — SMS not sent" / "no phone on file".
+- Location context (`hells-kitchen` / `east-village`) brands the copy and adds
+  the right call-back number — HK `(212) 388-5040`, EV `(929) 220-0547`.
+- Copy is clamped to ≤320 chars (2 SMS segments max).
+
+### Trigger route (`/api/sms/send`)
+
+Internal workflow trigger for the CRM UI, voice tools, and ops scripts.
+Auth: `x-viox-secret: <VOICE_WEBHOOK_SECRET>` (same gate as the voice webhook).
+
+```bash
+curl -s https://buena-vista-crm.vercel.app/api/sms/send   # {"ok":true,"configured":…} health check
+curl -s -X POST https://buena-vista-crm.vercel.app/api/sms/send \
+  -H 'content-type: application/json' -H "x-viox-secret: $VOICE_WEBHOOK_SECRET" \
+  -d '{"to":"+12125550134","event":"order_update","ctx":{"guestName":"María","location":"hells-kitchen","custom":"your paella is ready for pickup"}}'
+```
+
+### Audit trail
+
+Every attempt (sent **and** failed) writes a row to Supabase `sms_log`
+(`tenant_slug, to_phone, body, kind, ref_id, twilio_sid, status, created_at`)
+with `ref_id` pointing at the `reservation_requests` / `waitlist` row that
+triggered it. The write is best-effort and never blocks the send path.

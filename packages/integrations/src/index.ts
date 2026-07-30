@@ -19,6 +19,10 @@ export {
 } from './slack';
 export type { PostSlackMessageInput, PostSlackMessageResult, ParsedAgentText } from './slack';
 
+// Twilio SMS adapter
+export { isSmsConfigured, normalizePhone, sendSms } from './twilio-sms';
+export type { SendSmsInput, SendSmsResult } from './twilio-sms';
+
 // Twilio WhatsApp adapter
 export {
   isWhatsAppConfigured,

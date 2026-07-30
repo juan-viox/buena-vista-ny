@@ -18,24 +18,13 @@ import {
   type Column,
 } from '@viox/ui';
 
+import { LiveRequestsTable, type LiveRequestRow } from './LiveRequestsTable';
+
 export const dynamic = 'force-dynamic';
 
 /* ---------- Incoming — Voice Concierge (live Supabase capture) ---------- */
 
-interface VoiceRequestRow {
-  id: string | number;
-  guest_name: string | null;
-  phone: string | null;
-  email?: string | null;
-  party_size: number | null;
-  requested_date: string | null;
-  requested_time: string | null;
-  location: string | null;
-  occasion: string | null;
-  status: string | null;
-  channel?: string | null;
-  created_at: string | null;
-}
+type VoiceRequestRow = LiveRequestRow;
 
 type VoiceFeed =
   | { configured: false }
@@ -48,7 +37,7 @@ async function fetchVoiceRequests(): Promise<VoiceFeed> {
   if (!url || !key) return { configured: false };
   try {
     const res = await fetch(
-      `${url.replace(/\/+$/, '')}/rest/v1/reservation_requests?select=*&order=created_at.desc&limit=20`,
+      `${url.replace(/\/+$/, '')}/rest/v1/reservation_requests?select=*&tenant_slug=eq.buena-vista&order=created_at.desc&limit=20`,
       {
         headers: { apikey: key, Authorization: `Bearer ${key}` },
         cache: 'no-store',
@@ -65,88 +54,6 @@ async function fetchVoiceRequests(): Promise<VoiceFeed> {
     return { configured: true, error: true };
   }
 }
-
-const VOICE_LOCATION_LABELS: Record<string, string> = {
-  'hells-kitchen': "Hell's Kitchen",
-  'east-village': 'East Village',
-};
-
-function relativeTime(iso: string | null): string {
-  if (!iso) return '—';
-  const then = Date.parse(iso);
-  if (Number.isNaN(then)) return '—';
-  const mins = Math.max(0, Math.round((Date.now() - then) / 60_000));
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hours = Math.round(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.round(hours / 24);
-  return `${days}d ago`;
-}
-
-const VOICE_COLUMNS: Column<VoiceRequestRow>[] = [
-  {
-    key: 'guest',
-    header: 'Guest',
-    render: (r) => (
-      <div className="min-w-0">
-        <div className="truncate font-medium text-[var(--text)]">{r.guest_name ?? 'Guest'}</div>
-        {r.email && <div className="truncate text-xs text-[var(--muted)]">{r.email}</div>}
-      </div>
-    ),
-  },
-  {
-    key: 'phone',
-    header: 'Phone',
-    cellClassName: 'text-[var(--muted)] tabular-nums',
-    render: (r) => r.phone ?? '—',
-  },
-  {
-    key: 'party_size',
-    header: 'Party',
-    numeric: true,
-    render: (r) => (r.party_size ? fmtNumber(r.party_size) : '—'),
-  },
-  {
-    key: 'requested',
-    header: 'Requested',
-    render: (r) => (
-      <span className="tabular-nums">
-        {[r.requested_date, r.requested_time].filter(Boolean).join(' · ') || '—'}
-      </span>
-    ),
-  },
-  {
-    key: 'location',
-    header: 'Location',
-    render: (r) =>
-      r.location ? (
-        <Badge tone={r.location in VOICE_LOCATION_LABELS ? 'accent' : 'muted'}>
-          {VOICE_LOCATION_LABELS[r.location] ?? r.location}
-        </Badge>
-      ) : (
-        <span className="text-[var(--muted)]">—</span>
-      ),
-  },
-  {
-    key: 'occasion',
-    header: 'Occasion',
-    cellClassName: 'text-[var(--muted)]',
-    render: (r) => r.occasion ?? '—',
-  },
-  {
-    key: 'status',
-    header: 'Status',
-    render: (r) =>
-      r.status === 'new' ? <Badge tone="warn">New</Badge> : <Badge status={r.status ?? 'draft'} />,
-  },
-  {
-    key: 'created_at',
-    header: 'Received',
-    cellClassName: 'text-[var(--muted)]',
-    render: (r) => relativeTime(r.created_at),
-  },
-];
 
 function VoiceConciergeSection({ feed }: { feed: VoiceFeed }) {
   return (
@@ -189,7 +96,7 @@ function VoiceConciergeSection({ feed }: { feed: VoiceFeed }) {
           />
         </div>
       ) : (
-        <DataTable columns={VOICE_COLUMNS} rows={feed.rows} />
+        <LiveRequestsTable rows={feed.rows} />
       )}
     </Card>
   );

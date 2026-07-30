@@ -35,6 +35,7 @@ const NAV: SidebarNavGroup[] = [
     items: [
       { label: 'Guests', href: '/guests', icon: <GuestsIcon /> },
       { label: 'Reservations', href: '/reservations', icon: <CalendarIcon /> },
+      { label: 'Waitlist', href: '/waitlist', icon: <HourglassIcon /> },
     ],
   },
   {
@@ -140,6 +141,16 @@ function CalendarIcon() {
     <svg {...iconProps()}>
       <rect x="4" y="5.5" width="16" height="14" rx="2.5" />
       <path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5M8.5 14h2.5" />
+    </svg>
+  );
+}
+
+function HourglassIcon() {
+  return (
+    <svg {...iconProps()}>
+      <path d="M6.5 3.5h11M6.5 20.5h11" />
+      <path d="M7.5 3.5v2.8c0 2.6 1.9 4.2 4.5 5.7 2.6-1.5 4.5-3.1 4.5-5.7V3.5" />
+      <path d="M7.5 20.5v-2.8c0-2.6 1.9-4.2 4.5-5.7 2.6 1.5 4.5 3.1 4.5 5.7v2.8" />
     </svg>
   );
 }
