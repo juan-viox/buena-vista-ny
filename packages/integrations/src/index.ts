@@ -9,6 +9,25 @@ export { createToastAdapter } from './toast';
 export { createMarginEdgeAdapter } from './marginedge';
 export { createCatereaseAdapter } from './caterease';
 
+// Slack team-collaboration adapter
+export {
+  isSlackConfigured,
+  verifySlackSignature,
+  postSlackMessage,
+  stripMention,
+  parseAgentFromText,
+} from './slack';
+export type { PostSlackMessageInput, PostSlackMessageResult, ParsedAgentText } from './slack';
+
+// Twilio WhatsApp adapter
+export {
+  isWhatsAppConfigured,
+  validateTwilioSignature,
+  twimlMessage,
+  sendWhatsApp,
+} from './twilio-whatsapp';
+export type { SendWhatsAppInput, SendWhatsAppResult } from './twilio-whatsapp';
+
 import type { IntegrationProvider } from '@viox/db';
 import type { IntegrationAdapter } from './types';
 import { createToastAdapter } from './toast';

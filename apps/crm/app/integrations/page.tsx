@@ -39,7 +39,19 @@ const TINTS: Record<string, Tint> = {
   marginedge: { text: '#34D399', border: 'rgba(52,211,153,.35)', bg: 'rgba(52,211,153,.08)' },
   caterease: { text: '#7EB2F5', border: 'rgba(126,178,245,.35)', bg: 'rgba(126,178,245,.08)' },
   site: { text: '#C9995C', border: 'rgba(201,153,92,.4)', bg: 'rgba(201,153,92,.08)' },
+  whatsapp: { text: '#25D366', border: 'rgba(37,211,102,.35)', bg: 'rgba(37,211,102,.08)' },
 };
+
+/* ---------- WhatsApp concierge (Twilio → Anfitrión) ---------- */
+
+const WHATSAPP_ENV_VARS = ['TWILIO_ACCOUNT_SID', 'TWILIO_AUTH_TOKEN', 'TWILIO_WHATSAPP_FROM'] as const;
+
+const WHATSAPP_CHECKLIST = [
+  'Fresh TWILIO_AUTH_TOKEN — the current one 401s (it was rotated); pull the live token from Twilio Console → Account → API keys & tokens',
+  'WhatsApp sender: reuse the existing Twilio WhatsApp sender or provision a new one (Messaging → Senders → WhatsApp senders)',
+  "Point the sender's inbound webhook to https://buena-vista-crm.vercel.app/api/whatsapp/inbound (HTTP POST)",
+  'Set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN and TWILIO_WHATSAPP_FROM (e.g. whatsapp:+1646…) in Vercel → buena-vista-crm → Environment Variables',
+];
 
 const PROVIDERS: ProviderMeta[] = [
   {
@@ -208,6 +220,10 @@ export default async function IntegrationsPage() {
   const byChannel = new Map<Campaign['channel'], number>();
   for (const c of campaigns) byChannel.set(c.channel, (byChannel.get(c.channel) ?? 0) + 1);
 
+  /* ---------- WhatsApp concierge status (from env) ---------- */
+  const waEnvSet = WHATSAPP_ENV_VARS.map((v) => ({ name: v, set: !!process.env[v] }));
+  const waConfigured = waEnvSet.every((v) => v.set);
+
   return (
     <>
       <PageHeader
@@ -314,6 +330,93 @@ export default async function IntegrationsPage() {
           );
         })}
       </div>
+
+      {/* ---------- WhatsApp concierge (Twilio → Anfitrión) ---------- */}
+      <Card flush>
+        {/* header */}
+        <div className="flex items-start justify-between gap-3 px-5 pt-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <Monogram text="WA" tint={TINTS.whatsapp} />
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-[var(--text)]">WhatsApp Concierge</div>
+              <div className="mt-0.5 truncate text-xs text-[var(--muted)]">
+                Guest messaging · Anfitrión answering on WhatsApp, bilingual
+              </div>
+            </div>
+          </div>
+          <Badge status={waConfigured ? 'connected_live' : 'awaiting_credentials'} className="mt-0.5 shrink-0">
+            {waConfigured ? 'Live — Twilio env set' : 'Awaiting credentials'}
+          </Badge>
+        </div>
+
+        {/* flow */}
+        <div className="mx-5 mt-4 overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--panel2)] px-4 py-3">
+          <div className="flex items-center gap-2 whitespace-nowrap text-xs text-[var(--text)]">
+            {['Guest WhatsApp', 'Twilio sender', 'Anfitrión (concierge agent)', 'Reply in-thread'].map((step, i) => (
+              <React.Fragment key={step}>
+                {i > 0 && <span aria-hidden className="text-[var(--muted)]">→</span>}
+                <span className={i === 2 ? 'font-medium text-[var(--accent2)]' : ''}>{step}</span>
+              </React.Fragment>
+            ))}
+            <span aria-hidden className="text-[var(--muted)]">+</span>
+            <span className="text-[var(--muted)]">confirmed reservations land in CRM → Reservations</span>
+          </div>
+        </div>
+
+        {/* env status pills */}
+        <div className="flex flex-wrap items-center gap-2 px-5 pt-3">
+          {waEnvSet.map((v) => (
+            <span
+              key={v.name}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--panel2)] px-2.5 py-1 text-[10px] tabular-nums text-[var(--muted)]"
+            >
+              <span
+                aria-hidden
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: v.set ? 'var(--good)' : 'var(--warn)' }}
+              />
+              <code className="text-[var(--text)]">{v.name}</code>
+              {v.set ? 'set' : 'missing'}
+            </span>
+          ))}
+          <span className="text-[11px] text-[var(--muted)]">
+            Webhook: <code className="text-[var(--text)]">/api/whatsapp/inbound</code> · replies TwiML, capped at 500 chars
+          </span>
+        </div>
+
+        {/* go-live checklist */}
+        <details className="group mt-4 border-t border-[var(--border)]">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-xs font-medium text-[var(--text)] transition-colors hover:bg-white/[.03] [&::-webkit-details-marker]:hidden">
+            Go-live checklist
+            <ChevronIcon className="h-3.5 w-3.5 text-[var(--muted)] transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="space-y-3 px-5 pb-4">
+            <div className="flex items-start gap-2 rounded-lg border border-[rgba(251,191,36,.3)] bg-[rgba(251,191,36,.06)] px-3 py-2.5 text-xs leading-relaxed">
+              <KeyIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--warn)]" />
+              <span className="text-[var(--text)]">
+                <span className="font-medium text-[var(--warn)]">Approval step:</span> WhatsApp sender approval in
+                Twilio (display name review by Meta) — then the three env vars below unlock signature-validated inbound.
+              </span>
+            </div>
+            <ol className="space-y-2">
+              {WHATSAPP_CHECKLIST.map((c, i) => (
+                <li key={c} className="flex items-start gap-2.5 text-xs leading-relaxed text-[var(--text)]">
+                  <span className="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--panel2)] text-[10px] tabular-nums text-[var(--muted)]">
+                    {i + 1}
+                  </span>
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </details>
+
+        {/* footer */}
+        <footer className="flex items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-3 text-[11px] text-[var(--muted)]">
+          <span>Same capture path as the voice concierge — one reservations lib, two channels</span>
+          <span className="truncate text-right">Twilio WhatsApp · TwiML webhook + REST sends</span>
+        </footer>
+      </Card>
 
       {/* ---------- guest sources + marketing channels ---------- */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

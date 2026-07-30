@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { Metadata } from 'next';
 import { getRepository } from '@viox/db';
 import type { CateringEvent, IntegrationProvider, IntegrationState } from '@viox/db';
-import { getIntegrationAdapters } from '@viox/integrations';
+import { getIntegrationAdapters, isSlackConfigured } from '@viox/integrations';
 import { Badge, Card, Kicker, PageHeader, fmtDateTime, fmtNumber, fmtUSDk } from '@viox/ui';
 
 export const metadata: Metadata = {
@@ -39,6 +39,7 @@ const TINTS: Record<string, Tint> = {
   marginedge: { text: '#34D399', border: 'rgba(52,211,153,.35)', bg: 'rgba(52,211,153,.08)' },
   caterease: { text: '#7EB2F5', border: 'rgba(126,178,245,.35)', bg: 'rgba(126,178,245,.08)' },
   site: { text: '#C9995C', border: 'rgba(201,153,92,.4)', bg: 'rgba(201,153,92,.08)' },
+  slack: { text: '#E58FAC', border: 'rgba(224,30,90,.35)', bg: 'rgba(224,30,90,.08)' },
 };
 
 const PROVIDERS: ProviderMeta[] = [
@@ -133,6 +134,22 @@ const ADAPTER_METHODS = [
 
 const OPEN_STAGES: CateringEvent['stage'][] = ['lead', 'proposal', 'tasting', 'booked', 'beo_final'];
 
+/* ---------- Slack team collaboration ---------- */
+
+const SLACK_CAPABILITIES = [
+  'Mention @BuenaVista OS in any channel — the right specialist answers in-thread with live numbers. Lead with "as mise" or "@ledger" to pick a teammate; plain mentions go to the general copilot.',
+  'DM the bot for a private read — same tool belt (sales, food cost, low stock, events, guests, campaigns), threaded replies.',
+  'Morning digests per agent — /api/slack/digest?agent=mise posts each specialist’s brief to your channel on a cron, gated by VIOX_CRON_SECRET.',
+];
+
+const SLACK_SETUP_STEPS = [
+  <>Create the app at <code className="text-[var(--text)]">api.slack.com/apps</code> — name it &ldquo;VioX OS — Buena Vista&rdquo;</>,
+  <>OAuth &amp; Permissions → add bot scopes <code className="text-[var(--text)]">app_mentions:read</code> + <code className="text-[var(--text)]">chat:write</code> + <code className="text-[var(--text)]">im:history</code> + <code className="text-[var(--text)]">channels:history</code></>,
+  <>Enable Event Subscriptions → Request URL <code className="text-[var(--text)]">https://buena-vista-os.vercel.app/api/slack/events</code> → subscribe to <code className="text-[var(--text)]">app_mention</code> + <code className="text-[var(--text)]">message.im</code></>,
+  <>Install the app to the workspace</>,
+  <>Add <code className="text-[var(--text)]">SLACK_BOT_TOKEN</code> (xoxb-) + <code className="text-[var(--text)]">SLACK_SIGNING_SECRET</code> + <code className="text-[var(--text)]">SLACK_CHANNEL_ID</code> env vars in Vercel</>,
+];
+
 const GO_LIVE_STEPS = [
   { step: '01', title: 'Collect credentials', body: 'Checklist items land in the tenant vault — one handoff per provider.' },
   { step: '02', title: 'Validate connectors', body: 'Status flips demo → awaiting creds → live as each connector verifies.' },
@@ -143,6 +160,7 @@ const GO_LIVE_STEPS = [
 export default async function IntegrationsPage() {
   const repo = getRepository();
   const adapters = getIntegrationAdapters();
+  const slackConfigured = isSlackConfigured();
 
   const [states, dailySales, laborShifts, menuMix, invoices, items, alerts, recipes, events, guests] =
     await Promise.all([
@@ -355,6 +373,78 @@ export default async function IntegrationsPage() {
           );
         })}
       </div>
+
+      {/* ---------- Slack team collaboration ---------- */}
+      <Card flush className="flex flex-col">
+        <div className="flex items-start justify-between gap-3 px-5 pt-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <Monogram text="#" tint={TINTS.slack} />
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-[var(--text)]">Slack</div>
+              <div className="mt-0.5 truncate text-xs text-[var(--muted)]">
+                Team collaboration · the AI team in your channels
+              </div>
+            </div>
+          </div>
+          {slackConfigured ? (
+            <Badge status="connected_live" className="mt-0.5 shrink-0">
+              Configured
+            </Badge>
+          ) : (
+            <Badge status="awaiting_credentials" className="mt-0.5 shrink-0">
+              Awaiting credentials
+            </Badge>
+          )}
+        </div>
+
+        <p className="px-5 pt-3 text-xs leading-relaxed text-[var(--muted)]">
+          Puts Mise, Ledger, Sala, Turno, Fiesta and Vega where the team already talks. Every answer
+          runs through the same copilot tool belt as the in-app chat — fixtures in demo, live data
+          when the connectors flip.
+        </p>
+
+        <div className="grid grid-cols-1 gap-x-8 gap-y-4 px-5 pb-5 pt-4 lg:grid-cols-2">
+          <div>
+            <Kicker>What it does</Kicker>
+            <ul className="mt-2 space-y-1.5">
+              {SLACK_CAPABILITIES.map((s, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs leading-relaxed text-[var(--text)]">
+                  <CheckIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--good)]" />
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 rounded-lg border border-[var(--border)] bg-[var(--panel2)] px-3 py-2.5 text-[11px] leading-relaxed text-[var(--muted)]">
+              Endpoints: <code className="text-[var(--text)]">/api/slack/events</code> (mentions + DMs) ·{' '}
+              <code className="text-[var(--text)]">/api/slack/digest?agent=mise|ledger|sala|turno|fiesta|vega</code>{' '}
+              (morning briefs)
+            </div>
+          </div>
+
+          <div>
+            <Kicker>Setup checklist</Kicker>
+            <ol className="mt-2 space-y-2">
+              {SLACK_SETUP_STEPS.map((step, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-xs leading-relaxed text-[var(--text)]">
+                  <span className="mt-px flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--panel2)] text-[10px] tabular-nums text-[var(--muted)]">
+                    {i + 1}
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <footer className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] px-5 py-3 text-[11px] text-[var(--muted)]">
+          <span>
+            {slackConfigured
+              ? 'Bot token + signing secret detected — mention the bot to test it.'
+              : 'Reads SLACK_BOT_TOKEN + SLACK_SIGNING_SECRET at render — flips to Configured the moment env vars land.'}
+          </span>
+          <span className="shrink-0 text-right">Events API + chat.postMessage</span>
+        </footer>
+      </Card>
 
       {/* ---------- data-flow diagram ---------- */}
       <Card
