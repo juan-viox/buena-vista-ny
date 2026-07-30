@@ -120,6 +120,13 @@ importers:
         version: 5.9.3
 
   packages/agents:
+    dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^0.57.0
+        version: 0.57.0
+      '@viox/db':
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -144,6 +151,10 @@ importers:
         version: 5.9.3
 
   packages/integrations:
+    dependencies:
+      '@viox/db':
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@types/node':
         specifier: ^22
@@ -156,6 +167,16 @@ importers:
         version: 5.9.3
 
   packages/ui:
+    dependencies:
+      next:
+        specifier: '>=15'
+        version: 15.5.22(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.8
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.8(react@19.2.8)
     devDependencies:
       '@types/node':
         specifier: ^22
