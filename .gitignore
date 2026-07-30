@@ -4,3 +4,10 @@ hero-a.jpg
 hero-b.png
 generate-section-images.sh
 .vercel
+node_modules/
+.next/
+.turbo/
+.env
+.env.local
+.vercel
+dist/
