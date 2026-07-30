@@ -5,4 +5,5 @@ export * from './inventory';
 export * from './sales';
 export * from './events';
 export * from './crm';
+export * from './reviews';
 export * from './activity';

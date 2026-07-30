@@ -11,3 +11,4 @@ node_modules/
 .env.local
 .vercel
 dist/
+docs/migration/scrape-raw.json

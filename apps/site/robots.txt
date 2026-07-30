@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://buena-vista-ny.vercel.app/sitemap.xml

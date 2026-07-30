@@ -300,6 +300,7 @@ section{scroll-margin-top:calc(var(--nav-h) + 8px)}
 .mobile-menu a:nth-child(4){transition-delay:.26s}
 .mobile-menu a:nth-child(5){transition-delay:.32s}
 .mobile-menu a:nth-child(6){transition-delay:.38s}
+.mobile-menu a:nth-child(7){transition-delay:.44s}
 .mobile-menu .mobile-reserve{
   margin-top:24px;
   font-family:var(--font-body);
@@ -1322,12 +1323,13 @@ html.reduced .loc-card{opacity:1;transform:none}
 
     <nav aria-label="Primary">
       <ul class="nav-links">
-        <li><a href="#story">Our Story</a></li>
-        <li><a href="#menu">Menu</a></li>
+        <li><a href="/our-story/">Our Story</a></li>
+        <li><a href="/menu/">Menu</a></li>
         <li><a href="#locations">Locations</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#events">Private Events</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/gallery/">Gallery</a></li>
+        <li><a href="/private-events/">Private Events</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/contact/">Contact</a></li>
       </ul>
     </nav>
 
@@ -1341,12 +1343,13 @@ html.reduced .loc-card{opacity:1;transform:none}
 
 <!-- Mobile full-screen menu -->
 <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
-  <a href="#story">Our Story</a>
-  <a href="#menu">Menu</a>
+  <a href="/our-story/">Our Story</a>
+  <a href="/menu/">Menu</a>
   <a href="#locations">Locations</a>
-  <a href="#gallery">Gallery</a>
-  <a href="#events">Private Events</a>
-  <a href="#contact">Contact</a>
+  <a href="/gallery/">Gallery</a>
+  <a href="/private-events/">Private Events</a>
+  <a href="/blog/">Blog</a>
+  <a href="/contact/">Contact</a>
   <a class="mobile-reserve" href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Reserve a Table</a>
 </nav>
 
@@ -1877,6 +1880,16 @@ html.reduced .loc-card{opacity:1;transform:none}
       </div>
 
     </div>
+
+    <nav aria-label="Footer" style="display:flex;flex-wrap:wrap;gap:14px 28px;padding-top:40px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase">
+      <a href="/menu/" style="color:rgba(247,242,233,.6);text-decoration:none">Menu</a>
+      <a href="/our-story/" style="color:rgba(247,242,233,.6);text-decoration:none">Our Story</a>
+      <a href="/private-events/" style="color:rgba(247,242,233,.6);text-decoration:none">Private Events</a>
+      <a href="/gallery/" style="color:rgba(247,242,233,.6);text-decoration:none">Gallery</a>
+      <a href="/press/" style="color:rgba(247,242,233,.6);text-decoration:none">Press</a>
+      <a href="/blog/" style="color:rgba(247,242,233,.6);text-decoration:none">Blog</a>
+      <a href="/contact/" style="color:rgba(247,242,233,.6);text-decoration:none">Contact</a>
+    </nav>
 
     <div class="footer-bar">
       <a class="footer-logo" href="#top" aria-label="Buena Vista Restaurant &amp; Bar — back to top">

@@ -296,6 +296,32 @@ export interface Campaign {
   body: string;
 }
 
+// ---------- Reviews & Reputation (Popmenu parity) ----------
+export type ReviewPlatform = 'google' | 'yelp' | 'opentable' | 'tripadvisor';
+
+export interface Review {
+  id: ID;
+  tenantId: ID;
+  platform: ReviewPlatform;
+  author: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  text: string;
+  date: string;            // ISO date
+  replied: boolean;
+  replyText?: string;
+  /** Menu items name-checked in the review — drives dish-mention chips. */
+  dishMentions: string[];
+}
+
+/** Lifetime reputation snapshot per platform (public rating + review count). */
+export interface ReviewPlatformStat {
+  platform: ReviewPlatform;
+  rating: number;          // public star rating, e.g. 4.7
+  reviewCount: number;     // lifetime review count on the platform
+  /** Rating delta vs 90 days ago — drives the trend arrow. */
+  trend: number;
+}
+
 export interface ActivityEvent {
   id: ID;
   tenantId: ID;

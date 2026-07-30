@@ -10,7 +10,7 @@ import type {
   ActivityEvent, BEO, Campaign, CateringEvent, DailySales, EventPayment,
   Guest, ID, IntegrationState, InventoryCount, InventoryItem, Invoice,
   InvoiceLine, LaborShift, Location, MenuItemSales, PriceAlert, Recipe,
-  Reservation, Segment, Tenant, User,
+  Reservation, Review, Segment, Tenant, User,
 } from './types';
 
 export interface DateRange { from: string; to: string } // ISO dates inclusive
@@ -45,6 +45,8 @@ export interface DataRepository {
   getReservations(): Promise<Reservation[]>;
   getSegments(): Promise<Segment[]>;
   getCampaigns(): Promise<Campaign[]>;
+  /** Reviews across Google / Yelp / OpenTable / TripAdvisor, newest first. */
+  getReviews(): Promise<Review[]>;
 
   // cross-cutting
   getActivity(limit?: number): Promise<ActivityEvent[]>;

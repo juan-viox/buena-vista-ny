@@ -44,6 +44,8 @@ const NAV: SidebarNavGroup[] = [
     items: [
       { label: 'Segments', href: '/segments', icon: <SegmentsIcon /> },
       { label: 'Campaigns', href: '/campaigns', icon: <MegaphoneIcon /> },
+      { label: 'Automations', href: '/automations', icon: <ZapIcon /> },
+      { label: 'Reviews', href: '/reviews', icon: <StarIcon /> },
       { label: 'Event Leads', href: '/leads', icon: <FlagIcon /> },
     ],
   },
@@ -185,6 +187,22 @@ function MegaphoneIcon() {
     <svg {...iconProps()}>
       <path d="M4 10.5v3.5h3l6.5 4V6l-6.5 4H4Z" />
       <path d="M17 9.5a3.5 3.5 0 0 1 0 5.5M7.5 14.5l1 5" />
+    </svg>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg {...iconProps()}>
+      <path d="m12 4 2.2 4.9 5.3.5-4 3.6 1.1 5.2L12 15.5l-4.6 2.7 1.1-5.2-4-3.6 5.3-.5L12 4Z" />
+    </svg>
+  );
+}
+
+function ZapIcon() {
+  return (
+    <svg {...iconProps()}>
+      <path d="M12.5 3.5 5.5 13.5h5l-1 7 7-10h-5l1-7Z" />
     </svg>
   );
 }

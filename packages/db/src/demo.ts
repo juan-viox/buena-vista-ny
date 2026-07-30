@@ -11,14 +11,14 @@ import type {
   ActivityEvent, BEO, Campaign, CateringEvent, DailySales, EventPayment,
   Guest, ID, IntegrationState, InventoryCount, InventoryItem, Invoice,
   InvoiceLine, LaborShift, Location, MenuItemSales, PriceAlert, Recipe,
-  Reservation, Segment, Tenant, User, Vendor,
+  Reservation, Review, Segment, Tenant, User, Vendor,
 } from './types';
 import {
   ACTIVITY_EVENTS, BEOS, CAMPAIGNS, CATERING_EVENTS, DAILY_SALES,
   EVENT_PAYMENTS, GUESTS, INTEGRATION_STATES, INVENTORY_COUNTS,
   INVENTORY_ITEMS, INVOICE_LINES, INVOICES, LABOR_SHIFTS, LOCATIONS,
-  MENU_ITEM_SALES, PRICE_ALERTS, RECIPES, RESERVATIONS, SEGMENTS,
-  TENANT, USERS, VENDORS,
+  MENU_ITEM_SALES, PRICE_ALERTS, RECIPES, RESERVATIONS, REVIEWS,
+  SEGMENTS, TENANT, USERS, VENDORS,
 } from './fixtures';
 
 /** Inclusive ISO-date range filter (YYYY-MM-DD string compare is safe). */
@@ -107,6 +107,11 @@ export function createDemoRepository(tenantSlug = 'buena-vista'): DataRepository
     },
     async getCampaigns(): Promise<Campaign[]> {
       return CAMPAIGNS;
+    },
+    // Supabase driver: `select * from reviews where tenant_id = ... order by date desc`
+    // (reviews land via the platform-sync worker; schema.sql mirrors the Review type).
+    async getReviews(): Promise<Review[]> {
+      return [...REVIEWS].sort((a, b) => (a.date < b.date ? 1 : -1));
     },
 
     // ---- cross-cutting ----

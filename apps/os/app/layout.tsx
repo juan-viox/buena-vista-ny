@@ -53,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         { label: 'Inventory', href: '/inventory', icon: <BoxIcon /> },
         { label: 'Invoices', href: '/invoices', icon: <ReceiptIcon /> },
         { label: 'Recipes & Costing', href: '/recipes', icon: <RecipeIcon /> },
+        { label: 'Menus', href: '/menus', icon: <MenuBookIcon /> },
       ],
     },
     {
@@ -165,6 +166,15 @@ function RecipeIcon() {
     <svg {...iconProps()}>
       <path d="M8.5 8.5A3.5 3.5 0 0 1 12 5a3.5 3.5 0 0 1 3.5 3.5H19a2 2 0 0 1 0 4h-.5V19a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19v-6.5H5a2 2 0 0 1 0-4h3.5Z" />
       <path d="M9.5 16.5h5" />
+    </svg>
+  );
+}
+
+function MenuBookIcon() {
+  return (
+    <svg {...iconProps()}>
+      <path d="M12 6.5c-1.4-1.3-3.4-2-5.5-2-1 0-2 .15-2.5.4v13.6c.5-.25 1.5-.4 2.5-.4 2.1 0 4.1.7 5.5 2 1.4-1.3 3.4-2 5.5-2 1 0 2 .15 2.5.4V4.9c-.5-.25-1.5-.4-2.5-.4-2.1 0-4.1.7-5.5 2Z" />
+      <path d="M12 6.5v13.6" />
     </svg>
   );
 }
