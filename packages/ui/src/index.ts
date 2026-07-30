@@ -31,6 +31,9 @@ export { NavLink, type NavLinkProps } from './NavLink'; // 'use client'
 export { PersonaSwitcher, type PersonaSwitcherProps, type Persona } from './PersonaSwitcher'; // 'use client'
 export { LocationFilter, type LocationFilterProps, type LocationOption } from './LocationFilter'; // 'use client'
 
+// auth
+export { AuthPanel, UserChip, type AuthPanelProps, type UserChipProps } from './AuthPanel'; // 'use client'
+
 // copilot
 export { CopilotPanel, type CopilotPanelProps } from './CopilotPanel'; // 'use client'
 export { ModelPicker, getSelectedModel, type ModelPickerProps } from './ModelPicker'; // 'use client'

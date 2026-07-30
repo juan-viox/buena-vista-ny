@@ -301,7 +301,49 @@ html.js .reveal.in{opacity:1;transform:none}
 .inq-card a.big:hover{color:var(--gold);border-color:var(--gold)}
 .inq-card p{margin-top:12px;font-size:12.5px;font-weight:300;color:rgba(247,242,233,.6)}
 .pe-inquire .btn{margin-top:56px}
-@media (max-width:960px){.spaces-grid{grid-template-columns:1fr}.pe-strip-grid{grid-template-columns:repeat(2,1fr)}.inq-grid{grid-template-columns:1fr;max-width:440px}}
+
+/* ---------- inquiry form (dark) ---------- */
+.inq-form-wrap{max-width:820px;margin:64px auto 0;text-align:left}
+.inq-form{display:grid;grid-template-columns:1fr 1fr;gap:22px 20px}
+.inq-field{display:flex;flex-direction:column;gap:8px}
+.inq-field.full{grid-column:1 / -1}
+.inq-field label{
+  font-size:10.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);
+}
+.inq-field label .opt{color:rgba(247,242,233,.4);letter-spacing:.14em}
+.inq-field input,.inq-field select,.inq-field textarea{
+  font-family:var(--font-body);font-size:15px;font-weight:300;color:var(--cream);
+  background:rgba(247,242,233,.06);border:1px solid rgba(247,242,233,.22);border-radius:2px;
+  padding:14px 16px;outline:none;width:100%;
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.inq-field textarea{resize:vertical;min-height:96px}
+.inq-field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23C9995C' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.inq-field select option{color:var(--ink);background:var(--cream)}
+.inq-field input:focus,.inq-field select:focus,.inq-field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,153,92,.22);background:rgba(247,242,233,.1)}
+.inq-field input::placeholder,.inq-field textarea::placeholder{color:rgba(247,242,233,.38)}
+.inq-field input[type="date"]{color-scheme:dark}
+.inq-hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.inq-submit{grid-column:1 / -1;margin-top:2px;text-align:center}
+.inq-submit .btn{margin-top:8px;width:100%}
+.inq-submit .btn[disabled]{opacity:.55;cursor:wait;transform:none}
+.inq-error{
+  grid-column:1 / -1;display:none;
+  border:1px solid rgba(226,132,110,.5);background:rgba(226,132,110,.12);
+  border-radius:2px;padding:14px 18px;font-size:13.5px;font-weight:300;color:#F1BBAD;
+}
+.inq-error a{color:var(--gold)}
+.inq-error.show{display:block}
+.inq-success{display:none;max-width:640px;margin:72px auto 0;text-align:center}
+.inq-success.show{display:block}
+.inq-success .check{
+  width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 26px;color:var(--gold);
+}
+.inq-success h3{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,34px);color:var(--cream)}
+.inq-success p{margin-top:14px;font-size:15px;font-weight:300;color:rgba(247,242,233,.72);line-height:1.8}
+@media (max-width:960px){.spaces-grid{grid-template-columns:1fr}.pe-strip-grid{grid-template-columns:repeat(2,1fr)}.inq-grid{grid-template-columns:1fr;max-width:440px}.inq-form{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -490,7 +532,70 @@ html.js .reveal.in{opacity:1;transform:none}
         <p>Questions answered any hour, any day</p>
       </div>
     </div>
-    <a class="btn btn-gold" href="mailto:hello@buenavistany.com?subject=Private%20Event%20Inquiry%20%E2%80%94%20Buena%20Vista">Email Your Inquiry</a>
+    <div class="inq-form-wrap" id="evFormWrap">
+      <form class="inq-form" id="evForm" aria-label="Private event inquiry" novalidate>
+        <div class="inq-field">
+          <label for="evName">Name</label>
+          <input id="evName" name="name" type="text" placeholder="Full name" required autocomplete="name">
+        </div>
+        <div class="inq-field">
+          <label for="evEmail">Email</label>
+          <input id="evEmail" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="inq-field">
+          <label for="evPhone">Phone <span class="opt">&#8212; optional</span></label>
+          <input id="evPhone" name="phone" type="tel" placeholder="(212) 555-0123" autocomplete="tel">
+        </div>
+        <div class="inq-field">
+          <label for="evOccasion">Type of Event</label>
+          <select id="evOccasion" name="occasion" required>
+            <option value="" selected disabled>Choose&#8230;</option>
+            <option value="birthday">Birthday dinner</option>
+            <option value="corporate">Corporate gathering</option>
+            <option value="private-dinner">Private dinner</option>
+            <option value="full-buyout">Full buyout</option>
+            <option value="holiday-party">Holiday party</option>
+            <option value="offsite-catering">Offsite catering</option>
+            <option value="other">Something else</option>
+          </select>
+        </div>
+        <div class="inq-field">
+          <label for="evDate">Event Date <span class="opt">&#8212; if known</span></label>
+          <input id="evDate" name="event_date" type="date">
+        </div>
+        <div class="inq-field">
+          <label for="evParty">Party Size <span class="opt">&#8212; estimate</span></label>
+          <input id="evParty" name="party_size" type="number" min="1" max="500" placeholder="e.g. 24">
+        </div>
+        <div class="inq-field full">
+          <label for="evLocation">Location</label>
+          <select id="evLocation" name="location">
+            <option value="" selected>Either house works</option>
+            <option value="hells-kitchen">Hell's Kitchen &#8212; 536 9th Ave</option>
+            <option value="east-village">East Village &#8212; 88 2nd Ave</option>
+          </select>
+        </div>
+        <div class="inq-field full">
+          <label for="evNotes">Tell Us About Your Event <span class="opt">&#8212; optional</span></label>
+          <textarea id="evNotes" name="notes" placeholder="Budget, vibe, menu ideas, special requests&#8230;"></textarea>
+        </div>
+        <div class="inq-hp" aria-hidden="true">
+          <label for="evWebsite">Website</label>
+          <input id="evWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <p class="inq-error" id="evError" role="alert">Something went wrong sending your inquiry. Please try again, or email <a href="mailto:hello@buenavistany.com?subject=Private%20Event%20Inquiry%20%E2%80%94%20Buena%20Vista">hello@buenavistany.com</a>.</p>
+        <div class="inq-submit">
+          <button class="btn btn-gold" id="evSubmit" type="submit">Send Your Inquiry</button>
+        </div>
+      </form>
+    </div>
+    <div class="inq-success" id="evSuccess" aria-live="polite">
+      <div class="check" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>&iexcl;Gracias! Inquiry received.</h3>
+      <p>Our events team is on it &#8212; expect to hear from us within one business day. Dates, menus, minimums, and everything in between: we&#39;ll walk you through it all.</p>
+    </div>
     <p style="margin-top:26px;font-size:12px;font-weight:300;color:rgba(247,242,233,.55)">Prefer to talk it through? Our AI concierge can answer questions any time &#8212; call <a href="tel:+19294105502" style="color:var(--gold);text-decoration:none">(929) 410-5502</a>.</p>
   </div>
 </section>
@@ -530,9 +635,10 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="contact-col newsletter">
         <h3>Join the VIP List</h3>
         <p>First pours, secret menus, and invitations to nights that never make it to social media.</p>
-        <form class="newsletter-form" aria-label="Newsletter signup" onsubmit="event.preventDefault(); this.querySelector('button').textContent='&iexcl;Gracias!'; this.querySelector('input').disabled=true;">
+        <form class="newsletter-form" aria-label="Newsletter signup" style="position:relative">
           <label class="sr-only" for="vipEmail">Email address</label>
           <input id="vipEmail" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+          <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
           <button type="submit">Join the VIP List</button>
         </form>
 
@@ -617,6 +723,83 @@ html.js .reveal.in{opacity:1;transform:none}
   } else {
     els.forEach(function(el){ el.classList.add('in'); });
   }
+})();
+</script>
+
+<!-- Live capture → VioX CRM (/api/public/lead) -->
+<script>
+(function(){
+  'use strict';
+  var API = 'https://buena-vista-crm.vercel.app/api/public/lead';
+
+  // ---- Private event inquiry form ----
+  var form = document.getElementById('evForm');
+  if (form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      var btn = document.getElementById('evSubmit');
+      var errEl = document.getElementById('evError');
+      errEl.classList.remove('show');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      var val = function(id){ var el = document.getElementById(id); return el && el.value ? el.value.trim() : ''; };
+      var payload = {
+        kind: 'event_inquiry',
+        name: val('evName'),
+        email: val('evEmail'),
+        phone: val('evPhone'),
+        occasion: val('evOccasion'),
+        event_date: val('evDate'),
+        party_size: val('evParty'),
+        location: val('evLocation'),
+        notes: val('evNotes'),
+        website: val('evWebsite')
+      };
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){ return res.json().catch(function(){ return {}; }).then(function(data){ return { ok: res.ok, data: data }; }); })
+        .then(function(out){
+          if (out.ok && out.data && out.data.ok !== false){
+            document.getElementById('evFormWrap').style.display = 'none';
+            document.getElementById('evSuccess').classList.add('show');
+          } else {
+            errEl.classList.add('show');
+            btn.disabled = false;
+            btn.textContent = 'Send Your Inquiry';
+          }
+        })
+        .catch(function(){
+          errEl.classList.add('show');
+          btn.disabled = false;
+          btn.textContent = 'Send Your Inquiry';
+        });
+    });
+  }
+
+  // ---- Footer newsletter → live capture, same ¡Gracias! UX ----
+  document.querySelectorAll('form.newsletter-form').forEach(function(f){
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = f.querySelector('input[type="email"]');
+      var btn = f.querySelector('button');
+      var hp = f.querySelector('input[name="website"]');
+      var email = input && input.value ? input.value.trim() : '';
+      if (!email) return;
+      try {
+        fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ kind: 'newsletter', email: email, website: hp ? hp.value : '' })
+        }).catch(function(){});
+      } catch (err) {}
+      btn.textContent = '¡Gracias!';
+      input.disabled = true;
+      btn.disabled = true;
+    });
+  });
 })();
 </script>
 <elevenlabs-convai agent-id="agent_9001kyr4x889fzsrxn1a42vw64hx"></elevenlabs-convai>

@@ -281,18 +281,16 @@ create table if not exists public.guests (
   unique (tenant_id, email)
 );
 
--- Deferred FK: catering_events.guest_id → guests.id
+-- catering_events.guest_id stays a SOFT reference: the live production
+-- guests table uses uuid ids (capture shape), incompatible with text FKs.
 alter table public.catering_events
   drop constraint if exists catering_events_guest_id_fkey;
-alter table public.catering_events
-  add constraint catering_events_guest_id_fkey
-  foreign key (guest_id) references public.guests(id) on delete set null;
 
 create table if not exists public.reservations (
   id          text primary key default gen_random_uuid()::text,
   tenant_id   text not null references public.tenants(id) on delete cascade,
   location_id text not null references public.locations(id) on delete cascade,
-  guest_id    text not null references public.guests(id) on delete cascade,
+  guest_id    text not null /* soft ref: live guests uses uuid ids */,
   date        timestamptz not null,
   party_size  integer not null default 2,
   status      text not null default 'upcoming'
@@ -374,8 +372,8 @@ create index if not exists idx_events_tenant_stage     on public.catering_events
 create index if not exists idx_events_tenant_date      on public.catering_events (tenant_id, event_date);
 create index if not exists idx_beos_event              on public.beos (event_id);
 create index if not exists idx_payments_event          on public.event_payments (event_id);
-create index if not exists idx_guests_tenant           on public.guests (tenant_id);
-create index if not exists idx_guests_tenant_lastvisit on public.guests (tenant_id, last_visit desc);
+-- LIVE-SHAPE SKIP: create index if not exists idx_guests_tenant           on public.guests (tenant_id);
+-- LIVE-SHAPE SKIP: create index if not exists idx_guests_tenant_lastvisit on public.guests (tenant_id, last_visit desc);
 create index if not exists idx_reservations_tenant_dt  on public.reservations (tenant_id, date);
 create index if not exists idx_reservations_guest      on public.reservations (guest_id);
 create index if not exists idx_segments_tenant         on public.segments (tenant_id);
@@ -501,9 +499,9 @@ create policy tenant_isolation on public.event_payments
   with check (tenant_id = (auth.jwt() ->> 'tenant_id'));
 
 drop policy if exists tenant_isolation on public.guests;
-create policy tenant_isolation on public.guests
-  using (tenant_id = (auth.jwt() ->> 'tenant_id'))
-  with check (tenant_id = (auth.jwt() ->> 'tenant_id'));
+-- LIVE-SHAPE SKIP: policy tenant_isolation on guests (live table keyed by tenant_slug)
+-- LIVE-SHAPE SKIP: using (tenant_id = (auth.jwt() ->> 'tenant_id'))
+-- LIVE-SHAPE SKIP: with check (tenant_id = (auth.jwt() ->> 'tenant_id'));
 
 drop policy if exists tenant_isolation on public.reservations;
 create policy tenant_isolation on public.reservations
@@ -527,5 +525,71 @@ create policy tenant_isolation on public.activity_events
 
 drop policy if exists tenant_isolation on public.integration_states;
 create policy tenant_isolation on public.integration_states
+  using (tenant_id = (auth.jwt() ->> 'tenant_id'))
+  with check (tenant_id = (auth.jwt() ->> 'tenant_id'));
+
+-- ============================================================
+-- Reviews & Reputation (Popmenu parity) — additive extension.
+-- Mirrors the Review type in types.ts (reviews land via the
+-- platform-sync worker; seeded from fixtures meanwhile).
+-- ============================================================
+
+create table if not exists public.reviews (
+  id            text primary key default gen_random_uuid()::text,
+  tenant_id     text not null references public.tenants(id) on delete cascade,
+  platform      text not null check (platform in ('google','yelp','opentable','tripadvisor')),
+  author        text not null,
+  rating        integer not null check (rating between 1 and 5),
+  text          text not null default '',
+  date          date not null,
+  replied       boolean not null default false,
+  reply_text    text,
+  dish_mentions text[] not null default '{}' -- menu items name-checked in the review
+);
+
+-- ============================================================
+-- Live menus — additive extension. Mirrors the LiveMenuItem
+-- shape in menus-live.ts (the scraped Buena Vista menu that
+-- fixtures/menus-live.json holds today; this table lets the OS
+-- serve/edit menus from the database once seeded).
+-- ============================================================
+
+create table if not exists public.menu_items_live (
+  id          text primary key default gen_random_uuid()::text,
+  tenant_id   text not null references public.tenants(id) on delete cascade,
+  loc         text not null,             -- location slug: 'hells-kitchen' | 'east-village'
+  menu        text not null,             -- menu display name, e.g. "Dinner Menu"
+  menu_slug   text not null default '',  -- menu slug, e.g. "dinner-menu"
+  section     text not null,             -- section within the menu
+  name        text not null,
+  description text not null default '',
+  price       numeric(12,2) not null default 0, -- 0 when the source lists no price
+  photo       text,
+  popular     boolean not null default false,
+  best        boolean not null default false,
+  alcohol     boolean not null default false,
+  slug        text not null,
+  unique (tenant_id, loc, menu_slug, slug)
+);
+
+-- ---- indexes ----
+
+create index if not exists idx_reviews_tenant_date     on public.reviews (tenant_id, date desc);
+create index if not exists idx_reviews_tenant_platform on public.reviews (tenant_id, platform);
+create index if not exists idx_mil_tenant_loc          on public.menu_items_live (tenant_id, loc);
+create index if not exists idx_mil_tenant_menu         on public.menu_items_live (tenant_id, loc, menu_slug);
+
+-- ---- row level security (same tenant-isolation contract) ----
+
+alter table public.reviews         enable row level security;
+alter table public.menu_items_live enable row level security;
+
+drop policy if exists tenant_isolation on public.reviews;
+create policy tenant_isolation on public.reviews
+  using (tenant_id = (auth.jwt() ->> 'tenant_id'))
+  with check (tenant_id = (auth.jwt() ->> 'tenant_id'));
+
+drop policy if exists tenant_isolation on public.menu_items_live;
+create policy tenant_isolation on public.menu_items_live
   using (tenant_id = (auth.jwt() ->> 'tenant_id'))
   with check (tenant_id = (auth.jwt() ->> 'tenant_id'));

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Table | Buena Vista Restaurant &amp; Bar &#8212; NYC Reservations</title>
+<meta name="description" content="Request a table at Buena Vista — Spanish-Latin dining in Hell's Kitchen and the East Village, NYC. Tell us your night and our team confirms by text, or book instantly through our reservations partner.">
+<meta name="author" content="Buena Vista Restaurant &amp; Bar &#8212; Christian Nu&ntilde;ez">
+<link rel="canonical" href="https://buena-vista-ny.vercel.app/reserve/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Request a Table | Buena Vista Restaurant &amp; Bar">
+<meta property="og:description" content="Tell us your night — party, date, time, and location — and the Buena Vista team confirms by text. Or book instantly through our reservations partner.">
+<meta property="og:url" content="https://buena-vista-ny.vercel.app/reserve/">
+<meta property="og:image" content="https://buena-vista-ny.vercel.app/assets/images/cta-table.jpg">
+<meta property="og:site_name" content="Buena Vista Restaurant &amp; Bar">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Request a Table | Buena Vista Restaurant &amp; Bar">
+<meta name="twitter:description" content="Tell us your night — party, date, time, and location — and the Buena Vista team confirms by text.">
+<meta name="twitter:image" content="https://buena-vista-ny.vercel.app/assets/images/cta-table.jpg">
+
+<!-- Favicon: azulejo tile -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%231E3A5F'/%3E%3Cg fill='%23A8C4E5'%3E%3Ccircle cx='50' cy='50' r='11' fill='%23C9995C'/%3E%3Cpath d='M50 14c5 9 5 16 0 22c-5-6-5-13 0-22z'/%3E%3Cpath d='M50 86c-5-9-5-16 0-22c5 6 5 13 0 22z'/%3E%3Cpath d='M14 50c9-5 16-5 22 0c-6 5-13 5-22 0z'/%3E%3Cpath d='M86 50c-9 5-16 5-22 0c6-5 13-5 22 0z'/%3E%3C/g%3E%3Cg fill='%232E5A8F'%3E%3Cpath d='M24 24c8 1 13 5 15 12c-7-1-12-5-15-12z'/%3E%3Cpath d='M76 24c-8 1-13 5-15 12c7-1 12-5 15-12z'/%3E%3Cpath d='M24 76c8-1 13-5 15-12c-7 1-12 5-15 12z'/%3E%3Cpath d='M76 76c-8-1-13-5-15-12c7 1 12 5 15 12z'/%3E%3C/g%3E%3C/svg%3E">
+
+<!-- Breadcrumb -->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://buena-vista-ny.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Request a Table", "item": "https://buena-vista-ny.vercel.app/reserve/"}]}
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Shared chrome stylesheet (contract) + self-sufficient inline fallback below -->
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+
+/* ============================================================
+   BUENA VISTA — shared subpage chrome (contract classes)
+   Solid cream nav + cream-on-ink footer · candlelit editorial
+   Degrades gracefully if /assets/site.css is absent.
+   ============================================================ */
+:root{
+  --navy:#1E3A5F; --blue:#2E5A8F; --sky:#A8C4E5;
+  --gold:#C9995C; --amber:#D4A437; --verde:#0A7D57;
+  --ink:#101826; --cream:#F7F2E9;
+  --logo-blue:#2E5A8F; --logo-sky:#A8C4E5; --logo-gold:#C9995C;
+  --font-display:'Cormorant Garamond', Georgia, serif;
+  --font-body:'Jost', 'Helvetica Neue', sans-serif;
+  --nav-h:76px;
+  --ease-buttery:cubic-bezier(.16,1,.3,1);
+  --container:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--cream); color:var(--ink);
+  font-family:var(--font-body); font-weight:400; line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--gold);color:var(--ink)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.container{max-width:var(--container);margin:0 auto;padding:0 32px}
+section{scroll-margin-top:calc(var(--nav-h) + 8px)}
+
+.kicker{
+  font-family:var(--font-body); font-size:12px;font-weight:500;
+  letter-spacing:.35em;text-transform:uppercase; color:var(--gold);
+  display:inline-block; margin-bottom:24px;
+}
+.section-title{
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(2.5rem, 6vw, 5.5rem); line-height:1.05; letter-spacing:-.01em;
+}
+.section-title em{font-style:italic;font-weight:500;color:var(--gold)}
+.title-md{font-size:clamp(2rem,4vw,3.4rem)}
+.section-sub{font-size:clamp(15px,1.6vw,18px);font-weight:300;max-width:56ch;margin-top:24px}
+.on-dark{color:var(--cream)}
+.on-dark .section-sub{color:rgba(247,242,233,.72)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--font-body); font-size:13px;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase; padding:18px 40px;
+  text-decoration:none; border-radius:2px;
+  transition:transform .5s var(--ease-buttery), background .35s ease, color .35s ease, box-shadow .5s var(--ease-buttery), border-color .35s ease;
+  will-change:transform; cursor:pointer;
+}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:var(--ink);box-shadow:0 12px 32px -12px rgba(201,153,92,.55);border:1px solid var(--gold)}
+.btn-gold:hover{background:var(--amber);border-color:var(--amber);box-shadow:0 18px 40px -14px rgba(212,164,55,.6)}
+.btn-glass{background:rgba(247,242,233,.15);color:var(--cream);border:1px solid rgba(247,242,233,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.btn-glass:hover{background:rgba(247,242,233,.28)}
+.btn-outline-navy{background:transparent;color:var(--navy);border:1px solid rgba(30,58,95,.4)}
+.btn-outline-navy:hover{border-color:var(--navy);background:rgba(30,58,95,.05)}
+
+/* ---------- NAV — fixed, solid cream, navy text (subpage variant) ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:var(--nav-h); display:flex;align-items:center;
+  background:var(--cream); color:var(--navy);
+  box-shadow:0 10px 40px -18px rgba(16,24,38,.28);
+}
+.nav-inner{width:100%;max-width:1360px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;flex-shrink:0}
+.nav-logo .logo-tile{width:44px;height:44px;display:block}
+.nav-logo .logo-word{width:152px;height:38px;display:block}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{
+  font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;position:relative;padding:6px 0;white-space:nowrap;
+  transition:color .3s ease;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .45s var(--ease-buttery)}
+.nav-links a:hover::after{width:100%}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a[aria-current="page"]{color:var(--gold)}
+.nav-links a[aria-current="page"]::after{width:100%}
+.nav-cta{
+  font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;background:var(--gold);color:var(--ink);
+  padding:13px 28px;border-radius:2px;border:1px solid var(--gold);
+  transition:background .3s ease,transform .4s var(--ease-buttery);flex-shrink:0;
+}
+.nav-cta:hover{background:var(--amber);border-color:var(--amber);transform:translateY(-2px)}
+.nav-burger{
+  display:none;width:44px;height:44px;background:transparent;border:0;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:6px;z-index:1102;color:var(--navy);
+}
+.nav-burger span{display:block;width:26px;height:2px;background:currentColor;transition:transform .45s var(--ease-buttery), opacity .3s ease}
+.nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.mobile-menu{
+  position:fixed;inset:0;z-index:1100;background:rgba(16,24,38,.97);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .5s ease, visibility 0s linear .5s;
+}
+.mobile-menu.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .5s ease}
+.mobile-menu a{
+  font-family:var(--font-display);font-size:clamp(26px,6vw,38px);font-weight:600;
+  color:var(--cream);text-decoration:none;padding:6px 16px;
+  opacity:0;transform:translateY(28px);
+  transition:opacity .55s var(--ease-buttery), transform .55s var(--ease-buttery), color .3s ease;
+}
+.mobile-menu a:hover, .mobile-menu a[aria-current="page"]{color:var(--gold)}
+.mobile-menu.open a{opacity:1;transform:none}
+.mobile-menu a:nth-child(1){transition-delay:.06s}
+.mobile-menu a:nth-child(2){transition-delay:.1s}
+.mobile-menu a:nth-child(3){transition-delay:.14s}
+.mobile-menu a:nth-child(4){transition-delay:.18s}
+.mobile-menu a:nth-child(5){transition-delay:.22s}
+.mobile-menu a:nth-child(6){transition-delay:.26s}
+.mobile-menu a:nth-child(7){transition-delay:.3s}
+.mobile-menu a:nth-child(8){transition-delay:.34s}
+.mobile-menu a:nth-child(9){transition-delay:.38s}
+.mobile-menu a:nth-child(10){transition-delay:.42s}
+.mobile-reserve{
+  margin-top:18px;
+  font-family:var(--font-body)!important;
+  font-size:13px!important;letter-spacing:.22em;text-transform:uppercase;
+  background:var(--gold);color:var(--ink)!important;
+  padding:16px 40px!important;border-radius:2px;
+}
+
+/* ---------- PAGE HERO band ---------- */
+.page-hero{
+  position:relative;
+  background:var(--ink); color:var(--cream);
+  padding-top:var(--nav-h);
+  overflow:hidden;
+}
+.page-hero .hero-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:.5;
+}
+.page-hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(16,24,38,.5) 0%, rgba(16,24,38,.62) 55%, rgba(16,24,38,.94) 100%);
+}
+.page-hero .hero-inner{position:relative;z-index:2;padding:110px 0 84px}
+.page-hero .section-sub{color:rgba(247,242,233,.82)}
+.hero-rule{width:64px;height:2px;background:var(--gold);margin-top:36px}
+
+/* ---------- reveal-on-scroll (JS-gated so no-JS never hides content) ---------- */
+html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-buttery), transform .9s var(--ease-buttery)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  html.js .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- FOOTER — same as index, cream-on-ink ---------- */
+.loc-tag{font-size:10px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+.site-footer{background:var(--ink);color:var(--cream);padding:120px 0 0}
+.contact-grid{
+  display:grid;grid-template-columns:1.1fr 1.1fr 1.3fr;gap:64px;
+  padding-bottom:96px;border-bottom:1px solid rgba(247,242,233,.08);
+}
+.contact-col h3{font-family:var(--font-display);font-weight:600;font-size:28px;margin-bottom:4px}
+.contact-col .loc-tag{margin-bottom:18px}
+.contact-line{font-size:14px;font-weight:300;color:rgba(247,242,233,.78);margin-bottom:10px;line-height:1.7}
+.contact-line a{color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(247,242,233,.25);transition:border-color .3s,color .3s}
+.contact-line a:hover{color:var(--gold);border-color:var(--gold)}
+.contact-hours{margin-top:18px;font-size:12px;font-weight:300;color:rgba(247,242,233,.6);line-height:2}
+.contact-hours strong{font-weight:500;color:var(--sky);letter-spacing:.14em;text-transform:uppercase;font-size:10px;display:block;margin-bottom:4px}
+.newsletter h3{font-family:var(--font-display);font-weight:600;font-size:30px;margin-bottom:12px}
+.newsletter p{font-size:14px;font-weight:300;color:rgba(247,242,233,.7);margin-bottom:28px;max-width:40ch}
+.newsletter-form{display:flex;gap:0;border:1px solid rgba(247,242,233,.25);border-radius:2px;overflow:hidden;max-width:440px;background:rgba(247,242,233,.05);position:relative}
+.newsletter-form input{flex:1;min-width:0;background:transparent;border:0;outline:none;padding:17px 20px;color:var(--cream);font-family:var(--font-body);font-size:14px;font-weight:300}
+.newsletter-form input::placeholder{color:rgba(247,242,233,.45)}
+.newsletter-form input:disabled{opacity:.6}
+.newsletter-form button{background:var(--gold);color:var(--ink);border:0;cursor:pointer;font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:0 26px;white-space:nowrap;transition:background .3s ease}
+.newsletter-form button:hover{background:var(--amber)}
+.socials{display:flex;gap:16px;margin-top:36px}
+.socials a{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(247,242,233,.2);border-radius:50%;color:var(--cream);transition:border-color .35s ease, color .35s ease, transform .45s var(--ease-buttery)}
+.socials a:hover{color:var(--gold);border-color:var(--gold);transform:translateY(-3px)}
+.socials svg{width:17px;height:17px;display:block}
+.footer-links{
+  display:flex;flex-wrap:wrap;gap:10px 28px;
+  padding:40px 0 0;
+}
+.footer-links a{
+  font-size:10px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(247,242,233,.55);text-decoration:none;transition:color .3s ease;
+}
+.footer-links a:hover{color:var(--gold)}
+.footer-bar{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;padding:40px 0 48px}
+.footer-logo{display:flex;flex-direction:column;align-items:flex-start;gap:16px;color:var(--cream);text-decoration:none}
+.footer-logo .logo-tile{width:88px;height:88px}
+.footer-logo .logo-word{width:196px;height:48px}
+.footer-meta{text-align:right;font-size:12px;font-weight:300;color:rgba(247,242,233,.55);line-height:2}
+.footer-meta .viox{color:rgba(247,242,233,.75);letter-spacing:.18em;text-transform:uppercase;font-size:10px}
+.footer-meta .viox a{color:var(--gold);text-decoration:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:1240px){
+  .nav-links{gap:18px}
+  .nav-links a{letter-spacing:.12em}
+}
+@media (max-width:1100px){
+  .nav-links, .nav .nav-cta{display:none}
+  .nav-burger{display:flex}
+  .nav-logo .logo-word{width:120px;height:30px}
+  .contact-grid{grid-template-columns:1fr 1fr;gap:48px}
+}
+@media (max-width:720px){
+  :root{--nav-h:68px}
+  .container{padding:0 22px}
+  .contact-grid{grid-template-columns:1fr;gap:44px}
+  .footer-bar{flex-direction:column;align-items:flex-start}
+  .footer-meta{text-align:left}
+  .page-hero .hero-inner{padding:84px 0 64px}
+}
+
+/* ---------- page-specific: request-a-table form ---------- */
+
+.rv-hero-bg{background-image:url('../assets/images/cta-table.jpg')}
+.rv-main{padding:100px 0 130px}
+.rv-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:start}
+.rv-card{
+  background:#fff;border:1px solid rgba(30,58,95,.1);border-radius:4px;
+  padding:52px 48px;position:relative;overflow:hidden;
+}
+.rv-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--amber))}
+.rv-card h2{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,36px);color:var(--navy)}
+.rv-card .rv-note{margin-top:10px;font-size:14px;font-weight:300;color:rgba(16,24,38,.68)}
+.rv-form{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:22px 20px}
+.rv-field{display:flex;flex-direction:column;gap:8px}
+.rv-field.full{grid-column:1 / -1}
+.rv-field label{
+  font-size:10.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--navy);
+}
+.rv-field label .opt{color:rgba(16,24,38,.42);letter-spacing:.14em}
+.rv-field input,.rv-field select,.rv-field textarea{
+  font-family:var(--font-body);font-size:15px;font-weight:300;color:var(--ink);
+  background:var(--cream);border:1px solid rgba(30,58,95,.22);border-radius:2px;
+  padding:14px 16px;outline:none;width:100%;
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.rv-field textarea{resize:vertical;min-height:96px}
+.rv-field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231E3A5F' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.rv-field input:focus,.rv-field select:focus,.rv-field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,153,92,.18);background:#fff}
+.rv-field input::placeholder,.rv-field textarea::placeholder{color:rgba(16,24,38,.38)}
+.rv-hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.rv-submit{grid-column:1 / -1;margin-top:6px}
+.rv-submit .btn{width:100%;border:1px solid var(--gold)}
+.rv-submit .btn[disabled]{opacity:.55;cursor:wait;transform:none}
+.rv-error{
+  grid-column:1 / -1;display:none;
+  border:1px solid rgba(178,58,58,.35);background:rgba(178,58,58,.07);
+  border-radius:2px;padding:14px 18px;font-size:13.5px;font-weight:300;color:#8C2F2F;
+}
+.rv-error a{color:var(--navy)}
+.rv-error.show{display:block}
+.rv-success{display:none;text-align:left;padding:16px 0 4px}
+.rv-success.show{display:block}
+.rv-success .check{
+  width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;margin-bottom:26px;color:var(--verde);
+}
+.rv-success h3{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,34px);color:var(--navy)}
+.rv-success p{margin-top:14px;font-size:15px;font-weight:300;color:rgba(16,24,38,.75);max-width:48ch;line-height:1.8}
+.rv-success .btn{margin-top:28px}
+.rv-aside{position:sticky;top:calc(var(--nav-h) + 24px)}
+.rv-aside .aside-card{
+  border:1px solid rgba(30,58,95,.14);border-radius:4px;padding:36px 32px;background:rgba(168,196,229,.1);
+}
+.rv-aside .aside-card + .aside-card{margin-top:20px}
+.rv-aside h3{font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--navy);margin-bottom:8px}
+.rv-aside p{font-size:13.5px;font-weight:300;color:rgba(16,24,38,.72);line-height:1.8}
+.rv-aside .big{
+  display:inline-block;margin-top:12px;
+  font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--navy);
+  text-decoration:none;border-bottom:1px solid rgba(201,153,92,.5);
+  transition:color .3s ease,border-color .3s ease;
+}
+.rv-aside .big:hover{color:var(--gold);border-color:var(--gold)}
+.rv-aside .btn{margin-top:20px;width:100%}
+@media (max-width:960px){
+  .rv-grid{grid-template-columns:1fr}
+  .rv-aside{position:static}
+  .rv-card{padding:40px 26px}
+  .rv-form{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOGO — recreated from the client's azulejo tile emblem.
+     NEVER a new logo: symmetric quatrefoil tile + BUENAVISTA wordmark.
+     (copied from index.html — shared chrome contract)
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="bv-fan">
+      <path d="M50 7 C43.5 16.5 43.5 26.5 50 34.5 C56.5 26.5 56.5 16.5 50 7 Z" fill="var(--logo-blue,#2E5A8F)"/>
+      <path d="M34 11 C31.5 20 34.5 28 44 32 C46.8 24 43 16.4 34 11 Z" fill="var(--logo-sky,#A8C4E5)"/>
+      <path d="M66 11 C68.5 20 65.5 28 56 32 C53.2 24 57 16.4 66 11 Z" fill="var(--logo-sky,#A8C4E5)"/>
+      <circle cx="50" cy="13.5" r="2.2" fill="var(--logo-gold,#C9995C)"/>
+    </g>
+    <ellipse id="bv-rose-petal" cx="50" cy="42.6" rx="2.1" ry="4.2" fill="var(--logo-sky,#A8C4E5)"/>
+    <symbol id="bv-tile" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="47.5" fill="none" stroke="var(--logo-gold,#C9995C)" stroke-width="1.4"/>
+      <circle cx="50" cy="50" r="42.5" fill="none" stroke="var(--logo-blue,#2E5A8F)" stroke-width=".7" opacity=".55"/>
+      <use href="#bv-fan" transform="rotate(45 50 50)"/>
+      <use href="#bv-fan" transform="rotate(135 50 50)"/>
+      <use href="#bv-fan" transform="rotate(225 50 50)"/>
+      <use href="#bv-fan" transform="rotate(315 50 50)"/>
+      <circle cx="50" cy="50" r="10.5" fill="none" stroke="var(--logo-gold,#C9995C)" stroke-width="1"/>
+      <use href="#bv-rose-petal"/>
+      <use href="#bv-rose-petal" transform="rotate(45 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(90 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(135 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(180 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(225 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(270 50 50)"/>
+      <use href="#bv-rose-petal" transform="rotate(315 50 50)"/>
+      <circle cx="50" cy="50" r="3.4" fill="var(--logo-gold,#C9995C)"/>
+    </symbol>
+    <symbol id="bv-wordmark" viewBox="0 0 340 82">
+      <text x="4" y="44" textLength="332" lengthAdjust="spacingAndGlyphs"
+            font-family="'Cormorant Garamond', Georgia, serif" font-weight="700"
+            font-size="46" letter-spacing="2.7" fill="currentColor"
+            style="shape-rendering:geometricPrecision">BUENAVISTA</text>
+      <text x="4" y="68" textLength="332" lengthAdjust="spacingAndGlyphs"
+            font-family="'Jost', sans-serif" font-weight="500"
+            font-size="9" letter-spacing="3.15" fill="currentColor" opacity=".78"
+            style="shape-rendering:geometricPrecision">RESTAURANT &amp; BAR &#8226; MODERN LATIN CUISINE</text>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/" aria-label="Buena Vista Restaurant &amp; Bar &#8212; home">
+      <svg class="logo-tile" aria-hidden="true" focusable="false"><use href="#bv-tile"/></svg>
+      <svg class="logo-word" aria-hidden="true" focusable="false"><use href="#bv-wordmark"/></svg>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/menu/">Menu</a></li>
+        <li><a href="/our-story/">Our Story</a></li>
+        <li><a href="/private-events/">Private Events</a></li>
+        <li><a href="/gallery/">Gallery</a></li>
+        <li><a href="/press/">Press</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/reserve/" aria-current="page">Request a Table</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Reserve</a>
+    <button class="nav-burger" id="navBurger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile full-screen menu -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <a href="/">Home</a>
+  <a href="/menu/">Menu</a>
+  <a href="/our-story/">Our Story</a>
+  <a href="/private-events/">Private Events</a>
+  <a href="/gallery/">Gallery</a>
+  <a href="/press/">Press</a>
+  <a href="/blog/">Blog</a>
+  <a href="/contact/">Contact</a>
+  <a href="/reserve/" aria-current="page">Request a Table</a>
+  <a class="mobile-reserve" href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Reserve a Table</a>
+</nav>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="page-hero" aria-label="Request a table at Buena Vista">
+  <div class="hero-bg rv-hero-bg" role="img" aria-label="A candlelit table set for dinner at Buena Vista"></div>
+  <div class="hero-inner container">
+    <span class="kicker">Reservations</span>
+    <h1 class="section-title">Request a <em>Table</em></h1>
+    <p class="section-sub">Tell us your night &#8212; party, date, and place &#8212; and our team confirms by text. Prefer instant booking? Our reservations partner has you covered.</p>
+    <div class="hero-rule" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- REQUEST FORM -->
+<section class="rv-main" aria-label="Reservation request form">
+  <div class="container">
+    <div class="rv-grid">
+
+      <div class="rv-card reveal">
+        <div id="rvFormWrap">
+          <h2>Your Night, Your Way</h2>
+          <p class="rv-note">A few details and we take it from there &#8212; a real person confirms every request.</p>
+          <form class="rv-form" id="rvForm" aria-label="Reservation request" novalidate>
+            <div class="rv-field">
+              <label for="rvName">Name</label>
+              <input id="rvName" name="name" type="text" placeholder="Full name" required autocomplete="name">
+            </div>
+            <div class="rv-field">
+              <label for="rvPhone">Phone</label>
+              <input id="rvPhone" name="phone" type="tel" placeholder="(212) 555-0123" required autocomplete="tel">
+            </div>
+            <div class="rv-field">
+              <label for="rvEmail">Email <span class="opt">&#8212; optional</span></label>
+              <input id="rvEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <div class="rv-field">
+              <label for="rvParty">Party Size</label>
+              <select id="rvParty" name="party_size" required>
+                <option value="" selected disabled>Choose&#8230;</option>
+                <option value="1">1 guest</option>
+                <option value="2">2 guests</option>
+                <option value="3">3 guests</option>
+                <option value="4">4 guests</option>
+                <option value="5">5 guests</option>
+                <option value="6">6 guests</option>
+                <option value="7">7 guests</option>
+                <option value="8">8 guests</option>
+                <option value="9">9 guests</option>
+                <option value="10">10 guests</option>
+                <option value="11">11 guests</option>
+                <option value="12">12+ guests</option>
+              </select>
+            </div>
+            <div class="rv-field">
+              <label for="rvDate">Date</label>
+              <input id="rvDate" name="date" type="date" required>
+            </div>
+            <div class="rv-field">
+              <label for="rvTime">Time</label>
+              <input id="rvTime" name="time" type="time" required>
+            </div>
+            <div class="rv-field">
+              <label for="rvLocation">Location</label>
+              <select id="rvLocation" name="location" required>
+                <option value="" selected disabled>Choose&#8230;</option>
+                <option value="hells-kitchen">Hell's Kitchen &#8212; 536 9th Ave</option>
+                <option value="east-village">East Village &#8212; 88 2nd Ave</option>
+              </select>
+            </div>
+            <div class="rv-field">
+              <label for="rvOccasion">Occasion <span class="opt">&#8212; optional</span></label>
+              <select id="rvOccasion" name="occasion">
+                <option value="" selected>None &#8212; just a great night</option>
+                <option value="birthday">Birthday</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="date-night">Date night</option>
+                <option value="business">Business dinner</option>
+                <option value="celebration">Celebration</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="rv-field full">
+              <label for="rvNotes">Notes <span class="opt">&#8212; optional</span></label>
+              <textarea id="rvNotes" name="notes" placeholder="Allergies, seating preferences, surprises we should know about&#8230;"></textarea>
+            </div>
+            <div class="rv-hp" aria-hidden="true">
+              <label for="rvWebsite">Website</label>
+              <input id="rvWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <p class="rv-error" id="rvError" role="alert">Something went wrong sending your request. Please try again, call us, or <a href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">book instantly through our reservations partner</a>.</p>
+            <div class="rv-submit">
+              <button class="btn btn-gold" id="rvSubmit" type="submit">Request This Table</button>
+            </div>
+          </form>
+        </div>
+        <div class="rv-success" id="rvSuccess" aria-live="polite">
+          <div class="check" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3>&iexcl;Gracias! We got it.</h3>
+          <p>Your request is with our team &#8212; confirmation coming by text. If plans change before we reach you, just call the house directly.</p>
+          <a class="btn btn-outline-navy" href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Need it locked in now? Book instantly</a>
+        </div>
+      </div>
+
+      <aside class="rv-aside reveal" aria-label="Other ways to reserve">
+        <div class="aside-card">
+          <span class="loc-tag">Instant Booking</span>
+          <h3>Know Your Night?</h3>
+          <p>See live availability and lock a table this second through our reservations partner.</p>
+          <a class="btn btn-gold" href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Reserve Instantly</a>
+        </div>
+        <div class="aside-card">
+          <span class="loc-tag">Hell's Kitchen</span>
+          <p>536 9th Avenue, New York, NY 10018</p>
+          <a class="big" href="tel:+12123885040">(212) 388-5040</a>
+        </div>
+        <div class="aside-card">
+          <span class="loc-tag">East Village</span>
+          <p>88 2nd Avenue, New York, NY 10003</p>
+          <a class="big" href="tel:+19292200547">(929) 220-0547</a>
+        </div>
+        <div class="aside-card">
+          <span class="loc-tag">AI Concierge &#8212; 24/7</span>
+          <p>Questions answered any hour, any day &#8212; English y espa&ntilde;ol.</p>
+          <a class="big" href="tel:+19294105502">(929) 410-5502</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================ FOOTER — per shared chrome contract (adapted from index.html) ============================================================ -->
+<footer class="site-footer" aria-label="Locations, newsletter and site info">
+  <div class="container">
+
+    <div class="contact-grid">
+
+      <div class="contact-col">
+        <span class="loc-tag">Hell's Kitchen</span>
+        <h3>The Original</h3>
+        <p class="contact-line">536 9th Avenue<br>New York, NY 10018</p>
+        <p class="contact-line"><a href="tel:+12123885040">(212) 388-5040</a></p>
+        <div class="contact-hours">
+          <strong>Hours</strong>
+          Sun&ndash;Thu &nbsp;11:00 AM &ndash; 11:00 PM<br>
+          Fri&ndash;Sat &nbsp;11:00 AM &ndash; 12:00 AM
+        </div>
+      </div>
+
+      <div class="contact-col">
+        <span class="loc-tag">East Village</span>
+        <h3>Late Night</h3>
+        <p class="contact-line">88 2nd Avenue<br>New York, NY 10003</p>
+        <p class="contact-line"><a href="tel:+19292200547">(929) 220-0547</a></p>
+        <div class="contact-hours">
+          <strong>Hours</strong>
+          Sun&ndash;Thu &nbsp;11:00 AM &ndash; 11:00 PM<br>
+          Fri&ndash;Sat &nbsp;11:00 AM &ndash; 2:00 AM
+        </div>
+      </div>
+
+      <div class="contact-col newsletter">
+        <h3>Join the VIP List</h3>
+        <p>First pours, secret menus, and invitations to nights that never make it to social media.</p>
+        <form class="newsletter-form" aria-label="Newsletter signup">
+          <label class="sr-only" for="vipEmail">Email address</label>
+          <input id="vipEmail" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+          <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+          <button type="submit">Join the VIP List</button>
+        </form>
+
+        <div class="socials">
+          <a href="https://www.instagram.com/buenavistany/" target="_blank" rel="noopener" aria-label="Buena Vista on Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.2"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/Buenavistany" target="_blank" rel="noopener" aria-label="Buena Vista on Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.6 21.5v-7.6h2.6l.4-3h-3V9c0-.87.24-1.46 1.5-1.46h1.6V4.85c-.28-.04-1.23-.12-2.34-.12-2.32 0-3.9 1.41-3.9 4v2.2H7.9v3h2.56v7.6h3.14z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@buenavistany" target="_blank" rel="noopener" aria-label="Buena Vista on TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.9 3c.36 1.94 1.66 3.44 3.6 3.72v2.9c-1.36.04-2.62-.4-3.6-1.1v6.62c0 3.5-2.36 5.86-5.5 5.86-3 0-5.4-2.3-5.4-5.32 0-3.06 2.5-5.24 5.66-5.14v3c-.24-.06-.5-.1-.76-.1-1.42 0-2.5 1.04-2.5 2.36 0 1.36 1.1 2.32 2.44 2.32 1.5 0 2.66-1.14 2.66-3.02V3h3.4z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/channel/UCIXB1gE87vepH_aNQFW_2Wg" target="_blank" rel="noopener" aria-label="Buena Vista on YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.28 5 12 5 12 5s-6.28 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2 26.2 26.2 0 0 0 2 12c0 1.62.13 3.24.4 4.8a2.5 2.5 0 0 0 1.76 1.77C5.72 19 12 19 12 19s6.28 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77c.27-1.56.4-3.18.4-4.8 0-1.62-.13-3.24-.4-4.8zM10 15.2V8.8l5.6 3.2L10 15.2z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/menu/">Menu</a>
+      <a href="/our-story/">Our Story</a>
+      <a href="/private-events/">Private Events</a>
+      <a href="/gallery/">Gallery</a>
+      <a href="/press/">Press</a>
+      <a href="/blog/">Blog</a>
+      <a href="/contact/">Contact</a>
+      <a href="/careers/">Careers</a>
+      <a href="/reserve/">Request a Table</a>
+      <a href="https://www.buenavistany.com/reservations" target="_blank" rel="noopener">Reservations</a>
+      <a href="https://www.buenavistany.com/popmenu-order" target="_blank" rel="noopener">Order Online</a>
+    </nav>
+
+    <div class="footer-bar">
+      <a class="footer-logo" href="/" aria-label="Buena Vista Restaurant &amp; Bar &#8212; home">
+        <svg class="logo-tile" aria-hidden="true" focusable="false"><use href="#bv-tile"/></svg>
+        <svg class="logo-word" aria-hidden="true" focusable="false"><use href="#bv-wordmark"/></svg>
+      </a>
+      <div class="footer-meta">
+        &copy; 2026 Buena Vista Restaurant &amp; Bar. All rights reserved.<br>
+        <span class="viox">Site by <a href="https://viox.ai" target="_blank" rel="noopener">VioX AI</a></span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  document.documentElement.classList.add('js');
+  var burger = document.getElementById('navBurger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    burger.setAttribute('aria-label','Open menu');
+    document.body.style.overflow = '';
+  }
+  if (burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+  }
+  // Reveal-on-scroll
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && els.length){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+
+<!-- Live capture → VioX CRM (/api/public/lead) -->
+<script>
+(function(){
+  'use strict';
+  var API = 'https://buena-vista-crm.vercel.app/api/public/lead';
+
+  // ---- Reservation request form ----
+  var form = document.getElementById('rvForm');
+  if (form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      var btn = document.getElementById('rvSubmit');
+      var errEl = document.getElementById('rvError');
+      errEl.classList.remove('show');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      var val = function(id){ var el = document.getElementById(id); return el && el.value ? el.value.trim() : ''; };
+      var payload = {
+        kind: 'reservation_request',
+        name: val('rvName'),
+        phone: val('rvPhone'),
+        email: val('rvEmail'),
+        party_size: val('rvParty'),
+        date: val('rvDate'),
+        time: val('rvTime'),
+        location: val('rvLocation'),
+        occasion: val('rvOccasion'),
+        notes: val('rvNotes'),
+        website: val('rvWebsite')
+      };
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){ return res.json().catch(function(){ return {}; }).then(function(data){ return { ok: res.ok, data: data }; }); })
+        .then(function(out){
+          if (out.ok && out.data && out.data.ok !== false){
+            document.getElementById('rvFormWrap').style.display = 'none';
+            document.getElementById('rvSuccess').classList.add('show');
+            try { window.scrollTo({ top: document.querySelector('.rv-main').offsetTop - 60, behavior: 'smooth' }); } catch (e2) {}
+          } else {
+            errEl.classList.add('show');
+            btn.disabled = false;
+            btn.textContent = 'Request This Table';
+          }
+        })
+        .catch(function(){
+          errEl.classList.add('show');
+          btn.disabled = false;
+          btn.textContent = 'Request This Table';
+        });
+    });
+  }
+
+  // ---- Footer newsletter → live capture, same ¡Gracias! UX ----
+  document.querySelectorAll('form.newsletter-form').forEach(function(f){
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = f.querySelector('input[type="email"]');
+      var btn = f.querySelector('button');
+      var hp = f.querySelector('input[name="website"]');
+      var email = input && input.value ? input.value.trim() : '';
+      if (!email) return;
+      try {
+        fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ kind: 'newsletter', email: email, website: hp ? hp.value : '' })
+        }).catch(function(){});
+      } catch (err) {}
+      btn.textContent = '¡Gracias!';
+      input.disabled = true;
+      btn.disabled = true;
+    });
+  });
+})();
+</script>
+<elevenlabs-convai agent-id="agent_9001kyr4x889fzsrxn1a42vw64hx"></elevenlabs-convai>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+</body>
+</html>

@@ -1,8 +1,9 @@
 // ============================================================
 // DataRepository — the single data-access contract.
-// Drivers: demo (in-memory fixtures, default) | supabase (later:
-// set NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY and
-// implement createSupabaseRepository against schema.sql).
+// Drivers: demo (in-memory fixtures, default) | supabase
+// (./supabase.ts — PostgREST against schema.sql; needs
+// SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY and USE_SUPABASE_DATA
+// flipped on; falls back to demo fixtures per method).
 // All methods are async so drivers can swap without app changes.
 // ============================================================
 
@@ -58,13 +59,22 @@ export type DriverKind = 'demo' | 'supabase';
 /**
  * Returns the repository for a tenant. DEMO_MODE (default) serves
  * the Buena Vista fixture dataset from ./fixtures.
+ *
+ * Driver switch: USE_SUPABASE_DATA=1|true|yes (the documented data
+ * flip — see docs/OPERATIONS.md §4 Phase 3). Deliberately NOT keyed
+ * off NEXT_PUBLIC_SUPABASE_URL / SUPABASE_URL: those are set for
+ * auth and the live capture tables long before the dashboards flip,
+ * and must never change read behavior on their own.
  */
 export function getRepository(tenantSlug = 'buena-vista'): DataRepository {
-  const driver: DriverKind = process.env.NEXT_PUBLIC_SUPABASE_URL ? 'supabase' : 'demo';
+  const flag = (process.env.USE_SUPABASE_DATA ?? '').toLowerCase();
+  const driver: DriverKind = flag === '1' || flag === 'true' || flag === 'yes' ? 'supabase' : 'demo';
   if (driver === 'supabase') {
-    // Placeholder: swap in createSupabaseRepository(tenantSlug) once a
-    // Supabase project is provisioned (schema.sql is ready to push).
-    throw new Error('Supabase driver not wired yet — unset NEXT_PUBLIC_SUPABASE_URL to run in DEMO_MODE.');
+    // PostgREST driver (packages/db/src/supabase.ts). Push + seed the ops
+    // tables first (scripts/push-schema.mjs, scripts/seed.mjs); any table
+    // that is missing or empty falls back to demo fixtures per method.
+    const { createSupabaseRepository } = require('./supabase') as typeof import('./supabase');
+    return createSupabaseRepository(tenantSlug);
   }
   // Lazy import keeps fixtures out of any future supabase-only bundle.
   const { createDemoRepository } = require('./demo') as typeof import('./demo');

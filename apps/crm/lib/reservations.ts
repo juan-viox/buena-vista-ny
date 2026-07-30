@@ -85,7 +85,7 @@ export interface ReservationInput {
   notes?: string;
   marketingOptIn?: boolean;
   /** Channel stamped on the row + guest source. Defaults to 'voice'. */
-  channel?: 'voice' | 'whatsapp';
+  channel?: 'voice' | 'whatsapp' | 'web' | 'web-event';
 }
 
 export interface CaptureReservationResult {

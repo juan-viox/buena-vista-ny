@@ -512,9 +512,10 @@ html.js .reveal.in{opacity:1;transform:none}
     <span class="kicker">Become a VIP</span>
     <h2 class="section-title title-md">First To <em>Know</em></h2>
     <p class="section-sub" style="margin-left:auto;margin-right:auto">First pours, secret menus, and invitations to nights that never make it to social media.</p>
-    <form class="newsletter-form" aria-label="VIP signup" onsubmit="event.preventDefault(); this.querySelector('button').textContent='&iexcl;Gracias!'; this.querySelector('input').disabled=true;">
+    <form class="newsletter-form" aria-label="VIP signup" style="position:relative">
       <label class="sr-only" for="vipEmailPage">Email address</label>
       <input id="vipEmailPage" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+      <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
       <button type="submit">Join the VIP List</button>
     </form>
   </div>
@@ -563,9 +564,10 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="contact-col newsletter">
         <h3>Join the VIP List</h3>
         <p>First pours, secret menus, and invitations to nights that never make it to social media.</p>
-        <form class="newsletter-form" aria-label="Newsletter signup" onsubmit="event.preventDefault(); this.querySelector('button').textContent='&iexcl;Gracias!'; this.querySelector('input').disabled=true;">
+        <form class="newsletter-form" aria-label="Newsletter signup" style="position:relative">
           <label class="sr-only" for="vipEmail">Email address</label>
           <input id="vipEmail" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+          <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
           <button type="submit">Join the VIP List</button>
         </form>
 
@@ -650,6 +652,34 @@ html.js .reveal.in{opacity:1;transform:none}
   } else {
     els.forEach(function(el){ el.classList.add('in'); });
   }
+})();
+</script>
+
+<!-- Live capture → VioX CRM (/api/public/lead) -->
+<script>
+(function(){
+  'use strict';
+  var API = 'https://buena-vista-crm.vercel.app/api/public/lead';
+  document.querySelectorAll('form.newsletter-form').forEach(function(f){
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = f.querySelector('input[type="email"]');
+      var btn = f.querySelector('button');
+      var hp = f.querySelector('input[name="website"]');
+      var email = input && input.value ? input.value.trim() : '';
+      if (!email) return;
+      try {
+        fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ kind: 'newsletter', email: email, website: hp ? hp.value : '' })
+        }).catch(function(){});
+      } catch (err) {}
+      btn.textContent = '¡Gracias!';
+      input.disabled = true;
+      btn.disabled = true;
+    });
+  });
 })();
 </script>
 <elevenlabs-convai agent-id="agent_9001kyr4x889fzsrxn1a42vw64hx"></elevenlabs-convai>

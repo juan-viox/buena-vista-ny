@@ -2,6 +2,7 @@
 // /api/slack/digest — per-agent morning brief, cron-ready.
 //
 //   GET|POST /api/slack/digest?agent=mise&secret=<VIOX_CRON_SECRET>[&channel=C…]
+//   Also accepts Vercel cron auth: Authorization: Bearer <CRON_SECRET>
 //
 // Builds the agent's digest by invoking 1–2 of its tools directly
 // (same tool belt the copilot uses — fixtures in demo, live data
@@ -154,9 +155,20 @@ async function buildDigest(repo: DataRepository, agentId: DigestAgentId): Promis
 async function handle(req: Request): Promise<Response> {
   const url = new URL(req.url);
 
-  const cronSecret = process.env.VIOX_CRON_SECRET;
-  if (cronSecret && url.searchParams.get('secret') !== cronSecret) {
-    return json({ ok: false, reason: 'unauthorized' }, 401);
+  // Auth: ?secret= / x-viox-secret against VIOX_CRON_SECRET (existing), OR
+  // Authorization: Bearer <CRON_SECRET> — Vercel cron sends that header
+  // automatically once the CRON_SECRET env var exists on the project.
+  // With neither secret env configured the route stays open (unchanged).
+  const secrets = [process.env.VIOX_CRON_SECRET, process.env.CRON_SECRET].filter(
+    (s): s is string => !!s,
+  );
+  if (secrets.length > 0) {
+    const bearer = (req.headers.get('authorization') ?? '').replace(/^Bearer\s+/i, '').trim();
+    const header = req.headers.get('x-viox-secret') ?? '';
+    const qs = url.searchParams.get('secret') ?? '';
+    if (!secrets.some((s) => qs === s || header === s || bearer === s)) {
+      return json({ ok: false, reason: 'unauthorized' }, 401);
+    }
   }
 
   const agentParam = (url.searchParams.get('agent') ?? '').toLowerCase().trim();

@@ -9,6 +9,7 @@ import {
   PersonaSwitcher,
   CopilotPanel,
   ThemeToggle,
+  UserChip,
   THEME_INIT_SCRIPT,
   type Persona,
   type SidebarNavGroup,
@@ -41,6 +42,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const personaCookie = cookieStore.get('viox_persona')?.value;
   const persona = PERSONAS.some((p) => p.id === personaCookie) ? (personaCookie as string) : 'owner';
+
+  // Session chip — only rendered when an auth/demo cookie exists, so
+  // flag-off deployments (no cookies ever set) look exactly as before.
+  const accessToken = cookieStore.get('sb-access')?.value;
+  const isDemoSession = cookieStore.get('viox-demo')?.value === '1';
+  let sessionChip: React.ReactNode = null;
+  if (accessToken) {
+    const email = decodeJwtEmail(accessToken);
+    const users = await repo.getUsers();
+    const match = email ? users.find((u) => u.email.toLowerCase() === email.toLowerCase()) : undefined;
+    sessionChip = <UserChip name={match?.name ?? email ?? 'Signed in'} role={match?.role ?? 'staff'} />;
+  } else if (isDemoSession) {
+    sessionChip = <UserChip demo name="Demo" role="read-only" />;
+  }
 
   const nav: SidebarNavGroup[] = [
     {
@@ -101,6 +116,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           personaSlot={<PersonaSwitcher personas={PERSONAS} current={persona} />}
           topbarExtra={
             <>
+              {sessionChip}
               <ThemeToggle />
               <CopilotPanel
                 persona={persona}
@@ -115,6 +131,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </body>
     </html>
   );
+}
+
+// ---------- Session helpers ----------
+
+/** Display-only claim read from the GoTrue JWT. The middleware is the
+ * actual gate (validates against /auth/v1/user); this only picks the
+ * name/role chip, so an unverified decode is fine here. */
+function decodeJwtEmail(token: string): string | null {
+  try {
+    const payload = token.split('.')[1];
+    if (!payload) return null;
+    const claims = JSON.parse(
+      Buffer.from(payload.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'),
+    ) as { email?: unknown };
+    return typeof claims.email === 'string' ? claims.email : null;
+  } catch {
+    return null;
+  }
 }
 
 // ---------- Minimal inline nav icons (1.5px stroke, 24 grid) ----------

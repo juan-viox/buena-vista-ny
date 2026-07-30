@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    { "path": "/api/briefing/daily", "schedule": "0 11 * * *" },
+    { "path": "/api/slack/digest?agent=mise", "schedule": "5 11 * * *" },
+    { "path": "/api/slack/digest?agent=fiesta", "schedule": "10 11 * * *" }
+  ]
+}
