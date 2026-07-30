@@ -1332,6 +1332,9 @@ video {
 .bg-white\/\[\.08\] {
   background-color: rgb(255 255 255 / .08);
 }
+.bg-\[rgba\(201\2c 153\2c 92\2c \.06\)\] {
+  background-color: rgba(201,153,92,.06);
+}
 .p-0 {
   padding: 0px;
 }
@@ -1847,6 +1850,9 @@ body {
 .hover\:border-\[rgba\(212\2c 164\2c 55\2c \.45\)\]:hover {
   border-color: rgba(212,164,55,.45);
 }
+.hover\:border-\[rgba\(201\2c 153\2c 92\2c \.55\)\]:hover {
+  border-color: rgba(201,153,92,.55);
+}
 .hover\:bg-\[rgba\(201\2c 153\2c 92\2c \.16\)\]:hover {
   background-color: rgba(201,153,92,.16);
 }
@@ -1927,6 +1933,10 @@ body {
 }
 .group[open] .group-open\:rotate-180 {
   --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.group:hover .group-hover\:translate-x-0\.5 {
+  --tw-translate-x: 0.125rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @media (min-width: 640px) {

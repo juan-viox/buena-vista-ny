@@ -36,6 +36,23 @@ export {
 } from './twilio-whatsapp';
 export type { SendWhatsAppInput, SendWhatsAppResult } from './twilio-whatsapp';
 
+// Integration settings vault (encrypted per-tenant credentials)
+export {
+  DEFAULT_TENANT_SLUG,
+  PROVIDER_ENV_MAP,
+  knownSettingsProviders,
+  knownSettingsKeys,
+  isSettingsCryptoConfigured,
+  isSettingsStoreConfigured,
+  encryptSetting,
+  decryptSetting,
+  getIntegrationSetting,
+  setIntegrationSetting,
+  listIntegrationSettings,
+  deleteIntegrationSetting,
+} from './settings';
+export type { SettingWriteResult, SettingListEntry } from './settings';
+
 import type { IntegrationProvider } from '@viox/db';
 import type { IntegrationAdapter } from './types';
 import { createToastAdapter } from './toast';

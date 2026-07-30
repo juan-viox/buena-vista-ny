@@ -233,6 +233,29 @@ export default async function IntegrationsPage() {
         actions={<Badge tone="info">3 connectors · demo sync</Badge>}
       />
 
+      {/* ---------- credential setup lives in the OS ---------- */}
+      <a
+        href="https://buena-vista-os.vercel.app/integrations"
+        className="group flex items-start gap-3 rounded-xl border border-[rgba(201,153,92,.35)] bg-[rgba(201,153,92,.06)] px-5 py-4 transition-colors hover:border-[rgba(201,153,92,.55)]"
+      >
+        <span className="mt-0.5 shrink-0 text-[var(--accent)]" aria-hidden>
+          <KeyIcon className="h-[18px] w-[18px]" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-semibold text-[var(--text)]">
+            Configure credentials in the OS → Connections hub
+          </span>
+          <span className="mt-1 block max-w-3xl text-sm text-[var(--muted)]">
+            WhatsApp/Twilio, Slack, Toast, MarginEdge and Stripe keys are saved once in the encrypted tenant vault
+            with guided setup and live connection tests — this CRM (voice, WhatsApp, SMS, email) reads from the same
+            vault automatically.
+          </span>
+        </span>
+        <span className="mt-0.5 shrink-0 text-xs font-medium text-[var(--accent)] transition-transform group-hover:translate-x-0.5">
+          Open setup →
+        </span>
+      </a>
+
       {/* ---------- provider cards ---------- */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
         {PROVIDERS.map((p) => {

@@ -93,7 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     {
       label: 'System',
       items: [
-        { label: 'Integrations', href: '/integrations', icon: <PlugIcon /> },
+        { label: 'Connections', href: '/integrations', icon: <PlugIcon /> },
         { label: 'Settings', href: '/settings', icon: <GearIcon /> },
       ],
     },

@@ -613,6 +613,9 @@ video {
 .z-\[100\]{
   z-index: 100;
 }
+.z-10{
+  z-index: 10;
+}
 .mx-3{
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -788,6 +791,9 @@ video {
 .h-px{
   height: 1px;
 }
+.h-44{
+  height: 11rem;
+}
 .max-h-\[420px\]{
   max-height: 420px;
 }
@@ -916,6 +922,9 @@ video {
 }
 .max-w-sm{
   max-width: 24rem;
+}
+.max-w-xl{
+  max-width: 36rem;
 }
 .flex-1{
   flex: 1 1 0%;
@@ -1303,6 +1312,15 @@ video {
 .bg-white\/\[\.06\]{
   background-color: rgb(255 255 255 / .06);
 }
+.bg-\[rgba\(201\2c 153\2c 92\2c \.12\)\]{
+  background-color: rgba(201,153,92,.12);
+}
+.bg-\[rgba\(248\2c 113\2c 113\2c \.06\)\]{
+  background-color: rgba(248,113,113,.06);
+}
+.bg-\[rgba\(52\2c 211\2c 153\2c \.06\)\]{
+  background-color: rgba(52,211,153,.06);
+}
 .object-cover{
   -o-object-fit: cover;
      object-fit: cover;
@@ -1423,6 +1441,10 @@ video {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.py-5{
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
 .pb-2{
   padding-bottom: 0.5rem;
 }
@@ -1470,6 +1492,9 @@ video {
 }
 .pt-5{
   padding-top: 1.25rem;
+}
+.pt-2{
+  padding-top: 0.5rem;
 }
 .text-left{
   text-align: left;
@@ -1701,6 +1726,9 @@ video {
 .duration-500{
   transition-duration: 500ms;
 }
+.\[margin-top\:auto\]{
+  margin-top: auto;
+}
 
 :root {
   --bg: #0b1120;
@@ -1872,6 +1900,9 @@ button {
 .hover\:bg-white\/\[\.05\]:hover{
   background-color: rgb(255 255 255 / .05);
 }
+.hover\:bg-\[rgba\(201\2c 153\2c 92\2c \.2\)\]:hover{
+  background-color: rgba(201,153,92,.2);
+}
 .hover\:text-\[var\(--accent\)\]:hover{
   color: var(--accent);
 }
@@ -1880,6 +1911,9 @@ button {
 }
 .hover\:text-\[var\(--text\)\]:hover{
   color: var(--text);
+}
+.hover\:text-\[var\(--accent2\)\]:hover{
+  color: var(--accent2);
 }
 .hover\:underline:hover{
   text-decoration-line: underline;
@@ -1972,6 +2006,26 @@ button {
     border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
   }
 }
+@media (min-width: 768px){
+
+  .md\:grid-cols-2{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:divide-y-0 > :not([hidden]) ~ :not([hidden]){
+    --tw-divide-y-reverse: 0;
+    border-top-width: calc(0px * calc(1 - var(--tw-divide-y-reverse)));
+    border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
+  }
+
+  .md\:border-b{
+    border-bottom-width: 1px;
+  }
+
+  .md\:border-\[var\(--border\)\]{
+    border-color: var(--border);
+  }
+}
 @media (min-width: 1024px){
 
   .lg\:col-span-2{
@@ -2022,6 +2076,18 @@ button {
 
   .xl\:grid-cols-5{
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .xl\:border-b-0{
+    border-bottom-width: 0px;
+  }
+
+  .xl\:border-r{
+    border-right-width: 1px;
+  }
+
+  .xl\:last\:border-r-0:last-child{
+    border-right-width: 0px;
   }
 }
 .\[\&\:\:-webkit-details-marker\]\:hidden::-webkit-details-marker{

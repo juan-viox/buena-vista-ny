@@ -281,6 +281,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/api/settings-test/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/settings-test">> = Specific
+  const handler = {} as typeof import("../../app/api/settings-test/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/api/settings/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/settings">> = Specific
+  const handler = {} as typeof import("../../app/api/settings/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/api/slack/digest/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/slack/digest">> = Specific
