@@ -174,3 +174,77 @@ Every attempt (sent **and** failed) writes a row to Supabase `sms_log`
 (`tenant_slug, to_phone, body, kind, ref_id, twilio_sid, status, created_at`)
 with `ref_id` pointing at the `reservation_requests` / `waitlist` row that
 triggered it. The write is best-effort and never blocks the send path.
+
+---
+
+## Email (Resend)
+
+Branded guest email is the email twin of the SMS lifecycle. Rendering, sending,
+and logging live in `apps/crm/lib/email-workflows.ts` (`renderEmail` →
+`sendEmail` via `@viox/integrations` → best-effort `email_log` insert). Every
+send is failure-safe: an email problem never breaks a capture flow or an API
+route — callers just report `emailSent: false`. Emails fire **only when an
+email address is on file** for the guest.
+
+### Sender
+
+- **From:** `Buena Vista Concierge <concierge@viox.ai>` (`EMAIL_FROM`)
+- **Reply-To:** `juan@viox.ai` (`EMAIL_REPLY_TO`) — guest replies land back
+  with the team and flow into the inbound webhook below.
+- **Note:** switch the sender to a `buenavistany.com` address once the client
+  verifies the domain in Resend (Domains → add `buenavistany.com` → set the
+  DNS records → update `EMAIL_FROM` / `EMAIL_REPLY_TO` on the CRM Vercel
+  project → redeploy). Until then sends ride the verified `viox.ai` domain.
+
+### Inbound webhook
+
+- `POST https://buena-vista-crm.vercel.app/api/email/inbound`
+- `GET` same path = no-auth health check (`{ ok, configured }`)
+- Signature: Resend signs Svix-style (`svix-id` / `svix-timestamp` /
+  `svix-signature`); verified with `RESEND_WEBHOOK_SECRET` (`whsec_…`).
+  When the secret is unset the check is skipped so the route can be
+  curl-tested in dev.
+
+### Events
+
+**Webhook events handled** (configure these on the Resend webhook):
+
+| Resend event | What we do |
+|---|---|
+| `email.received` | Guest replied — store an inbound `email_log` row (guest address, subject, 500-char preview) for the `/inbox` view |
+| `email.delivered` | Update the matching outbound `email_log` row's status by `resend_id` |
+| `email.bounced` | Same — status `bounced` |
+| `email.complained` | Same — status `complained` |
+
+Unhandled event types are acknowledged with 200 so Resend doesn't retry.
+
+**Lifecycle sends** (same seven events as SMS; wired triggers today):
+
+| Event | Fired by | Trigger |
+|---|---|---|
+| `request_received` | `captureReservation` (voice + WhatsApp concierge) | Reservation request stored with an email on file |
+| `reservation_confirmed` | `PATCH /api/reservations/[id]` `action: confirm` | Host confirms in the CRM inbox |
+| `reservation_updated` | `PATCH /api/reservations/[id]` `action: modify` | Host edits date/time/party/location (post-update values render) |
+| `reservation_declined` | `PATCH /api/reservations/[id]` `action: decline` | Host declines the request |
+
+`waitlist_joined`, `table_ready`, and `order_update` render too and can be
+sent via `sendWorkflowEmail()` when those flows gain email capture.
+
+### Env vars (CRM app on Vercel)
+
+| Var | What |
+|---|---|
+| `RESEND_API_KEY` | `re_…` from the Resend dashboard |
+| `EMAIL_FROM` | Sender, e.g. `Buena Vista Concierge <concierge@viox.ai>` |
+| `EMAIL_REPLY_TO` | Optional default reply-to |
+| `RESEND_WEBHOOK_SECRET` | `whsec_…` from the webhook's signing secret |
+| `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` | `email_log` persistence |
+
+### Audit trail
+
+Every attempt (sent **and** failed) writes a row to Supabase `email_log`
+(`tenant_slug, to_email, subject, body_preview, kind, ref_id, resend_id,
+direction, status, created_at`) with `ref_id` pointing at the triggering
+`reservation_requests` row. Inbound replies and delivery/bounce/complaint
+status updates land in the same table. The write is best-effort and never
+blocks the send path.

@@ -23,6 +23,10 @@ export type { PostSlackMessageInput, PostSlackMessageResult, ParsedAgentText } f
 export { isSmsConfigured, normalizePhone, sendSms } from './twilio-sms';
 export type { SendSmsInput, SendSmsResult } from './twilio-sms';
 
+// Resend email adapter
+export { isEmailConfigured, sendEmail } from './resend-email';
+export type { SendEmailInput, SendEmailResult } from './resend-email';
+
 // Twilio WhatsApp adapter
 export {
   isWhatsAppConfigured,

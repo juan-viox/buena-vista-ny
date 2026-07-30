@@ -12,6 +12,7 @@
 
 import { TENANT_SLUG, str, toPartySize } from '@/lib/reservations';
 import { sendWorkflowSms, type SmsEvent } from '@/lib/sms-workflows';
+import { sendWorkflowEmail } from '@/lib/email-workflows';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -159,7 +160,23 @@ export async function PATCH(
       smsSent = sms.ok;
     }
 
-    return json({ ok: true, row, smsSent });
+    // ---- guest email (same event, same post-update ctx;
+    //      sendWorkflowEmail never throws — a send failure just reports emailSent:false) ----
+    let emailSent = false;
+    if (row.email) {
+      const email = await sendWorkflowEmail(SMS_EVENT_BY_ACTION[action], {
+        to: row.email,
+        refId: String(row.id),
+        guestName: row.guest_name ?? undefined,
+        partySize: row.party_size ?? undefined,
+        date: row.requested_date ?? undefined,
+        time: row.requested_time ?? undefined,
+        location: row.location ?? undefined,
+      });
+      emailSent = email.ok;
+    }
+
+    return json({ ok: true, row, smsSent, emailSent });
   } catch (err) {
     console.error('[api/reservations] error', err);
     return json({ ok: false, error: 'Internal error updating the reservation request.' }, 500);

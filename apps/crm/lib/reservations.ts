@@ -22,6 +22,7 @@
 // ============================================================
 
 import { sendWorkflowSms } from './sms-workflows';
+import { sendWorkflowEmail } from './email-workflows';
 
 export const TENANT_SLUG = 'buena-vista';
 
@@ -96,6 +97,8 @@ export interface CaptureReservationResult {
   reason?: 'not_configured' | 'error';
   /** True when the post-capture "request received" SMS went out. */
   smsSent: boolean;
+  /** True when the post-capture "request received" email went out. */
+  emailSent: boolean;
 }
 
 /**
@@ -110,7 +113,7 @@ export async function captureReservation(input: ReservationInput): Promise<Captu
   // ---- storage not configured: never fail a live call ----
   const supabase = supabaseTarget();
   if (!supabase) {
-    return { ok: true, stored: false, reason: 'not_configured', message: 'storage not configured', smsSent: false };
+    return { ok: true, stored: false, reason: 'not_configured', message: 'storage not configured', smsSent: false, emailSent: false };
   }
 
   try {
@@ -173,7 +176,7 @@ export async function captureReservation(input: ReservationInput): Promise<Captu
     });
     if (!insertRes.ok) {
       console.error('[reservations] insert failed', insertRes.status, await insertRes.text());
-      return { ok: false, stored: false, reason: 'error', message: 'Could not store the reservation request.', smsSent: false };
+      return { ok: false, stored: false, reason: 'error', message: 'Could not store the reservation request.', smsSent: false, emailSent: false };
     }
     const inserted = (await insertRes.json()) as Array<{ id?: string | number }>;
     const rowId = Array.isArray(inserted) ? inserted[0]?.id : undefined;
@@ -203,16 +206,41 @@ export async function captureReservation(input: ReservationInput): Promise<Captu
       }
     }
 
+    // (d) Post-capture "request received" email — same failure-safe
+    // contract as the SMS hook: an email problem must never fail a
+    // capture that already stored.
+    let emailSent = false;
+    if (input.email) {
+      try {
+        const email = await sendWorkflowEmail('request_received', {
+          to: input.email,
+          refId: id,
+          guestName: input.guestName,
+          partySize: input.partySize,
+          date: input.requestedDate,
+          time: input.requestedTime,
+          location: input.location,
+        });
+        emailSent = email.ok;
+        if (!email.ok && email.error) {
+          console.error('[reservations] request_received email failed', email.error);
+        }
+      } catch (emailErr) {
+        console.error('[reservations] request_received email error', emailErr);
+      }
+    }
+
     return {
       ok: true,
       stored: true,
       id,
       message: 'Reservation request captured — the team will confirm shortly.',
       smsSent,
+      emailSent,
     };
   } catch (err) {
     console.error('[reservations] error', err);
-    return { ok: false, stored: false, reason: 'error', message: 'Internal error storing the reservation request.', smsSent: false };
+    return { ok: false, stored: false, reason: 'error', message: 'Internal error storing the reservation request.', smsSent: false, emailSent: false };
   }
 }
 
