@@ -227,8 +227,8 @@ export const AGENTS: AgentDef[] = [
     voice: {
       provider: 'elevenlabs',
       agentId: 'agent_9001kyr4x889fzsrxn1a42vw64hx',
-      label: 'Web widget live on buena-vista-ny.vercel.app',
-      status: 'live — reservation capture wired to CRM',
+      label: 'Phone (929) 410-5502 + web widget on buena-vista-ny.vercel.app + WhatsApp (646) 770-3944',
+      status: 'live — phone, web & WhatsApp; reservation capture wired to CRM',
     },
   },
   {
