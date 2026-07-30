@@ -13,12 +13,12 @@ const MONTH_NAMES = [
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const STAGE_CHIP: Record<string, { hex: string; border: string; bg: string }> = {
-  lead: { hex: '#7EB2F5', border: 'rgba(126,178,245,.4)', bg: 'rgba(126,178,245,.09)' },
-  proposal: { hex: '#FBBF24', border: 'rgba(251,191,36,.4)', bg: 'rgba(251,191,36,.09)' },
-  tasting: { hex: '#FB923C', border: 'rgba(251,146,60,.4)', bg: 'rgba(251,146,60,.09)' },
-  booked: { hex: '#34D399', border: 'rgba(52,211,153,.4)', bg: 'rgba(52,211,153,.09)' },
-  beo_final: { hex: '#C9995C', border: 'rgba(201,153,92,.45)', bg: 'rgba(201,153,92,.1)' },
-  completed: { hex: '#8FA3C0', border: 'rgba(143,163,192,.35)', bg: 'rgba(143,163,192,.08)' },
+  lead: { hex: 'var(--info)', border: 'rgba(126,178,245,.4)', bg: 'rgba(126,178,245,.09)' },
+  proposal: { hex: 'var(--warn)', border: 'rgba(251,191,36,.4)', bg: 'rgba(251,191,36,.09)' },
+  tasting: { hex: 'var(--orange)', border: 'rgba(251,146,60,.4)', bg: 'rgba(251,146,60,.09)' },
+  booked: { hex: 'var(--good)', border: 'rgba(52,211,153,.4)', bg: 'rgba(52,211,153,.09)' },
+  beo_final: { hex: 'var(--accent)', border: 'rgba(201,153,92,.45)', bg: 'rgba(201,153,92,.1)' },
+  completed: { hex: 'var(--muted)', border: 'rgba(143,163,192,.35)', bg: 'rgba(143,163,192,.08)' },
 };
 
 const STAGE_LEGEND: { stage: EventStage; label: string }[] = [
@@ -30,7 +30,7 @@ const STAGE_LEGEND: { stage: EventStage; label: string }[] = [
   { stage: 'completed', label: 'Completed' },
 ];
 
-const LOCATION_COLORS = ['#C9995C', '#7EB2F5', '#34D399', '#FBBF24'];
+const LOCATION_COLORS = ['var(--accent)', 'var(--info)', 'var(--good)', 'var(--warn)'];
 
 // ---------- date helpers (UTC-safe, lexical ISO strings) ----------
 
@@ -175,7 +175,7 @@ export default async function CalendarPage({
                         <span
                           className={`text-xs tabular-nums ${
                             isToday
-                              ? 'flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--accent)] px-1 font-semibold text-[#0B1120]'
+                              ? 'flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--accent)] px-1 font-semibold text-[var(--accent-ink)]'
                               : cell.inMonth
                                 ? 'text-[var(--muted)]'
                                 : 'text-[var(--muted)]'
@@ -202,7 +202,7 @@ export default async function CalendarPage({
                             >
                               <span
                                 className="h-1.5 w-1.5 shrink-0 rounded-full"
-                                style={{ backgroundColor: locColor.get(e.locationId) ?? '#8FA3C0' }}
+                                style={{ backgroundColor: locColor.get(e.locationId) ?? 'var(--muted)' }}
                               />
                               <span className="shrink-0 tabular-nums opacity-80">{shortTime(e.eventDate)}</span>
                               <span className="truncate">{e.title}</span>
@@ -231,7 +231,7 @@ export default async function CalendarPage({
                     <div className="flex items-center gap-1.5">
                       <span
                         className="h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: locColor.get(e.locationId) ?? '#8FA3C0' }}
+                        style={{ backgroundColor: locColor.get(e.locationId) ?? 'var(--muted)' }}
                       />
                       <span className="truncate text-sm text-[var(--text)]">{e.title}</span>
                     </div>

@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useThemeColor } from '@viox/ui';
 
 export interface VisitPoint {
   /** ISO date, e.g. "2026-07-29". */
@@ -27,11 +28,13 @@ export interface VisitsChartProps {
   evName?: string;
 }
 
-const HK_COLOR = '#D4A437'; // CRM gold
-const EV_COLOR = '#7EB2F5'; // command info blue
-
 /** Stacked daily-covers area chart — guest visits across both locations. */
 export function VisitsChart({ data, hkName = "Hell's Kitchen", evName = 'East Village' }: VisitsChartProps) {
+  const HK_COLOR = useThemeColor('--accent2', '#D4A437'); // CRM gold
+  const EV_COLOR = useThemeColor('--info', '#7EB2F5'); // command info blue
+  const muted = useThemeColor('--muted', '#8FA3C0');
+  const grid = useThemeColor('--grid', 'rgba(168,196,229,.08)');
+  const axisline = useThemeColor('--axisline', 'rgba(168,196,229,.12)');
   return (
     <div>
       <div className="mb-3 flex items-center gap-4 text-[11px] font-medium uppercase tracking-[.12em] text-[var(--muted)]">
@@ -57,21 +60,21 @@ export function VisitsChart({ data, hkName = "Hell's Kitchen", evName = 'East Vi
                 <stop offset="100%" stopColor={EV_COLOR} stopOpacity={0.03} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="rgba(168,196,229,.08)" vertical={false} />
+            <CartesianGrid stroke={grid} vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fill: '#8FA3C0', fontSize: 11 }}
+              tick={{ fill: muted, fontSize: 11 }}
               tickLine={false}
-              axisLine={{ stroke: 'rgba(168,196,229,.12)' }}
+              axisLine={{ stroke: axisline }}
               interval={13}
             />
             <YAxis
-              tick={{ fill: '#8FA3C0', fontSize: 11 }}
+              tick={{ fill: muted, fontSize: 11 }}
               tickLine={false}
               axisLine={false}
               width={46}
             />
-            <Tooltip content={<VisitsTooltip hkName={hkName} evName={evName} />} cursor={{ stroke: 'rgba(168,196,229,.25)', strokeDasharray: '3 3' }} />
+            <Tooltip content={<VisitsTooltip hkName={hkName} evName={evName} />} cursor={{ stroke: axisline, strokeDasharray: '3 3' }} />
             <Area
               type="monotone"
               dataKey="ev"
@@ -120,8 +123,8 @@ function VisitsTooltip({
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--panel2)] px-3 py-2.5 text-xs shadow-xl">
       <div className="mb-1.5 font-medium text-[var(--text)]">{point.label}</div>
-      <Row swatch={HK_COLOR} label={hkName} value={point.hk} />
-      <Row swatch={EV_COLOR} label={evName} value={point.ev} />
+      <Row swatch="var(--accent2)" label={hkName} value={point.hk} />
+      <Row swatch="var(--info)" label={evName} value={point.ev} />
       <div className="mt-1.5 border-t border-[var(--border)] pt-1.5">
         <Row label="Total covers" value={point.total} bold />
       </div>

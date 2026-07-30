@@ -38,13 +38,13 @@ const daysAgoIso = (n: number) => new Date(ANCHOR - n * DAY_MS).toISOString().sl
 const FOOD_COST_TARGET = 28;
 const LABOR_TARGET = 29;
 const OPEN_STAGES: CateringEvent['stage'][] = ['lead', 'proposal', 'tasting', 'booked', 'beo_final'];
-const SERIES_COLORS = ['#C9995C', '#7EB2F5', '#34D399', '#FBBF24'];
+const SERIES_COLORS = ['var(--accent)', 'var(--info)', 'var(--good)', 'var(--warn)'];
 const CATEGORY_COLORS: Record<string, string> = {
-  Food: '#C9995C',
-  Cocktails: '#7EB2F5',
-  Wine: '#34D399',
-  Beer: '#FBBF24',
-  'NA Bev': '#8FA3C0',
+  Food: 'var(--accent)',
+  Cocktails: 'var(--info)',
+  Wine: 'var(--good)',
+  Beer: 'var(--warn)',
+  'NA Bev': 'var(--muted)',
 };
 const MODULE_TONES: Record<ActivityEvent['module'], BadgeTone> = {
   sales: 'good',
@@ -313,7 +313,7 @@ export default async function DashboardPage({
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[.06]">
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] ?? '#8FA3C0' }}
+                      style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] ?? 'var(--muted)' }}
                     />
                   </div>
                 </div>

@@ -35,10 +35,10 @@ interface ProviderMeta {
 }
 
 const TINTS: Record<string, Tint> = {
-  toast: { text: '#FB923C', border: 'rgba(251,146,60,.35)', bg: 'rgba(251,146,60,.08)' },
-  marginedge: { text: '#34D399', border: 'rgba(52,211,153,.35)', bg: 'rgba(52,211,153,.08)' },
-  caterease: { text: '#7EB2F5', border: 'rgba(126,178,245,.35)', bg: 'rgba(126,178,245,.08)' },
-  site: { text: '#C9995C', border: 'rgba(201,153,92,.4)', bg: 'rgba(201,153,92,.08)' },
+  toast: { text: 'var(--orange)', border: 'rgba(251,146,60,.35)', bg: 'rgba(251,146,60,.08)' },
+  marginedge: { text: 'var(--good)', border: 'rgba(52,211,153,.35)', bg: 'rgba(52,211,153,.08)' },
+  caterease: { text: 'var(--info)', border: 'rgba(126,178,245,.35)', bg: 'rgba(126,178,245,.08)' },
+  site: { text: 'var(--accent)', border: 'rgba(201,153,92,.4)', bg: 'rgba(201,153,92,.08)' },
   whatsapp: { text: '#25D366', border: 'rgba(37,211,102,.35)', bg: 'rgba(37,211,102,.08)' },
 };
 

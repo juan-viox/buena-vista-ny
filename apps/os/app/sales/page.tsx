@@ -31,20 +31,20 @@ const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 const weekdayOf = (iso: string) => WEEKDAYS[new Date(`${iso}T00:00:00Z`).getUTCDay()];
 
 const LABOR_TARGET = 29;
-const SERIES_COLORS = ['#C9995C', '#7EB2F5', '#34D399', '#FBBF24'];
+const SERIES_COLORS = ['var(--accent)', 'var(--info)', 'var(--good)', 'var(--warn)'];
 const CATEGORY_COLORS: Record<string, string> = {
-  Food: '#C9995C',
-  Cocktails: '#7EB2F5',
-  Wine: '#34D399',
-  Beer: '#FBBF24',
-  'NA Bev': '#8FA3C0',
+  Food: 'var(--accent)',
+  Cocktails: 'var(--info)',
+  Wine: 'var(--good)',
+  Beer: 'var(--warn)',
+  'NA Bev': 'var(--muted)',
 };
 const DAYPART_META: [string, string][] = [
-  ['Brunch', '#FBBF24'],
-  ['Lunch', '#7EB2F5'],
-  ['Pre-Theater', '#C9995C'],
-  ['Dinner', '#34D399'],
-  ['Late Night', '#8FA3C0'],
+  ['Brunch', 'var(--warn)'],
+  ['Lunch', 'var(--info)'],
+  ['Pre-Theater', 'var(--accent)'],
+  ['Dinner', 'var(--good)'],
+  ['Late Night', 'var(--muted)'],
 ];
 
 // ---------- aggregation ----------
@@ -324,7 +324,7 @@ export default async function SalesPage({
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[.06]">
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${share}%`, backgroundColor: CATEGORY_COLORS[cat] ?? '#8FA3C0' }}
+                      style={{ width: `${share}%`, backgroundColor: CATEGORY_COLORS[cat] ?? 'var(--muted)' }}
                     />
                   </div>
                 </div>

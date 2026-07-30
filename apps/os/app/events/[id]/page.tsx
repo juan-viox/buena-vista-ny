@@ -172,7 +172,7 @@ function StageStepper({ current }: { current: EventStage }) {
                       done
                         ? 'border-[rgba(201,153,92,.5)] bg-[rgba(201,153,92,.15)] text-[var(--accent)]'
                         : active
-                          ? 'border-[var(--accent)] bg-[var(--accent)] text-[#0B1120]'
+                          ? 'border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)]'
                           : 'border-[var(--border)] bg-[var(--panel2)] text-[var(--muted)]'
                     }`}
                   >

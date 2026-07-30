@@ -20,6 +20,11 @@ export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { PageHeader, type PageHeaderProps } from './PageHeader';
 export { Tabs, type TabsProps, type TabDef } from './Tabs'; // 'use client'
 
+// theming
+export { THEME_INIT_SCRIPT } from './theme';
+export { ThemeToggle } from './ThemeToggle'; // 'use client'
+export { useThemeColor, useThemeColorResolver } from './useThemeColor'; // 'use client'
+
 // app chrome
 export { Shell, type ShellProps, type SidebarNavGroup, type SidebarNavItem } from './Shell';
 export { NavLink, type NavLinkProps } from './NavLink'; // 'use client'

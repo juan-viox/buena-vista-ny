@@ -62,7 +62,7 @@ export default async function WaitlistPage() {
 
       {!feed.configured ? (
         <div className="rounded-xl border border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.06)] px-4 py-3 text-sm text-[var(--text)]">
-          <div className="font-medium text-[#7EB2F5]">Live waitlist not configured</div>
+          <div className="font-medium text-[var(--info)]">Live waitlist not configured</div>
           <p className="mt-1 text-xs text-[var(--muted)]">
             Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to run the walk-in queue against the waitlist table.
             Guests with a phone get a welcome SMS on join and a table-ready SMS when you call them up (Twilio).

@@ -12,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useThemeColor } from '@viox/ui';
 
 export interface LaborTrendPoint {
   label: string;
@@ -19,13 +20,16 @@ export interface LaborTrendPoint {
   laborPct: number;
 }
 
-const AXIS_TICK = { fill: '#8FA3C0', fontSize: 11, fontFamily: 'Jost' };
 
 /**
  * Labor % vs net sales, daily — sales as bars (left axis), labor %
  * as a gold line (right axis) with a dashed target reference line.
  */
 export default function LaborTrendChart({ data, target }: { data: LaborTrendPoint[]; target: number }) {
+  const muted = useThemeColor('--muted', '#8FA3C0');
+  const grid = useThemeColor('--grid', 'rgba(168,196,229,.08)');
+  const axisline = useThemeColor('--axisline', 'rgba(168,196,229,.12)');
+  const AXIS_TICK = { fill: muted, fontSize: 11, fontFamily: 'Jost' };
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-4">
@@ -34,7 +38,7 @@ export default function LaborTrendChart({ data, target }: { data: LaborTrendPoin
           Net sales
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)]">
-          <span className="h-0.5 w-3.5 rounded-full" style={{ backgroundColor: '#C9995C' }} />
+          <span className="h-0.5 w-3.5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
           Labor %
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)]">
@@ -45,12 +49,12 @@ export default function LaborTrendChart({ data, target }: { data: LaborTrendPoin
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -8 }}>
-            <CartesianGrid stroke="rgba(168,196,229,.08)" vertical={false} />
+            <CartesianGrid stroke={grid} vertical={false} />
             <XAxis
               dataKey="label"
               tick={AXIS_TICK}
               tickLine={false}
-              axisLine={{ stroke: 'rgba(168,196,229,.12)' }}
+              axisLine={{ stroke: axisline }}
               minTickGap={28}
             />
             <YAxis
@@ -74,14 +78,14 @@ export default function LaborTrendChart({ data, target }: { data: LaborTrendPoin
             <Tooltip
               cursor={{ fill: 'rgba(201,153,92,.06)' }}
               contentStyle={{
-                background: '#0E1626',
-                border: '1px solid rgba(168,196,229,.16)',
+                background: 'var(--panel2)',
+                border: '1px solid var(--border)',
                 borderRadius: 10,
                 fontFamily: 'Jost',
                 fontSize: 12,
-                color: '#E8EDF7',
+                color: 'var(--text)',
               }}
-              labelStyle={{ color: '#8FA3C0', marginBottom: 4 }}
+              labelStyle={{ color: 'var(--muted)', marginBottom: 4 }}
               formatter={(value: number | string, name: string) =>
                 name === 'Labor %'
                   ? [`${Number(value).toFixed(1)}%`, name]
@@ -108,10 +112,10 @@ export default function LaborTrendChart({ data, target }: { data: LaborTrendPoin
               type="monotone"
               dataKey="laborPct"
               name="Labor %"
-              stroke="#C9995C"
+              stroke="var(--accent)"
               strokeWidth={2}
               dot={false}
-              activeDot={{ r: 3.5, strokeWidth: 0, fill: '#C9995C' }}
+              activeDot={{ r: 3.5, strokeWidth: 0, fill: 'var(--accent)' }}
               isAnimationActive={false}
             />
           </ComposedChart>

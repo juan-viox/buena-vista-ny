@@ -14,6 +14,7 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts';
+import { useThemeColor, useThemeColorResolver } from '@viox/ui';
 
 export type Quadrant = 'star' | 'plow_horse' | 'puzzle' | 'dog';
 
@@ -29,20 +30,11 @@ export interface MatrixPoint {
 }
 
 const QUADRANT_META: Record<Quadrant, { label: string; color: string; fill: string }> = {
-  star: { label: 'Stars', color: '#34D399', fill: 'rgba(52,211,153,.055)' },
-  plow_horse: { label: 'Plow horses', color: '#FBBF24', fill: 'rgba(251,191,36,.05)' },
-  puzzle: { label: 'Puzzles', color: '#7EB2F5', fill: 'rgba(126,178,245,.05)' },
-  dog: { label: 'Dogs', color: '#F87171', fill: 'rgba(248,113,113,.05)' },
+  star: { label: 'Stars', color: 'var(--good)', fill: 'rgba(52,211,153,.055)' },
+  plow_horse: { label: 'Plow horses', color: 'var(--warn)', fill: 'rgba(251,191,36,.05)' },
+  puzzle: { label: 'Puzzles', color: 'var(--info)', fill: 'rgba(126,178,245,.05)' },
+  dog: { label: 'Dogs', color: 'var(--bad)', fill: 'rgba(248,113,113,.05)' },
 };
-
-const AXIS_TICK = { fill: '#8FA3C0', fontSize: 11, fontFamily: 'Jost' };
-const cornerLabel = (value: string) => ({
-  value,
-  fill: 'rgba(143,163,192,.55)',
-  fontSize: 10,
-  fontFamily: 'Jost',
-  letterSpacing: '.12em',
-});
 
 function MatrixTooltip(props: unknown) {
   const { active, payload } = props as { active?: boolean; payload?: Array<{ payload: MatrixPoint }> };
@@ -52,28 +44,28 @@ function MatrixTooltip(props: unknown) {
   return (
     <div
       style={{
-        background: '#0E1626',
-        border: '1px solid rgba(168,196,229,.16)',
+        background: 'var(--panel2)',
+        border: '1px solid var(--border)',
         borderRadius: 10,
         fontFamily: 'Jost',
         fontSize: 12,
-        color: '#E8EDF7',
+        color: 'var(--text)',
         padding: '10px 12px',
         maxWidth: 240,
       }}
     >
       <div style={{ fontWeight: 600 }}>{p.name}</div>
-      <div style={{ color: '#8FA3C0', marginTop: 2 }}>
+      <div style={{ color: 'var(--muted)', marginTop: 2 }}>
         {p.category} · <span style={{ color: meta.color }}>{meta.label.replace(/s$/, '')}</span>
       </div>
       <div style={{ marginTop: 6, display: 'grid', gridTemplateColumns: 'auto auto', gap: '2px 14px' }}>
-        <span style={{ color: '#8FA3C0' }}>Qty sold</span>
+        <span style={{ color: 'var(--muted)' }}>Qty sold</span>
         <span style={{ textAlign: 'right' }}>{p.qty.toLocaleString('en-US')}</span>
-        <span style={{ color: '#8FA3C0' }}>Unit margin</span>
+        <span style={{ color: 'var(--muted)' }}>Unit margin</span>
         <span style={{ textAlign: 'right' }}>${p.unitMargin.toFixed(2)}</span>
-        <span style={{ color: '#8FA3C0' }}>Net sales</span>
+        <span style={{ color: 'var(--muted)' }}>Net sales</span>
         <span style={{ textAlign: 'right' }}>${Math.round(p.netSales).toLocaleString('en-US')}</span>
-        <span style={{ color: '#8FA3C0' }}>Cost %</span>
+        <span style={{ color: 'var(--muted)' }}>Cost %</span>
         <span style={{ textAlign: 'right' }}>{p.costPct.toFixed(1)}%</span>
       </div>
     </div>
@@ -94,6 +86,19 @@ export default function MenuMatrix({
   xThreshold: number;
   yThreshold: number;
 }) {
+  const resolve = useThemeColorResolver();
+  const muted = useThemeColor('--muted', '#8FA3C0');
+  const grid = useThemeColor('--grid', 'rgba(168,196,229,.08)');
+  const axisline = useThemeColor('--axisline', 'rgba(168,196,229,.12)');
+  const AXIS_TICK = { fill: muted, fontSize: 11, fontFamily: 'Jost' };
+  const cornerLabel = (value: string) => ({
+    value,
+    fill: muted,
+    opacity: 0.6,
+    fontSize: 10,
+    fontFamily: 'Jost',
+    letterSpacing: '.12em',
+  });
   const xMax = Math.ceil((Math.max(...points.map((p) => p.qty), xThreshold) * 1.18) / 50) * 50;
   const yMax = Math.ceil(Math.max(...points.map((p) => p.unitMargin), yThreshold) * 1.2);
 
@@ -119,7 +124,7 @@ export default function MenuMatrix({
             <ReferenceArea x1={0} x2={xThreshold} y1={yThreshold} y2={yMax} fill={QUADRANT_META.puzzle.fill} stroke="none" label={{ ...cornerLabel('PUZZLES'), position: 'insideTopLeft' }} />
             <ReferenceArea x1={0} x2={xThreshold} y1={0} y2={yThreshold} fill={QUADRANT_META.dog.fill} stroke="none" label={{ ...cornerLabel('DOGS'), position: 'insideBottomLeft' }} />
 
-            <CartesianGrid stroke="rgba(168,196,229,.06)" />
+            <CartesianGrid stroke={grid} />
             <XAxis
               type="number"
               dataKey="qty"
@@ -127,8 +132,8 @@ export default function MenuMatrix({
               domain={[0, xMax]}
               tick={AXIS_TICK}
               tickLine={false}
-              axisLine={{ stroke: 'rgba(168,196,229,.12)' }}
-              label={{ value: 'Qty sold (period)', position: 'insideBottomRight', offset: -2, fill: '#8FA3C0', fontSize: 10, fontFamily: 'Jost' }}
+              axisLine={{ stroke: axisline }}
+              label={{ value: 'Qty sold (period)', position: 'insideBottomRight', offset: -2, fill: muted, fontSize: 10, fontFamily: 'Jost' }}
             />
             <YAxis
               type="number"
@@ -140,23 +145,23 @@ export default function MenuMatrix({
               axisLine={false}
               tickFormatter={(v: number) => `$${v}`}
               width={44}
-              label={{ value: 'Margin / plate', angle: -90, position: 'insideLeft', offset: 12, fill: '#8FA3C0', fontSize: 10, fontFamily: 'Jost' }}
+              label={{ value: 'Margin / plate', angle: -90, position: 'insideLeft', offset: 12, fill: muted, fontSize: 10, fontFamily: 'Jost' }}
             />
             <ZAxis range={[110, 110]} />
 
             {/* thresholds */}
-            <ReferenceLine x={xThreshold} stroke="rgba(143,163,192,.4)" strokeDasharray="4 4" />
-            <ReferenceLine y={yThreshold} stroke="rgba(143,163,192,.4)" strokeDasharray="4 4" />
+            <ReferenceLine x={xThreshold} stroke={muted} strokeOpacity={0.4} strokeDasharray="4 4" />
+            <ReferenceLine y={yThreshold} stroke={muted} strokeOpacity={0.4} strokeDasharray="4 4" />
 
             <Tooltip cursor={{ strokeDasharray: '3 3', stroke: 'rgba(201,153,92,.35)' }} content={MatrixTooltip} />
 
             {quadrants.map((q) => (
-              <Scatter key={q} name={QUADRANT_META[q].label} data={byQuadrant(q)} fill={QUADRANT_META[q].color} fillOpacity={0.9} isAnimationActive={false}>
+              <Scatter key={q} name={QUADRANT_META[q].label} data={byQuadrant(q)} fill={resolve(QUADRANT_META[q].color)} fillOpacity={0.9} isAnimationActive={false}>
                 <LabelList
                   dataKey="name"
                   position="top"
                   offset={7}
-                  style={{ fill: '#8FA3C0', fontSize: 10, fontFamily: 'Jost' }}
+                  style={{ fill: muted, fontSize: 10, fontFamily: 'Jost' }}
                 />
               </Scatter>
             ))}

@@ -8,6 +8,8 @@ import {
   LocationFilter,
   PersonaSwitcher,
   CopilotPanel,
+  ThemeToggle,
+  THEME_INIT_SCRIPT,
   type Persona,
   type SidebarNavGroup,
 } from '@viox/ui';
@@ -82,7 +84,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   ];
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
         <Shell
           productName="VioX AI OS"
@@ -94,11 +99,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }
           personaSlot={<PersonaSwitcher personas={PERSONAS} current={persona} />}
           topbarExtra={
-            <CopilotPanel
-              persona={persona}
-              suggestedPrompts={SUGGESTED_PROMPTS}
-              title="VioX Copilot"
-            />
+            <>
+              <ThemeToggle />
+              <CopilotPanel
+                persona={persona}
+                suggestedPrompts={SUGGESTED_PROMPTS}
+                title="VioX Copilot"
+              />
+            </>
           }
         >
           {children}

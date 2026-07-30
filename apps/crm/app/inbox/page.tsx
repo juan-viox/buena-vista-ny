@@ -200,7 +200,7 @@ export default async function InboxPage() {
 
       {!feed.configured ? (
         <div className="mt-6 rounded-xl border border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.06)] px-4 py-3 text-sm text-[var(--text)]">
-          <div className="font-medium text-[#7EB2F5]">Unified inbox not configured</div>
+          <div className="font-medium text-[var(--info)]">Unified inbox not configured</div>
           <p className="mt-1 text-xs text-[var(--muted)]">
             Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to read the sms_log and email_log tables. Outbound
             workflow texts (Twilio) and concierge emails (Resend) log themselves here automatically; guest email

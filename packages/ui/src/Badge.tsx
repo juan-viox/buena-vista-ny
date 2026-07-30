@@ -6,7 +6,7 @@ const TONE_CLASSES: Record<BadgeTone, string> = {
   good: 'text-[var(--good)] border-[rgba(52,211,153,.35)] bg-[rgba(52,211,153,.08)]',
   warn: 'text-[var(--warn)] border-[rgba(251,191,36,.35)] bg-[rgba(251,191,36,.08)]',
   bad: 'text-[var(--bad)] border-[rgba(248,113,113,.35)] bg-[rgba(248,113,113,.08)]',
-  info: 'text-[#7EB2F5] border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.08)]',
+  info: 'text-[var(--info)] border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.08)]',
   muted: 'text-[var(--muted)] border-[var(--border)] bg-white/[.03]',
   accent: 'text-[var(--accent)] border-[rgba(201,153,92,.4)] bg-[rgba(201,153,92,.08)]',
 };

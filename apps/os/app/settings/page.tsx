@@ -71,7 +71,7 @@ export default async function SettingsPage() {
 
       {/* ---------- DEMO_MODE banner ---------- */}
       <div className="flex items-start gap-3 rounded-xl border border-[rgba(126,178,245,.3)] bg-[rgba(126,178,245,.06)] px-5 py-4">
-        <span className="mt-0.5 shrink-0 text-[#7EB2F5]">
+        <span className="mt-0.5 shrink-0 text-[var(--info)]">
           <InfoIcon />
         </span>
         <div>

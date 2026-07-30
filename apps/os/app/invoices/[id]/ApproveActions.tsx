@@ -87,7 +87,7 @@ export default function ApproveActions({ invoiceNumber, initialStatus }: Approve
       {toast && (
         <div
           role="status"
-          className="fixed bottom-6 right-6 z-50 flex max-w-sm items-start gap-2.5 rounded-xl border border-[rgba(52,211,153,.35)] bg-[var(--panel)] px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,.45)]"
+          className="fixed bottom-6 right-6 z-50 flex max-w-sm items-start gap-2.5 rounded-xl border border-[rgba(52,211,153,.35)] bg-[var(--panel)] px-4 py-3 shadow-[var(--shadow-pop)]"
         >
           <span className="mt-0.5 shrink-0 text-[var(--good)]">
             <CheckCircleIcon />

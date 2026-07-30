@@ -79,7 +79,7 @@ export function Shell({ logo, productName, nav, locationSlot, personaSlot, topba
 
       {/* Main column */}
       <div className="pl-60">
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-[var(--border)] bg-[rgba(11,17,32,.85)] px-6 backdrop-blur">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-[var(--border)] bg-[var(--topbar)] px-6 backdrop-blur">
           <div className="flex items-center gap-3">{locationSlot}</div>
           <div className="flex items-center gap-2.5">
             {topbarExtra}

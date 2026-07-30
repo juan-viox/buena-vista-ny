@@ -14,7 +14,7 @@ const STAGE_WEIGHTS: Partial<Record<EventStage, number>> = {
 };
 
 const OPEN_STAGES: EventStage[] = ['lead', 'proposal', 'tasting', 'booked', 'beo_final'];
-const LOCATION_COLORS = ['#C9995C', '#7EB2F5', '#34D399', '#FBBF24'];
+const LOCATION_COLORS = ['var(--accent)', 'var(--info)', 'var(--good)', 'var(--warn)'];
 
 const valueOf = (e: CateringEvent) => e.quotedTotal || e.budget;
 

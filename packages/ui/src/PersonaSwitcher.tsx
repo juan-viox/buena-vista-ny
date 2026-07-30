@@ -48,7 +48,7 @@ export function PersonaSwitcher({
         className="h-9 cursor-pointer appearance-none rounded-lg border border-[var(--border)] bg-[var(--panel)] pl-9 pr-8 text-sm text-[var(--text)] outline-none transition-colors hover:border-[rgba(201,153,92,.4)] focus:border-[var(--accent)]"
       >
         {personas.map((p) => (
-          <option key={p.id} value={p.id} className="bg-[#111A2E] text-[#E8EDF7]">
+          <option key={p.id} value={p.id} className="bg-[var(--panel)] text-[var(--text)]">
             {p.label}
             {p.role ? ` — ${p.role}` : ''}
           </option>

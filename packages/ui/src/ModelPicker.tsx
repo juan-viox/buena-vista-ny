@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { useThemeColor } from './useThemeColor';
+
 /* ============================================================
    ModelPicker — per-agent LLM selector. Persists the choice to
    localStorage ('viox-model:<agentId>'), mirrors it onto a data
@@ -54,12 +56,16 @@ const PROVIDER_GROUP_LABEL: Record<PickerModel['provider'], string> = {
   ollama: 'Ollama Cloud',
 };
 
-/** ANTHROPIC gold / OPENROUTER sky / DEEPSEEK --good green / OLLAMA --muted slate. */
-const PROVIDER_STYLE: Record<PickerModel['provider'], { label: string; color: string }> = {
-  anthropic: { label: 'ANTHROPIC', color: '#C9995C' },
-  openrouter: { label: 'OPENROUTER', color: '#7EB2F5' },
-  deepseek: { label: 'DEEPSEEK', color: '#34D399' },
-  ollama: { label: 'OLLAMA', color: '#8FA3C0' },
+/**
+ * ANTHROPIC --accent gold / OPENROUTER --info sky / DEEPSEEK --good green /
+ * OLLAMA --muted slate. Badge colors are theme tokens; `fallback` is the
+ * dark value so SSR/first paint matches the default theme (see useThemeColor).
+ */
+const PROVIDER_STYLE: Record<PickerModel['provider'], { label: string; token: string; fallback: string }> = {
+  anthropic: { label: 'ANTHROPIC', token: '--accent', fallback: '#C9995C' },
+  openrouter: { label: 'OPENROUTER', token: '--info', fallback: '#7EB2F5' },
+  deepseek: { label: 'DEEPSEEK', token: '--good', fallback: '#34D399' },
+  ollama: { label: 'OLLAMA', token: '--muted', fallback: '#8FA3C0' },
 };
 
 const storageKey = (agentId: string) => `viox-model:${agentId}`;
@@ -112,6 +118,8 @@ export function ModelPicker({ agentId, defaultModel, compact = false }: ModelPic
 
   const current = MODELS.find((m) => m.id === selected) ?? MODELS[0];
   const provider = PROVIDER_STYLE[current.provider];
+  // Concrete hex needed for the rgba() tint math — resolves per theme.
+  const providerColor = useThemeColor(provider.token, provider.fallback);
 
   return (
     <span
@@ -121,7 +129,7 @@ export function ModelPicker({ agentId, defaultModel, compact = false }: ModelPic
     >
       <span
         className="inline-flex shrink-0 items-center rounded-full border px-1.5 py-0.5 text-[9px] font-semibold tracking-[.08em]"
-        style={{ color: provider.color, borderColor: rgba(provider.color, 0.4), backgroundColor: rgba(provider.color, 0.08) }}
+        style={{ color: providerColor, borderColor: rgba(providerColor, 0.4), backgroundColor: rgba(providerColor, 0.08) }}
       >
         {provider.label}
       </span>

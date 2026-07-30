@@ -194,7 +194,7 @@ export function AgentChat({
             type="submit"
             disabled={busy || !input.trim()}
             aria-label="Send"
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#0B1120] transition-opacity disabled:opacity-40"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--accent-ink)] transition-opacity disabled:opacity-40"
             style={{ backgroundColor: color }}
           >
             <svg

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import * as React from 'react';
 import { Jost } from 'next/font/google';
 import { cookies } from 'next/headers';
-import { CopilotPanel, PersonaSwitcher, Shell, type Persona, type SidebarNavGroup } from '@viox/ui';
+import { CopilotPanel, PersonaSwitcher, Shell, ThemeToggle, THEME_INIT_SCRIPT, type Persona, type SidebarNavGroup } from '@viox/ui';
 import './globals.css';
 
 const jost = Jost({ subsets: ['latin'], variable: '--font-jost', display: 'swap' });
@@ -66,7 +66,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const persona = PERSONAS.some((p) => p.id === raw) ? (raw as string) : 'marketing';
 
   return (
-    <html lang="en" className={jost.variable}>
+    <html lang="en" className={jost.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className={jost.className}>
         <Shell
           logo={<CrmMark />}
@@ -74,11 +77,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           nav={NAV}
           personaSlot={<PersonaSwitcher personas={PERSONAS} current={persona} />}
           topbarExtra={
-            <CopilotPanel
-              persona={persona}
-              title="VioX Copilot"
-              suggestedPrompts={COPILOT_PROMPTS}
-            />
+            <>
+              <ThemeToggle />
+              <CopilotPanel
+                persona={persona}
+                title="VioX Copilot"
+                suggestedPrompts={COPILOT_PROMPTS}
+              />
+            </>
           }
         >
           {children}

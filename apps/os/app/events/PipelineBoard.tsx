@@ -7,12 +7,12 @@ import { Badge, fmtDate, fmtUSDk } from '@viox/ui';
 // ---------- board config ----------
 
 const COLUMNS: { stage: EventStage; label: string; dot: string }[] = [
-  { stage: 'lead', label: 'Lead', dot: '#7EB2F5' },
-  { stage: 'proposal', label: 'Proposal', dot: '#FBBF24' },
-  { stage: 'tasting', label: 'Tasting', dot: '#FB923C' },
-  { stage: 'booked', label: 'Booked', dot: '#34D399' },
-  { stage: 'beo_final', label: 'BEO Final', dot: '#C9995C' },
-  { stage: 'completed', label: 'Completed', dot: '#8FA3C0' },
+  { stage: 'lead', label: 'Lead', dot: 'var(--info)' },
+  { stage: 'proposal', label: 'Proposal', dot: 'var(--warn)' },
+  { stage: 'tasting', label: 'Tasting', dot: 'var(--orange)' },
+  { stage: 'booked', label: 'Booked', dot: 'var(--good)' },
+  { stage: 'beo_final', label: 'BEO Final', dot: 'var(--accent)' },
+  { stage: 'completed', label: 'Completed', dot: 'var(--muted)' },
 ];
 
 export interface BoardLocation {
@@ -129,7 +129,7 @@ export default function PipelineBoard({ events, locations }: PipelineBoardProps)
                       <div className="flex items-start gap-2">
                         <span
                           className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
-                          style={{ backgroundColor: l?.color ?? '#8FA3C0' }}
+                          style={{ backgroundColor: l?.color ?? 'var(--muted)' }}
                           title={l?.name}
                         />
                         <a

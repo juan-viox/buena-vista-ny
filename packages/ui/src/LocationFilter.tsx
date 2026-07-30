@@ -47,11 +47,11 @@ export function LocationFilter({
         aria-label="Filter by location"
         className="h-9 cursor-pointer appearance-none rounded-lg border border-[var(--border)] bg-[var(--panel)] pl-9 pr-8 text-sm text-[var(--text)] outline-none transition-colors hover:border-[rgba(201,153,92,.4)] focus:border-[var(--accent)]"
       >
-        <option value="all" className="bg-[#111A2E] text-[#E8EDF7]">
+        <option value="all" className="bg-[var(--panel)] text-[var(--text)]">
           {allLabel}
         </option>
         {locations.map((loc) => (
-          <option key={loc.id} value={loc.id} className="bg-[#111A2E] text-[#E8EDF7]">
+          <option key={loc.id} value={loc.id} className="bg-[var(--panel)] text-[var(--text)]">
             {loc.name}
           </option>
         ))}

@@ -72,7 +72,7 @@ function VoiceConciergeSection({ feed }: { feed: VoiceFeed }) {
       {!feed.configured ? (
         <div className="px-5 pb-5">
           <div className="rounded-xl border border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.06)] px-4 py-3 text-sm text-[var(--text)]">
-            <div className="font-medium text-[#7EB2F5]">Live capture not configured</div>
+            <div className="font-medium text-[var(--info)]">Live capture not configured</div>
             <p className="mt-1 text-xs text-[var(--muted)]">
               Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to surface reservation requests captured by the
               Anfitrión voice agent via POST /api/voice/reservation.
@@ -105,10 +105,10 @@ function VoiceConciergeSection({ feed }: { feed: VoiceFeed }) {
 /* ---------- source breakdown (server-rendered mini-chart) ---------- */
 
 const SOURCE_META: { key: Reservation['source']; label: string; color: string }[] = [
-  { key: 'opentable', label: 'OpenTable', color: '#7EB2F5' },
-  { key: 'website', label: 'Website', color: '#D4A437' },
-  { key: 'phone', label: 'Phone', color: '#34D399' },
-  { key: 'walk_in', label: 'Walk-in', color: '#8FA3C0' },
+  { key: 'opentable', label: 'OpenTable', color: 'var(--info)' },
+  { key: 'website', label: 'Website', color: 'var(--accent2)' },
+  { key: 'phone', label: 'Phone', color: 'var(--good)' },
+  { key: 'walk_in', label: 'Walk-in', color: 'var(--muted)' },
 ];
 
 function SourceBreakdown({ reservations }: { reservations: Reservation[] }) {

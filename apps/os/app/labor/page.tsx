@@ -43,11 +43,11 @@ const ROLE_TONES: Record<string, BadgeTone> = {
   Manager: 'good',
 };
 const ROLE_COLORS: Record<string, string> = {
-  Server: '#7EB2F5',
-  Bartender: '#C9995C',
-  'Line Cook': '#FBBF24',
-  Host: '#8FA3C0',
-  Manager: '#34D399',
+  Server: 'var(--info)',
+  Bartender: 'var(--accent)',
+  'Line Cook': 'var(--warn)',
+  Host: 'var(--muted)',
+  Manager: 'var(--good)',
 };
 
 const pts = (n: number) => Math.round(n * 10) / 10;
@@ -314,7 +314,7 @@ export default async function LaborPage({
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[.06]">
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${share}%`, backgroundColor: ROLE_COLORS[r.role] ?? '#8FA3C0' }}
+                      style={{ width: `${share}%`, backgroundColor: ROLE_COLORS[r.role] ?? 'var(--muted)' }}
                     />
                   </div>
                 </div>

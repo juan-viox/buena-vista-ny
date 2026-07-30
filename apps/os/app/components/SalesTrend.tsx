@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useThemeColor, useThemeColorResolver } from '@viox/ui';
 
 export interface TrendSeries {
   /** Data key on each point, e.g. the location id. */
@@ -30,6 +31,10 @@ export interface SalesTrendProps {
 
 /** 30-day net-sales trend — one line per location, dark command style. */
 export default function SalesTrend({ data, series }: SalesTrendProps) {
+  const resolve = useThemeColorResolver();
+  const muted = useThemeColor('--muted', '#8FA3C0');
+  const grid = useThemeColor('--grid', 'rgba(168,196,229,.08)');
+  const axisline = useThemeColor('--axisline', 'rgba(168,196,229,.12)');
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-4">
@@ -43,16 +48,16 @@ export default function SalesTrend({ data, series }: SalesTrendProps) {
       <div className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: -8 }}>
-            <CartesianGrid stroke="rgba(168,196,229,.08)" vertical={false} />
+            <CartesianGrid stroke={grid} vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fill: '#8FA3C0', fontSize: 11, fontFamily: 'Jost' }}
+              tick={{ fill: muted, fontSize: 11, fontFamily: 'Jost' }}
               tickLine={false}
-              axisLine={{ stroke: 'rgba(168,196,229,.12)' }}
+              axisLine={{ stroke: axisline }}
               minTickGap={28}
             />
             <YAxis
-              tick={{ fill: '#8FA3C0', fontSize: 11, fontFamily: 'Jost' }}
+              tick={{ fill: muted, fontSize: 11, fontFamily: 'Jost' }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v: number) => `$${Math.round(v / 1000)}k`}
@@ -61,14 +66,14 @@ export default function SalesTrend({ data, series }: SalesTrendProps) {
             <Tooltip
               cursor={{ stroke: 'rgba(201,153,92,.35)', strokeWidth: 1 }}
               contentStyle={{
-                background: '#0E1626',
-                border: '1px solid rgba(168,196,229,.16)',
+                background: 'var(--panel2)',
+                border: '1px solid var(--border)',
                 borderRadius: 10,
                 fontFamily: 'Jost',
                 fontSize: 12,
-                color: '#E8EDF7',
+                color: 'var(--text)',
               }}
-              labelStyle={{ color: '#8FA3C0', marginBottom: 4 }}
+              labelStyle={{ color: 'var(--muted)', marginBottom: 4 }}
               formatter={(value: number | string, name: string) => [
                 `$${Number(value).toLocaleString('en-US')}`,
                 name,
@@ -80,10 +85,10 @@ export default function SalesTrend({ data, series }: SalesTrendProps) {
                 type="monotone"
                 dataKey={s.key}
                 name={s.name}
-                stroke={s.color}
+                stroke={resolve(s.color)}
                 strokeWidth={1.75}
                 dot={false}
-                activeDot={{ r: 3.5, strokeWidth: 0, fill: s.color }}
+                activeDot={{ r: 3.5, strokeWidth: 0, fill: resolve(s.color) }}
               />
             ))}
           </LineChart>
