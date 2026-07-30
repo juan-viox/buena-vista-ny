@@ -14,3 +14,7 @@ export {
 export { runCopilot, type ChatMessage, type CopilotResult, type RunCopilotOptions } from './copilot';
 
 export { createCopilotRouteHandler, type CopilotRequestBody } from './route';
+
+export { AGENTS, getAgent, type AgentDef } from './registry';
+
+export { MODEL_CATALOG, resolveModel, type ModelOption } from './models';

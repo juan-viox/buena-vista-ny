@@ -5,7 +5,9 @@ import {
   Badge,
   Card,
   DataTable,
+  EmptyState,
   PageHeader,
+  SectionHeader,
   Stat,
   StatRow,
   Tabs,
@@ -17,6 +19,181 @@ import {
 } from '@viox/ui';
 
 export const dynamic = 'force-dynamic';
+
+/* ---------- Incoming — Voice Concierge (live Supabase capture) ---------- */
+
+interface VoiceRequestRow {
+  id: string | number;
+  guest_name: string | null;
+  phone: string | null;
+  email?: string | null;
+  party_size: number | null;
+  requested_date: string | null;
+  requested_time: string | null;
+  location: string | null;
+  occasion: string | null;
+  status: string | null;
+  channel?: string | null;
+  created_at: string | null;
+}
+
+type VoiceFeed =
+  | { configured: false }
+  | { configured: true; error: true }
+  | { configured: true; error?: false; rows: VoiceRequestRow[] };
+
+async function fetchVoiceRequests(): Promise<VoiceFeed> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return { configured: false };
+  try {
+    const res = await fetch(
+      `${url.replace(/\/+$/, '')}/rest/v1/reservation_requests?select=*&order=created_at.desc&limit=20`,
+      {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        cache: 'no-store',
+      },
+    );
+    if (!res.ok) {
+      console.error('[reservations] voice feed fetch failed', res.status);
+      return { configured: true, error: true };
+    }
+    const rows = (await res.json()) as VoiceRequestRow[];
+    return { configured: true, rows: Array.isArray(rows) ? rows : [] };
+  } catch (err) {
+    console.error('[reservations] voice feed fetch error', err);
+    return { configured: true, error: true };
+  }
+}
+
+const VOICE_LOCATION_LABELS: Record<string, string> = {
+  'hells-kitchen': "Hell's Kitchen",
+  'east-village': 'East Village',
+};
+
+function relativeTime(iso: string | null): string {
+  if (!iso) return '—';
+  const then = Date.parse(iso);
+  if (Number.isNaN(then)) return '—';
+  const mins = Math.max(0, Math.round((Date.now() - then) / 60_000));
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  return `${days}d ago`;
+}
+
+const VOICE_COLUMNS: Column<VoiceRequestRow>[] = [
+  {
+    key: 'guest',
+    header: 'Guest',
+    render: (r) => (
+      <div className="min-w-0">
+        <div className="truncate font-medium text-[var(--text)]">{r.guest_name ?? 'Guest'}</div>
+        {r.email && <div className="truncate text-xs text-[var(--muted)]">{r.email}</div>}
+      </div>
+    ),
+  },
+  {
+    key: 'phone',
+    header: 'Phone',
+    cellClassName: 'text-[var(--muted)] tabular-nums',
+    render: (r) => r.phone ?? '—',
+  },
+  {
+    key: 'party_size',
+    header: 'Party',
+    numeric: true,
+    render: (r) => (r.party_size ? fmtNumber(r.party_size) : '—'),
+  },
+  {
+    key: 'requested',
+    header: 'Requested',
+    render: (r) => (
+      <span className="tabular-nums">
+        {[r.requested_date, r.requested_time].filter(Boolean).join(' · ') || '—'}
+      </span>
+    ),
+  },
+  {
+    key: 'location',
+    header: 'Location',
+    render: (r) =>
+      r.location ? (
+        <Badge tone={r.location in VOICE_LOCATION_LABELS ? 'accent' : 'muted'}>
+          {VOICE_LOCATION_LABELS[r.location] ?? r.location}
+        </Badge>
+      ) : (
+        <span className="text-[var(--muted)]">—</span>
+      ),
+  },
+  {
+    key: 'occasion',
+    header: 'Occasion',
+    cellClassName: 'text-[var(--muted)]',
+    render: (r) => r.occasion ?? '—',
+  },
+  {
+    key: 'status',
+    header: 'Status',
+    render: (r) =>
+      r.status === 'new' ? <Badge tone="warn">New</Badge> : <Badge status={r.status ?? 'draft'} />,
+  },
+  {
+    key: 'created_at',
+    header: 'Received',
+    cellClassName: 'text-[var(--muted)]',
+    render: (r) => relativeTime(r.created_at),
+  },
+];
+
+function VoiceConciergeSection({ feed }: { feed: VoiceFeed }) {
+  return (
+    <Card
+      flush
+      kicker="Incoming — Voice Concierge"
+      title="Live reservation requests"
+      action={
+        feed.configured ? (
+          <Badge tone="good">Anfitrión · live capture</Badge>
+        ) : (
+          <Badge tone="muted">Not configured</Badge>
+        )
+      }
+    >
+      {!feed.configured ? (
+        <div className="px-5 pb-5">
+          <div className="rounded-xl border border-[rgba(126,178,245,.35)] bg-[rgba(126,178,245,.06)] px-4 py-3 text-sm text-[var(--text)]">
+            <div className="font-medium text-[#7EB2F5]">Live capture not configured</div>
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to surface reservation requests captured by the
+              Anfitrión voice agent via POST /api/voice/reservation.
+            </p>
+          </div>
+        </div>
+      ) : feed.error ? (
+        <div className="px-5 pb-5">
+          <div className="rounded-xl border border-[rgba(251,191,36,.35)] bg-[rgba(251,191,36,.06)] px-4 py-3 text-sm text-[var(--text)]">
+            <div className="font-medium text-[var(--warn)]">Live feed unreachable</div>
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              Could not reach the reservation_requests table just now — refresh to retry.
+            </p>
+          </div>
+        </div>
+      ) : feed.rows.length === 0 ? (
+        <div className="px-5 pb-5">
+          <EmptyState
+            title="No live requests yet"
+            message="No live requests yet — call the concierge on the marketing site widget and ask for a table."
+          />
+        </div>
+      ) : (
+        <DataTable columns={VOICE_COLUMNS} rows={feed.rows} />
+      )}
+    </Card>
+  );
+}
 
 /* ---------- source breakdown (server-rendered mini-chart) ---------- */
 
@@ -75,10 +252,11 @@ export default async function ReservationsPage({
   const tab = params.tab === 'past' ? 'past' : 'upcoming';
 
   const repo = getRepository();
-  const [reservations, guests, locations] = await Promise.all([
+  const [reservations, guests, locations, voiceFeed] = await Promise.all([
     repo.getReservations(),
     repo.getGuests(),
     repo.getLocations(),
+    fetchVoiceRequests(),
   ]);
 
   const guestById = new Map(guests.map((g) => [g.id, g]));
@@ -156,6 +334,14 @@ export default async function ReservationsPage({
         title="Reservations"
         subtitle="The book across Hell's Kitchen and East Village — synced from OpenTable, the website widget and the host stand."
         actions={<Badge tone="info">Demo data · today = {fmtDate(DEMO_TODAY, true)}</Badge>}
+      />
+
+      <VoiceConciergeSection feed={voiceFeed} />
+
+      <SectionHeader
+        kicker="Demo fixtures"
+        title="Reservation book (demo data)"
+        description="Everything below is the seeded demo book — the live voice-captured requests stay in the inbox above."
       />
 
       <StatRow cols={4}>

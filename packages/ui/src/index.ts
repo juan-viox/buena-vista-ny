@@ -28,3 +28,4 @@ export { LocationFilter, type LocationFilterProps, type LocationOption } from '.
 
 // copilot
 export { CopilotPanel, type CopilotPanelProps } from './CopilotPanel'; // 'use client'
+export { ModelPicker, getSelectedModel, type ModelPickerProps } from './ModelPicker'; // 'use client'

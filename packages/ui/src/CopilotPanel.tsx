@@ -18,12 +18,18 @@ export interface CopilotPanelProps {
   suggestedPrompts?: string[];
   /** Label on the topbar trigger button. Default "Copilot". */
   buttonLabel?: string;
+  /** AI-team agent id forwarded with each request — scopes persona + tools server-side. */
+  agentId?: string;
+  /** Agent display name; when given it replaces the header title. */
+  agentName?: string;
+  /** Accent color override (hex) — remaps --accent inside the trigger + panel. */
+  accentColor?: string;
 }
 
 /**
  * Slide-over copilot chat. Renders its own topbar trigger button.
- * Posts { messages, persona } to the endpoint; accepts either a JSON
- * body ({ reply, toolsUsed }) or a streamed text response.
+ * Posts { messages, persona, agentId } to the endpoint; accepts either
+ * a JSON body ({ reply, toolsUsed }) or a streamed text response.
  */
 export function CopilotPanel({
   endpoint = '/api/copilot',
@@ -31,12 +37,21 @@ export function CopilotPanel({
   persona,
   suggestedPrompts = [],
   buttonLabel = 'Copilot',
+  agentId,
+  agentName,
+  accentColor,
 }: CopilotPanelProps) {
   const [open, setOpen] = React.useState(false);
   const [busy, setBusy] = React.useState(false);
   const [input, setInput] = React.useState('');
   const [messages, setMessages] = React.useState<ChatMsg[]>([]);
   const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const heading = agentName ?? title;
+  // Remap the accent token locally so agent-tinted UI needs no extra classes.
+  const accentStyle = accentColor
+    ? ({ '--accent': accentColor } as React.CSSProperties)
+    : undefined;
 
   React.useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -65,6 +80,7 @@ export function CopilotPanel({
         body: JSON.stringify({
           messages: history.map((m) => ({ role: m.role, content: m.content })),
           persona,
+          agentId,
         }),
       });
       const ctype = res.headers.get('content-type') ?? '';
@@ -112,6 +128,7 @@ export function CopilotPanel({
       <button
         type="button"
         onClick={() => setOpen(true)}
+        style={accentStyle}
         className="inline-flex h-9 items-center gap-2 rounded-lg border border-[rgba(201,153,92,.4)] bg-[rgba(201,153,92,.08)] px-3.5 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[rgba(201,153,92,.16)]"
       >
         <SparkIcon />
@@ -123,7 +140,8 @@ export function CopilotPanel({
           <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" onClick={() => setOpen(false)} aria-hidden />
           <div
             role="dialog"
-            aria-label={title}
+            aria-label={heading}
+            style={accentStyle}
             className="absolute inset-y-0 right-0 flex w-full max-w-[440px] flex-col border-l border-[var(--border)] bg-[var(--panel2)] shadow-2xl"
           >
             {/* Header */}
@@ -133,7 +151,7 @@ export function CopilotPanel({
                   <SparkIcon />
                 </span>
                 <div>
-                  <div className="text-sm font-semibold text-[var(--text)]">{title}</div>
+                  <div className="text-sm font-semibold text-[var(--text)]">{heading}</div>
                   <div className="text-[10px] uppercase tracking-[.12em] text-[var(--muted)]">Buena Vista · both locations</div>
                 </div>
               </div>

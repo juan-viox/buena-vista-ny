@@ -69,6 +69,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       ],
     },
     {
+      label: 'AI Team',
+      items: [{ label: 'Agents', href: '/agents', icon: <AgentsIcon /> }],
+    },
+    {
       label: 'System',
       items: [
         { label: 'Integrations', href: '/integrations', icon: <PlugIcon /> },
@@ -198,6 +202,15 @@ function CalendarIcon() {
     <svg {...iconProps()}>
       <rect x="4" y="5.5" width="16" height="15" rx="2" />
       <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+    </svg>
+  );
+}
+
+function AgentsIcon() {
+  return (
+    <svg {...iconProps()}>
+      <path d="M12 4.5 13.6 9.4 18.5 11 13.6 12.6 12 17.5 10.4 12.6 5.5 11 10.4 9.4 12 4.5Z" />
+      <path d="M18.5 4.5v2.5M17.25 5.75h2.5M6 17.5v2M5 18.5h2" />
     </svg>
   );
 }

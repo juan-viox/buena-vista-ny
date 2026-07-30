@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { AGENTS } from '@viox/agents';
 import { getRepository, DEMO_TODAY } from '@viox/db';
 import type {
   ActivityEvent,
@@ -408,6 +409,47 @@ export default async function DashboardPage({
           </div>
         </Card>
       </div>
+
+      {/* ---------- AI team ---------- */}
+      <Card
+        kicker="Always on"
+        title="AI Team"
+        action={
+          <a href="/agents" className="hover:text-[var(--accent)]">
+            Meet the team →
+          </a>
+        }
+        flush
+      >
+        <div className="grid grid-cols-1 divide-y divide-[var(--border)] sm:grid-cols-2 sm:divide-y-0 xl:grid-cols-3">
+          {AGENTS.filter((a) => a.app !== 'crm').map((agent) => (
+            <a
+              key={agent.id}
+              href={`/agents/${agent.id}`}
+              className="flex items-center gap-3 px-5 py-3 transition-colors hover:bg-white/[.03]"
+            >
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold"
+                style={{ color: agent.color, borderColor: agentTint(agent.color, 0.35), backgroundColor: agentTint(agent.color, 0.08) }}
+                aria-hidden
+              >
+                {agent.monogram}
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-sm text-[var(--text)]">{agent.name}</span>
+                <span className="block truncate text-xs text-[var(--muted)]">
+                  {agent.recentOutputs[0]?.title ?? agent.tagline}
+                </span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </Card>
     </>
   );
+}
+
+function agentTint(hex: string, alpha: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
 }

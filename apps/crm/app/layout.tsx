@@ -46,6 +46,10 @@ const NAV: SidebarNavGroup[] = [
     ],
   },
   {
+    label: 'AI Team',
+    items: [{ label: 'Agents', href: '/agents', icon: <BotIcon /> }],
+  },
+  {
     label: 'System',
     items: [
       { label: 'Integrations', href: '/integrations', icon: <PlugIcon /> },
@@ -163,6 +167,17 @@ function FlagIcon() {
     <svg {...iconProps()}>
       <path d="M6 21V4" />
       <path d="M6 5c2-1.3 4-1.3 6 0s4 1.3 6 0v8c-2 1.3-4 1.3-6 0s-4-1.3-6 0" />
+    </svg>
+  );
+}
+
+function BotIcon() {
+  return (
+    <svg {...iconProps()}>
+      <rect x="5" y="8.5" width="14" height="10" rx="2.5" />
+      <path d="M12 5.5v3M12 3.5a1 1 0 1 0 0 .01" />
+      <path d="M9 13h.01M15 13h.01" />
+      <path d="M9.5 16h5" />
     </svg>
   );
 }
