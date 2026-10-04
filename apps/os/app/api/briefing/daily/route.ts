@@ -22,9 +22,12 @@
 //      SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are present
 //      (fails soft to null counts otherwise).
 //
-// When Resend env is present (RESEND_API_KEY + EMAIL_FROM) the same
-// briefing is delivered as a branded HTML email (the email-workflows
-// cream/navy/gold shell) to BRIEFING_TO (default juan@viox.ai).
+// EMAIL IS OPT-IN AND OFF BY DEFAULT. Set BRIEFING_EMAIL=1 to have the
+// briefing delivered as a branded HTML email (the email-workflows
+// cream/navy/gold shell) to BRIEFING_TO (default juan@viox.ai); that
+// also needs the Resend env (RESEND_API_KEY + EMAIL_FROM). The daily
+// 7am cron was removed on 2026-10-04 at the owner's request, so this
+// route now only runs when someone calls it.
 // Always returns the briefing JSON — email is additive, never
 // required, and an email failure never fails the route.
 // ============================================================
@@ -74,6 +77,15 @@ function nyToday(): string {
     month: '2-digit',
     day: '2-digit',
   }).format(new Date());
+}
+
+/**
+ * Briefing email is opt-in. Set BRIEFING_EMAIL=1 (or true/yes) to deliver it;
+ * unset/anything else returns the briefing JSON and sends nothing.
+ */
+function isBriefingEmailEnabled(): boolean {
+  const v = (process.env.BRIEFING_EMAIL ?? '').toLowerCase();
+  return v === '1' || v === 'true' || v === 'yes';
 }
 
 /** Live driver flips the anchor to the real calendar; demo stays deterministic. */
@@ -512,13 +524,21 @@ async function handle(req: Request): Promise<Response> {
     );
   }
 
-  // Email is additive: without Resend env the route still returns the JSON.
+  // Email is additive AND opt-in: the route always returns the JSON, but it
+  // only sends mail when BRIEFING_EMAIL is explicitly switched on. Default is
+  // OFF so no inbox receives this unless someone asks for it (the daily cron
+  // was removed from vercel.json on 2026-10-04 at the owner's request).
   const to = process.env.BRIEFING_TO || 'juan@viox.ai';
-  let email: { attempted: boolean; sent: boolean; to?: string; error?: string } = {
-    attempted: false,
-    sent: false,
-  };
-  if (isEmailConfigured()) {
+  let email: {
+    attempted: boolean;
+    sent: boolean;
+    to?: string;
+    error?: string;
+    reason?: string;
+  } = { attempted: false, sent: false };
+  if (!isBriefingEmailEnabled()) {
+    email = { attempted: false, sent: false, reason: 'BRIEFING_EMAIL not enabled' };
+  } else if (isEmailConfigured()) {
     const { subject, html } = composeBriefingHtml(briefing);
     const result = await sendEmail({ to, subject, html });
     email = { attempted: true, sent: result.ok, to, ...(result.error ? { error: result.error } : {}) };
